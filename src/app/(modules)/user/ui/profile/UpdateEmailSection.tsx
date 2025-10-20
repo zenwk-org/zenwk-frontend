@@ -11,6 +11,7 @@ import InputText from '@user/ui/inputs/InputText';
 import FormErrorUser from '@user/ui/forms/FormErrorUser';
 import Text from '@user/ui/user-feed/Text';
 import OpenMailbox from '@auth/components/OpenMailbox';
+import { UserMessages } from '@user/constants/user-messages';
 
 /**
  *
@@ -64,33 +65,25 @@ const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
         }
     }, [isValid, reemailValue, getValues, emailValue]);
 
-    /**
-     * Configuración de validación para el campo de contraseña.
-     */
     const emailRegister = register('email', {
         required: requiredEmail,
         pattern: patternEmail,
     });
 
-    /**
-     * Configuración de validación para el campo de contraseña.
-     */
     const reemailRegister = register('reemail', {
         required: requiredEmail,
         pattern: patternEmail,
         validate: validateEquals(
             getValues('email'),
-            'Las direcciones de correo no coinciden.'
+            UserMessages.profileConfiguration.sections.updateEmail
+                .errorNotEquals
         ),
     });
-    /**
-     * Envio de formulario.
-     */
+
     const onSubmit = handleSubmit(async (data) => {
         setLineLoading(true);
         setLoadBtnUpdateEmail(true);
         try {
-            // Consumir api de creación de evento  y link
             console.log(data);
         } catch (error) {
             setError('root', { message: error as string });
@@ -101,7 +94,6 @@ const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
             setLoadBtnUpdateEmail(false);
             setValue('email', '');
             setValue('reemail', '');
-            // borrar simula la aprobación
             await new Promise((resolve) => setTimeout(resolve, 2000));
             setEmailChangeSucceeded(false);
             setApprove(true);
@@ -112,7 +104,6 @@ const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
         try {
             setLineLoading(true);
             setLoadBtnUpdateEmail(true);
-            // Consumir api de verificacion
             console.log('handleClikApprove');
         } catch (error) {
             console.log(error);
@@ -128,9 +119,8 @@ const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
 
     return (
         <div>
-            {/** Encabezado de la sección */}
             <ProfileItemHeader lineLoading={lineLoading} />
-            {/** Cuerpo de la sección */}
+
             {isApprove ? (
                 <div
                     className="mx-auto flex w-full max-w-[260px] flex-col items-center rounded-md py-8"
@@ -142,20 +132,29 @@ const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
                         icon={<MailCheck size={17} strokeWidth={1.5} />}
                         shape="square"
                         positionToltip="top"
-                        nameButtom="Confirmar correo"
+                        nameButtom={
+                            UserMessages.profileConfiguration.sections
+                                .updateEmail.confirmButton
+                        }
                     />
                 </div>
             ) : (
                 <div className="grid items-center justify-items-center py-5">
                     <div className="mx-auto flex w-full max-w-[260px] flex-col items-center rounded-md bg-[#EBF9F0]">
-                        {/** Centro de notificaciones de la sección   isNewEmail       bg-gradient-to-r from-green-50 to-[#E8FCF3]*/}
                         {isApprove ? (
-                            <p>Confirma tu correo para activar los cambios</p>
+                            <p>
+                                {
+                                    UserMessages.profileConfiguration.sections
+                                        .updateEmail.confirmMessage
+                                }
+                            </p>
                         ) : emailChangeSucceeded ? (
                             <div className="py-3">
                                 <Text
-                                    text="Revisa tu bandeja de entrada y aprueba el
-                                    cambio de correo electrónico"
+                                    text={
+                                        UserMessages.profileConfiguration
+                                            .sections.updateEmail.checkInbox
+                                    }
                                     className="mx-auto max-w-[260px] p-2 text-center text-emerald-700"
                                     sizeOffset={-8}
                                 />
@@ -170,8 +169,9 @@ const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
                                 {isNewEmail && (
                                     <Text
                                         text={
-                                            '¡Listo! Tu nueva dirección de correo es ' +
-                                            userDTO.email
+                                            UserMessages.profileConfiguration
+                                                .sections.updateEmail
+                                                .newEmailSuccess + userDTO.email
                                         }
                                         className="mx-auto max-w-[260px] p-2 text-center text-emerald-700"
                                         sizeOffset={-8}
@@ -180,12 +180,15 @@ const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
                             </>
                         )}
                     </div>
-                    {/** Cuerpo de la sección */}
+
                     <form onSubmit={onSubmit}>
-                        {/* Input: email */}
                         <InputText
+                            variant="verified"
                             minWidth={260}
-                            text="Nuevo correo"
+                            text={
+                                UserMessages.profileConfiguration.sections
+                                    .updateEmail.newEmailLabel
+                            }
                             type="text"
                             placeholder={Messages.placeholder.emailExample}
                             {...emailRegister}
@@ -197,9 +200,11 @@ const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
                             />
                         </InputText>
 
-                        {/* Input: reemail */}
                         <InputText
-                            text="Confirmar nuevo correo"
+                            text={
+                                UserMessages.profileConfiguration.sections
+                                    .updateEmail.confirmEmailLabel
+                            }
                             type="text"
                             placeholder={Messages.placeholder.emailExample}
                             {...reemailRegister}
@@ -225,7 +230,10 @@ const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
                                     <RefreshCcw size={17} strokeWidth={1.5} />
                                 }
                                 shape="square"
-                                nameButtom="Actualizar correo"
+                                nameButtom={
+                                    UserMessages.profileConfiguration.sections
+                                        .updateEmail.updateButton
+                                }
                             />
                         </button>
                     </form>

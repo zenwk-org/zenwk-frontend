@@ -100,15 +100,35 @@ export const getMergedOptions = (
         optionsBody = JSON.stringify(body);
     }
 
+    // Token CSRF (obtenido de la cookie set por el backend)
+    const csrfToken = getCookieValue("XSRF-TOKEN");
+    if (csrfToken) {
+        headers["X-XSRF-TOKEN"] = csrfToken;
+    }
+
+    // Se agrega cookie token csrf a todas las peticiones
     const options: RequestInit & { next?: { revalidate: number } } = {
         next: { revalidate: 60 },
         method: methodHttp,
         headers,
         body: optionsBody,
+        credentials: "include",
     };
 
     return options;
 };
+
+/**
+ * Extrae el valor de una cookie por nombre.
+ *
+ * @param name - Nombre de la cookie.
+ * @returns Valor de la cookie o `null` si no existe.
+ */
+function getCookieValue(name: string): string | null {
+    if (typeof document === "undefined") return null; // no hay cookies en SSR
+    const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+    return match ? decodeURIComponent(match[2]) : null;
+}
 
 /**
  * Construye una URL relativa con su query string (si aplica) bajo el prefijo `/api`.
@@ -144,9 +164,10 @@ export const getFetch = async (
 ) => {
     try {
         const res = await fetch(requestUrl, mergedOptions);
-
         switch (res.status) {
             case 201:
+                // Se retorna el response para aceder al location
+                return res;
             case 204:
                 return true;
 
@@ -172,7 +193,7 @@ export const getFetch = async (
                 return await res.json();
         }
     } catch (error: unknown) {
-        console.log(error);
+        // console.log("getFetch.....", error);
         throw error;
     }
 };
@@ -318,4 +339,54 @@ export const getUrlServer = (): string => {
     }
 
     return process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+};
+
+/**
+ * Genera un token crsf asociado al email del usuario.
+ * Hasta ahora no se usa. Solo  nivel interno del backen httponly
+ *
+ * @param correo - Email del usuario.
+ * @returns Respuesta del backend o error.
+ */
+export const fetchTokenCrsfApi = async (correo: string) => {
+    const path = "/verification/csrf/token";
+    try {
+        const queryString = getQueryString(undefined);
+        const mergedOptions = getMergedOptions("POST", undefined, {
+            email: correo,
+        });
+
+        const requestUrl = `${getTokenUrl(getUrl(queryString, path))}`;
+        // Registro del la cookie httpOnly
+        await getFetch(requestUrl, mergedOptions);
+    } catch (error: unknown) {
+        throw new Error(error as string);
+    }
+};
+
+/**
+ * Genera un token crsf asociado al email del usuario.
+ * Hasta ahora no se usa. Solo  nivel interno del backen httponly
+ *
+ * @param correo - Email del usuario.
+ * @param codeToken - Token CRSF.
+ * @returns Respuesta del backend o error.
+ */
+export const fetchValidateTokenCrsfApi = async (
+    correo: string,
+    codeToken: string
+) => {
+    const path = "/verification/csrf/token/validate";
+    try {
+        const queryString = getQueryString(undefined);
+        const mergedOptions = getMergedOptions("POST", undefined, {
+            email: correo,
+            code: codeToken,
+        });
+
+        const requestUrl = `${getTokenUrl(getUrl(queryString, path))}`;
+        return await getFetch(requestUrl, mergedOptions);
+    } catch (error: unknown) {
+        throw new Error(error as string);
+    }
 };

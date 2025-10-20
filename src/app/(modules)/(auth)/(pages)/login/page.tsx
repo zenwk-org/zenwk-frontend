@@ -3,18 +3,17 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { formValidate } from '@app/shared/utils/formValidate';
-import { fetchValidateRegisterEmail } from '@app/helpers/fetch-api';
+import {
+    fetchValidateRegisterEmail,
+    fetchTokenCrsfApi,
+} from '@app/helpers/fetch-api';
 import { ClientErrorMessage, LoginForm } from '@app/shared/interfaces/auth';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation.js';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { AuthErrors } from '@auth/constants/auth-errors';
 import { Messages } from '@app/shared/constants/messages';
-import { useJwtContext } from '@user/utils/useJwtContext';
 import { loginApi } from '@auth/utils/authUtils';
-import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
-import { fetchGetUser } from '@auth/utils/authUtils';
-import { getPerson } from '@user/utils/personUtils';
 import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
 
 import Title from '@app/app/(modules)/(auth)/ui/Title';
@@ -24,14 +23,12 @@ import HeaderText from '@app/app/(modules)/(auth)/ui/HeaderText';
 import LabelLink from '@app/app/(modules)/(auth)/ui/LabelLink';
 import Paragraph from '@app/shared/ui/Paragraph';
 import Link from 'next/link';
-
-import CenteredHeaderWithBack from '../../components/CenteredHeaderWithBack';
+import CenteredHeaderWithBack from '@auth/components/CenteredHeaderWithBack';
 import HomeIcon from '@mui/icons-material/Home';
 import LoadButton from '@auth/components/LoadButton';
-import Spinner from '@app/shared/ui/Spinner';
 
 /**
- * Página login: ssta vista presenta un formulario de autenticación para que el usuario ingrese
+ * Página login: esta vista presenta un formulario de autenticación para que el usuario ingrese
  * su correo electrónico y contraseña. Valida los datos, muestra errores en caso de
  * fallos y redirige al usuario tras un login exitoso. También puede precargar el
  * email si se recibe como parámetro en la URL.
@@ -42,7 +39,6 @@ const Login = () => {
     const [emailParam, setEmailParam] = useState('');
     const { requiredEmail, requiredPassword, patternEmail, minLength } =
         formValidate();
-    const [loading, setLoding] = useState(true);
     const [isRegisteredUser, setRegisteredUser] = useState(false);
     const [isBtnLoading, setBtnLoading] = useState(false);
     const {
@@ -55,40 +51,23 @@ const Login = () => {
         setFocus,
         formState: { errors },
     } = useForm<LoginForm>();
-    const { user, setUser } = useJwtContext();
-    const { setPerson } = usePersonContext();
-    const { setUserDTO } = useUserContext();
+    const { userDTO } = useUserContext();
 
     /**
      * Prellena el campo de email si se recibe como parámetro en la URL (?email=).
      * Ejecutado en el primer render y al cambiar los searchParams.
      */
     useEffect(() => {
-        const emailFromParam = searchParams.get('email');
+        if (userDTO) {
+            router.push('/user');
+        }
 
+        const emailFromParam = searchParams.get('email');
         if (emailFromParam) {
             setEmailParam(emailFromParam);
             setValue('email', emailFromParam);
         }
-
-        // Registrar los datos para mantener la sesión del usuario.
-        // Se debe implementar desde el Backend Cookies httpOnly
-        // LocalStorage es vulnerable a ataques XSS
-        if (user.jwt && user.userId) {
-            // linea temporal mientras se httpOnly...
-            localStorage.setItem('jwt-user', JSON.stringify(user));
-            router.push('/user');
-        }
-
-        setLoding(false);
-    }, [user, setUser]);
-
-    /**
-     * Cargador ...
-     */
-    if (loading) {
-        return <Spinner />;
-    }
+    }, [searchParams, userDTO]);
 
     /**
      * Configuración de validación para el campo de email.
@@ -112,6 +91,7 @@ const Login = () => {
     const handleEmailBlur = async () => {
         const isValid = await trigger('email');
         const emailOnBlur = getValues('email');
+
         if (isValid) {
             try {
                 const path = `/users/email/${emailOnBlur}`;
@@ -120,9 +100,11 @@ const Login = () => {
                 if (res) {
                     setEmailParam(emailOnBlur);
                     setRegisteredUser(res);
+                } else {
+                    router.push(`/register?email=${emailOnBlur}`);
                 }
             } catch (error) {
-                console.log(error);
+                // console.log(error);
             }
         }
     };
@@ -135,27 +117,13 @@ const Login = () => {
         async (data) => {
             setBtnLoading(true);
             try {
-                // Utilidad loginApi
+                // Paso 1:  cookie httpOnly para CSRF token
+                await fetchTokenCrsfApi(data.email);
+                // Paso 2:  cookie httpOnly para jwt token
                 const res = await loginApi(data.email, data.password);
                 // Pausa para mejorar la interacción con el usuario
                 await new Promise((resolve) => setTimeout(resolve, 500));
-
-                if (res) {
-                    // Se actualiza contexto
-                    const userData = { jwt: res.token, userId: res.userId };
-                    setUser(userData);
-                    const userDto = await fetchGetUser(userData);
-
-                    // Recuperamos la persona si esta creada
-                    if (userDto.idPerson) {
-                        const personaDto = await getPerson(
-                            userDto.idPerson,
-                            userData.jwt
-                        );
-                        setPerson(personaDto);
-                        setUserDTO(userDto);
-                    }
-                }
+                router.push('/user');
             } catch (error: unknown) {
                 // console.log(error);
                 const errors = error as ClientErrorMessage;

@@ -4,6 +4,7 @@ import { UserX } from 'lucide-react';
 import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
 import ProfileButtomForm from '@user/components/profile/ProfileButtomForm';
 import ConfirmModalDelete from '@app/shared/components/ConfirmModalDelete';
+import { UserMessages } from '@user/constants/user-messages';
 
 const DeleteAccount = () => {
     const [lineLoading, setLineLoading] = useState(false);
@@ -41,7 +42,10 @@ const DeleteAccount = () => {
                     icon={<UserX size={17} strokeWidth={1.5} />}
                     shape="square"
                     positionToltip="top"
-                    nameButtom="Eliminar cuenta "
+                    nameButtom={
+                        UserMessages.profileConfiguration.sections.deleteAccount
+                            .title
+                    }
                 />
             </div>
             {/* Modal de confirmación */}
@@ -49,7 +53,10 @@ const DeleteAccount = () => {
                 <ConfirmModalDelete
                     setLaunchModal={setLaunchModal}
                     setConfirm={setConfirm}
-                    titleText="¿Está seguro de eliminar su cuenta?"
+                    titleText={
+                        UserMessages.profileConfiguration.sections.deleteAccount
+                            .description
+                    }
                     btConfirmText="Eliminar definitivamente"
                 />
             )}

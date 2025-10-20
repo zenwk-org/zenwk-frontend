@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import '@app/styles/globals.css';
 
-import JwtContextProvider from '@user/context/JwtContext';
 import WidthSidebarContextProvider from '@user/context/WidthSidebarContext';
 import PersonContextProvider from '@user/context/PersonContext';
 import UserContextProvider from '@user/context/UserContext';
@@ -35,20 +34,18 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <JwtContextProvider>
-            <WidthSidebarContextProvider>
-                <UserContextProvider>
-                    <PersonContextProvider>
-                        <html lang="en">
-                            <meta
-                                name="viewport"
-                                content="width=device-width, initial-scale=1.0"
-                            />
-                            <body className={''}>{children}</body>
-                        </html>
-                    </PersonContextProvider>
-                </UserContextProvider>
-            </WidthSidebarContextProvider>
-        </JwtContextProvider>
+        <WidthSidebarContextProvider>
+            <UserContextProvider>
+                <PersonContextProvider>
+                    <html lang="en">
+                        <meta
+                            name="viewport"
+                            content="width=device-width, initial-scale=1.0"
+                        />
+                        <body className={''}>{children}</body>
+                    </html>
+                </PersonContextProvider>
+            </UserContextProvider>
+        </WidthSidebarContextProvider>
     );
 }

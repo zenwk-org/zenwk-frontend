@@ -1,35 +1,33 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { formValidate } from "@app/shared/utils/formValidate";
-import { useSearchParams } from "next/navigation";
-
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { formValidate } from '@app/shared/utils/formValidate';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { ClientErrorMessage } from '@app/shared/interfaces/auth';
+import { useState } from 'react';
+import { AuthMessages } from '@auth/constants/auth-messages';
+import { Messages } from '@app/shared/constants/messages';
+import { CommonsErros } from '@app/shared/constants/commons-erros';
 import {
     fetchValidateRegisterEmail,
     getUrlServer,
     fetchVerifcation,
-} from "@app/helpers/fetch-api";
+} from '@app/helpers/fetch-api';
 
-import { ClientErrorMessage } from "@app/shared/interfaces/auth";
-import { useState } from "react";
-import { AuthMessages } from "@auth/constants/auth-messages";
-import { Messages } from "@app/shared/constants/messages";
-import { CommonsErros } from "@app/shared/constants/commons-erros";
-
-import FormInput from "@app/app/(modules)/(auth)/ui/FormInput";
-import HeaderText from "@app/app/(modules)/(auth)/ui/HeaderText";
-import Title from "@app/app/(modules)/(auth)/ui/Title";
-import FormError from "@app/shared/ui/FormError";
-import Label from "@app/app/(modules)/(auth)/ui/Label";
-import Link from "next/link";
-import LabelLink from "@app/app/(modules)/(auth)/ui/LabelLink";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import CenteredHeaderWithBack from "@auth/components/CenteredHeaderWithBack";
-import GeneralPageInfo from "@app/shared/ui/GeneralPageInfo";
-import LoadButton from "../../../components/LoadButton";
-import Spinner from "@app/shared/ui/Spinner";
-import { useRouter } from "next/navigation";
+import FormInput from '@app/app/(modules)/(auth)/ui/FormInput';
+import HeaderText from '@app/app/(modules)/(auth)/ui/HeaderText';
+import Title from '@app/app/(modules)/(auth)/ui/Title';
+import FormError from '@app/shared/ui/FormError';
+import Label from '@app/app/(modules)/(auth)/ui/Label';
+import Link from 'next/link';
+import LabelLink from '@app/app/(modules)/(auth)/ui/LabelLink';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CenteredHeaderWithBack from '@auth/components/CenteredHeaderWithBack';
+import GeneralPageInfo from '@app/shared/ui/GeneralPageInfo';
+import LoadButton from '@auth/components/LoadButton';
+import Spinner from '@app/shared/ui/Spinner';
 
 /**
  * Página ForgotPassword: permite ingresar el email para recuperar contraseña.
@@ -45,7 +43,7 @@ const ForgotPassword = () => {
     } = useForm<{ email: string }>();
 
     const searchParams = useSearchParams();
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState('');
     const { patternEmail, requiredEmail } = formValidate();
     const [isRegistered, setRegistered] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -54,9 +52,9 @@ const ForgotPassword = () => {
     const router = useRouter();
 
     useEffect(() => {
-        const paramEmail = searchParams.get("email") as string;
-        setValue("email", paramEmail || email);
-        setEmail(getValues("email"));
+        const paramEmail = searchParams.get('email') as string;
+        setValue('email', paramEmail || email);
+        setEmail(getValues('email'));
 
         if (paramEmail) {
             setRegistered(true);
@@ -83,16 +81,16 @@ const ForgotPassword = () => {
             setEmail(email);
 
             if (res) {
-                const path = "/verification/token/reset-password";
+                const path = '/verification/token/reset-password';
                 const param = {
                     email,
-                    pathUrl: getUrlServer() + "/login/reset-password",
+                    pathUrl: getUrlServer() + '/login/reset-password',
                 };
                 const resResetPassword = await fetchVerifcation(
                     path,
                     undefined,
                     param,
-                    "POST"
+                    'POST'
                 );
 
                 if (resResetPassword) {
@@ -101,7 +99,7 @@ const ForgotPassword = () => {
                     throw {
                         code: CommonsErros.unknownCode,
                         message: CommonsErros.unknown(
-                            "ForgotPassword.handleSubmit(...))"
+                            'ForgotPassword.handleSubmit(...))'
                         ),
                     };
                 }
@@ -111,13 +109,13 @@ const ForgotPassword = () => {
             }
         } catch (error) {
             const errorApi = error as ClientErrorMessage;
-            setError("email", { message: errorApi.message });
+            setError('email', { message: errorApi.message });
         } finally {
             setLoading(false);
         }
     });
 
-    const registerEmail = register("email", {
+    const registerEmail = register('email', {
         required: requiredEmail,
         pattern: patternEmail,
     });
@@ -163,7 +161,7 @@ const ForgotPassword = () => {
                                 isError={Boolean(errors.email)}
                             >
                                 <FormError
-                                    error={errors.email?.message || ""}
+                                    error={errors.email?.message || ''}
                                 />
                             </FormInput>
                             {!isRegistered && (

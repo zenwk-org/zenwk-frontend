@@ -1,22 +1,18 @@
-import {
-    BG_CYAN,
-    BG_CYAN_HOVER,
-    TEXT_BLUE_COLOR,
-} from "@app/styles/constans-color";
-import { X } from "lucide-react";
+import { TEXT_BLUE_COLOR } from '@app/styles/constans-color';
+import { X } from 'lucide-react';
 
-import Tooltip from "@app/shared/ui/Tooltip";
+import Tooltip from '@app/shared/ui/Tooltip';
 
 const ButtonCloseWindow = ({
     text,
     watch = false,
-    align = "left-0",
-    position = "top",
+    align = 'left-0',
+    position = 'top',
 }: {
     text: string;
     watch?: boolean;
     align?: string;
-    position?: "top" | "bottom" | "left" | "right";
+    position?: 'top' | 'bottom' | 'left' | 'right';
 }) => {
     return (
         <>

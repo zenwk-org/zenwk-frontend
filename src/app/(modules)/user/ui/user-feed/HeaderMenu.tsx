@@ -1,5 +1,4 @@
 'use client';
-import { useFetchAuthenticatedUser } from '@user/hooks/useFetchAuthenticatedUser';
 import { useRef } from 'react';
 
 import Link from 'next/link';
@@ -7,6 +6,7 @@ import UserProfilePhoto from '@user/components/general/UserProfilePhoto';
 import LogoZenwk from '@user/components/header/LogoZenwk';
 import ProfileMenu from '@user/components/header/ProfileMenu';
 import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
+import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
 
 const userMenuItems = [
     { label: 'Dashboard', href: '#' },
@@ -34,6 +34,7 @@ const navLinks: any[] = [
  */
 const HeaderMenu = () => {
     const avatarBtnRef = useRef<HTMLButtonElement>(null);
+    const { userDTO } = useUserContext();
     const { person } = usePersonContext();
     /**
      * Pasa el evento programaticamente.
@@ -46,7 +47,7 @@ const HeaderMenu = () => {
      *  useEffect para recuperar el useJwtContext y consultar el usuario.
      **/
     //console.log('HeaderMenu: useFetchAuthenticatedUser: [OK]>');
-    const { userDTO, userData } = useFetchAuthenticatedUser();
+    //const { userDTO, userData } = useFetchAuthenticatedUser();
     /**
 
     /**
@@ -75,7 +76,6 @@ const HeaderMenu = () => {
                         avatarBtnRef={avatarBtnRef}
                         isPhotoProfile={isPhotoProfile}
                         userDTO={userDTO}
-                        userData={userData}
                         profilePicture={person?.profilePicture}
                         handleChevronClick={handleChevronClick}
                     />

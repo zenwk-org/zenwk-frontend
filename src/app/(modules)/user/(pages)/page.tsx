@@ -6,11 +6,10 @@ import {
     TEXT_CYAN_COLOR,
     TEXT_VIOLET_REDDISH,
 } from '@app/styles/constans-color';
-import { useFetchAuthenticatedUser } from '@user/hooks/useFetchAuthenticatedUser';
-import { useFetchGetPerson } from '@user/hooks/useFetchGetPerson';
+import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
+import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
 
 import Title from '@user/ui/user-feed/Title';
-import Spinner from '@app/shared/ui/Spinner';
 import CompleteRegisterForm from '@user/ui/forms/CompleteRegisterForm';
 import Text from '@user/ui/user-feed/Text';
 import AlertInfo from '@app/shared/components/AlertInfo';
@@ -20,20 +19,8 @@ import AlertInfo from '@app/shared/components/AlertInfo';
  */
 const WelcomeUser = () => {
     const [isCreatePerson, setIsCreatePerson] = useState(false);
-
-    /**
-     *  Use efect para recuperar el useJwtContext y consultar el usuario.
-     **/
-    // console.log('WelcomeUser: useFetchAuthenticatedUser: [OK]>')
-    const { userDTO, loading, userData } = useFetchAuthenticatedUser();
-    const { personDTO } = useFetchGetPerson(userDTO?.idPerson, userData?.jwt);
-
-    /**
-     * Spinner para el render.
-     */
-    if (loading) {
-        return <Spinner />;
-    }
+    const { person } = usePersonContext();
+    const { userDTO } = useUserContext();
 
     /**
      * Componente JSX con la pagina del usuario
@@ -48,7 +35,7 @@ const WelcomeUser = () => {
                     >
                         {UserMessages.welcome.title}
                         <label className="font-medium">
-                            {personDTO?.firstName}
+                            {person?.firstName}
                         </label>
                         {UserMessages.welcome.subtitle}
                     </div>
@@ -69,7 +56,7 @@ const WelcomeUser = () => {
                                 />
                                 <CompleteRegisterForm
                                     setIsCreatePerson={setIsCreatePerson}
-                                    user={userData}
+                                    // user={userData}
                                 />
                             </article>
                         </div>

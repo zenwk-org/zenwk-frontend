@@ -1,5 +1,4 @@
-import clsx from "clsx";
-import SubTitle from "@app/app/(modules)/(auth)/ui/SubTitle";
+import clsx from 'clsx';
 
 interface Props {
     content?: React.ReactNode;
@@ -14,7 +13,7 @@ interface Props {
  */
 const Footer = ({ content, bgColor }: Props) => {
     const styleFooter = clsx(
-        "flex items-center justify-center px-6 py-4",
+        'flex items-center justify-center px-6 py-4',
         bgColor
     );
 

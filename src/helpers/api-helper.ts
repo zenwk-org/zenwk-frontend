@@ -20,6 +20,6 @@ export const getTokenUrl = (path = "") => {
  */
 export const getBaseUrl = (path = "") => {
     return `${
-        process.env.API_BASE_DEV_PUBLIC_URL || "http://localhost:6600"
+        process.env.API_BASE_DEV_PUBLIC_URL || "https://localhost:6601"
     }${path}`;
 };

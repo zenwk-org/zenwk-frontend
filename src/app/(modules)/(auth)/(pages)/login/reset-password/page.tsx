@@ -1,12 +1,12 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { fetchJwtBaseApi } from "@app/helpers/fetch-api";
-import { AuthMessages } from "@auth/constants/auth-messages";
+'use client';
+import { useRouter } from 'next/navigation';
+import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
+import { AuthMessages } from '@auth/constants/auth-messages';
 
-import SetPasswordUser from "@auth/components/SetPasswordUser";
+import SetPasswordUser from '@auth/components/SetPasswordUser';
 
 /**
- * Componente para el formulario de reingreso de contraseña en el registro del usuaro.
+ * Componente para el formulario de reingreso de contraseña en el registro del usuario.
  * si la contraseña es valida consume el api para la creación del usuario.
  * @returns - Componente JSX.
  */
@@ -21,7 +21,7 @@ const SetChangePassword = () => {
         uuid: string,
         tokenCode: string
     ) => {
-        const path = "/auth/reset-password/" + email;
+        const path = '/auth/reset-password/' + email;
         const createUserJson = {
             password: password,
             uuid: uuid,
@@ -32,13 +32,13 @@ const SetChangePassword = () => {
             undefined,
             undefined,
             createUserJson,
-            "POST"
+            'POST'
         );
 
         if (result) {
             // Espera de 3 segundos
             setTimeout(() => {
-                return router.push("/login");
+                return router.push('/login');
             }, 1000);
         }
     };

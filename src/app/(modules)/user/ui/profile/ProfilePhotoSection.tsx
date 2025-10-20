@@ -2,13 +2,12 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Camera, Save, Trash2 } from 'lucide-react';
-import { User } from '@user/context/JwtContext';
 import { getInitials } from '@app/shared/utils/stringUtils';
 import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
 import { compressImage } from '@user/utils/ImageConvertUtils';
 import { updateOrCreatePerson } from '@user/utils/personUtils';
 import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
-import { useFetchGetPerson } from '@user/hooks/useFetchGetPerson';
+import { UserMessages } from '@user/constants/user-messages';
 
 import Text from '@user/ui/user-feed/Text';
 import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
@@ -29,13 +28,7 @@ interface FormValues {
  * @param param0
  * @returns
  */
-const ProfilePhotoSection = ({
-    userData,
-    idPerson,
-}: {
-    idPerson: number;
-    userData: User;
-}) => {
+const ProfilePhotoSection = () => {
     const refLoadPhotoInput = useRef<HTMLInputElement | null>(null);
     const [lineLoading, setLineLoading] = useState(false);
     const [loadPhotoLoading, setLoadPhotoLoading] = useState(false);
@@ -44,18 +37,7 @@ const ProfilePhotoSection = ({
     const [activeSavePhoto, setActiveSavePhoto] = useState(false);
     const [preview, setPreview] = useState<string | null>(null);
     const [photoProfile, setPhotoProfile] = useState<File>();
-
     const { person, setPerson } = usePersonContext();
-    const { personDTO } = useFetchGetPerson(idPerson, userData?.jwt);
-
-    /**
-     * Sincroniza el contexto de person
-     */
-    useEffect(() => {
-        if (personDTO) {
-            setPerson(personDTO);
-        }
-    }, [personDTO, setPerson]);
 
     /**
      * Limpiar el objeto URL cuando cambie la imagen o se desmonte el componente
@@ -195,31 +177,29 @@ const ProfilePhotoSection = ({
                 const formData = new FormData();
                 formData.append('file', photoProfile);
 
-                if (userData.jwt) {
-                    const res = await fetchJwtBaseApi(
-                        path,
-                        undefined,
-                        userData.jwt,
-                        formData,
-                        'POST'
-                    );
+                const res = await fetchJwtBaseApi(
+                    path,
+                    undefined,
+                    undefined,
+                    formData,
+                    'POST'
+                );
 
-                    // Actualizar  estado  personDTO
-                    const newPhotoProfile = await getBytesFromPreview();
-                    await new Promise((resolve) => setTimeout(resolve, 300));
-                    setPerson((prev) => {
-                        if (!prev) {
-                            return prev;
-                        }
-                        const updated = {
-                            ...prev,
-                            profilePicture: newPhotoProfile,
-                        };
-                        setSavePhotoLoading(false);
-                        setActiveSavePhoto(false);
-                        return updated;
-                    });
-                }
+                // Actualizar  estado  personDTO
+                const newPhotoProfile = await getBytesFromPreview();
+                await new Promise((resolve) => setTimeout(resolve, 300));
+                setPerson((prev) => {
+                    if (!prev) {
+                        return prev;
+                    }
+                    const updated = {
+                        ...prev,
+                        profilePicture: newPhotoProfile,
+                    };
+                    setSavePhotoLoading(false);
+                    setActiveSavePhoto(false);
+                    return updated;
+                });
             }
         } catch (error) {
             // console.log('error');
@@ -242,22 +222,15 @@ const ProfilePhotoSection = ({
                 return;
             }
 
-            if (userData.jwt) {
-                // Actualizo el contexto y se aprovecha valor actualizado para consumo de api
-                setPerson((prev) => {
-                    if (!prev) {
-                        return prev;
-                    }
-                    const dataUpdate = { ...prev, profilePicture: undefined };
-                    updateOrCreatePerson(
-                        userData.jwt,
-                        dataUpdate,
-                        true,
-                        person.id
-                    );
-                    return dataUpdate;
-                });
-            }
+            // Actualizo el contexto y se aprovecha valor actualizado para consumo de api
+            setPerson((prev) => {
+                if (!prev) {
+                    return prev;
+                }
+                const dataUpdate = { ...prev, profilePicture: undefined };
+                updateOrCreatePerson(dataUpdate, true, person.id);
+                return dataUpdate;
+            });
         } catch (error) {
             throw error;
         }
@@ -340,7 +313,10 @@ const ProfilePhotoSection = ({
                                     className="text-black"
                                 />
                             }
-                            text="Cambiar foto"
+                            text={
+                                UserMessages.profileConfiguration.sections
+                                    .updatePhotoProfile.changeButton
+                            }
                             shape="circle"
                         />
                     </button>
@@ -366,7 +342,11 @@ const ProfilePhotoSection = ({
                                             className="text-black"
                                         />
                                     }
-                                    text="Guardar foto"
+                                    text={
+                                        UserMessages.profileConfiguration
+                                            .sections.updatePhotoProfile
+                                            .saveButton
+                                    }
                                     shape="circle"
                                 />
                             </button>
@@ -392,7 +372,11 @@ const ProfilePhotoSection = ({
                                             className="text-black"
                                         />
                                     }
-                                    text="Eliminar foto"
+                                    text={
+                                        UserMessages.profileConfiguration
+                                            .sections.updatePhotoProfile
+                                            .deleteButton
+                                    }
                                     shape="circle"
                                 />
                             </button>

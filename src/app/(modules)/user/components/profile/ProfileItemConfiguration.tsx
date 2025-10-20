@@ -100,7 +100,7 @@ const ProfileItemConfiguration = ({
                     isActive ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
                 }`}
             >
-                <div className="mx-3 rounded-lg bg-gray-50 text-sm text-gray-700 dark:text-gray-300">
+                <div className="mx-3 rounded-lg bg-gray-50 text-gray-700 dark:text-gray-300">
                     {children}
                 </div>
             </div>

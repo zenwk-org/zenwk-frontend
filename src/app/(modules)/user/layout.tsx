@@ -1,10 +1,7 @@
 'use client';
 import { useSidebarContext } from '@user/utils/useWidthSidebarContext';
-import { LOCAL_STORAGE_JWT_ITEM } from '@app/shared/constants/common-constants';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { fetchGetUser } from '@auth/utils/authUtils';
-import { UserDTO } from './types/user-dto';
 
 import Footer from '@user/ui/user-feed/Footer';
 import HeaderMenu from '@user/ui/user-feed/HeaderMenu';
@@ -12,6 +9,16 @@ import Sidebar from '@user/ui/user-feed/Sidebar';
 import Spinner from '@app/shared/ui/Spinner';
 import SexOptionsContextProvider from '@user/context/SexOptionsContext';
 
+import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
+import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
+import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
+import { getPerson } from '@user/utils/personUtils';
+
+/**
+ * Layout para los pages de user
+ * @param param0
+ * @returns
+ */
 export default function UserLayout({
     children,
 }: {
@@ -21,41 +28,36 @@ export default function UserLayout({
     const { sidebarWidth } = useSidebarContext();
     const router = useRouter();
     const [authorized, setAuthorized] = useState<boolean | null>(null);
+    const { setUserDTO } = useUserContext();
+    const { setPerson } = usePersonContext();
 
     /**
      * useEffect que redirige a login  si no existe sesión activa.
      */
     useEffect(() => {
-        const userDataTemp = localStorage.getItem(LOCAL_STORAGE_JWT_ITEM);
-        const userLocal = userDataTemp ? JSON.parse(userDataTemp) : null;
-
-        const loadUser = async (): Promise<UserDTO | false> => {
+        const loadUser = async () => {
             try {
-                return await fetchGetUser(userLocal);
-            } catch (error) {
-                return false;
-            }
-        };
-
-        // Cubre los dos escenarios posibles:
-        // 1. Cierre de sesión
-        // 2. Expiración del token (no importa si queda guardado en localstorage)
-        const validateSession = async () => {
-            if (userLocal && userLocal.jwt) {
-                const result = await loadUser();
-                if (!result) {
-                    setAuthorized(false);
-                    router.push('/login');
-                } else {
-                    setAuthorized(true);
+                const pathUserMe = '/users/me';
+                const userData = await fetchJwtBaseApi(
+                    pathUserMe,
+                    undefined,
+                    undefined,
+                    undefined,
+                    'GET'
+                );
+                setUserDTO(userData);
+                if (userData.idPerson) {
+                    const personaData = await getPerson(userData.idPerson);
+                    setPerson(personaData);
                 }
-            } else {
-                setAuthorized(false);
+                setAuthorized(true);
+            } catch (error) {
                 router.push('/login');
+                setUserDTO(undefined);
             }
         };
 
-        validateSession();
+        loadUser();
     }, []);
 
     /**

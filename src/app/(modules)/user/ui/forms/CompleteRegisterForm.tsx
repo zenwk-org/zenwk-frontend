@@ -1,14 +1,19 @@
 import { useForm } from 'react-hook-form';
-import { useState, Dispatch, SetStateAction, useEffect } from 'react';
-import { User } from '@user/context/JwtContext';
+import { useState, Dispatch, SetStateAction } from 'react';
 import { formValidateUser } from '@user/utils/formValidateUser';
 import { PersonDTO } from '@app/app/(modules)/user/types/person-dto';
 import { getLabelById } from '@app/shared/utils/optionsSexUtils';
-import { getPerson, updateOrCreatePerson } from '@user/utils/personUtils';
+import {
+    getPerson,
+    updateOrCreatePerson,
+    getPathId,
+} from '@user/utils/personUtils';
 import { safeValue } from '@app/shared/utils/stringUtils';
 import { useSexOptionsContext } from '@user/utils/useSexOptionsContext';
 import { handleApiErrors } from '@app/shared/utils/formValidate';
 import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
+import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
+import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
 
 import CompleteRegisterFormFields from '@user/components/forms/CompleteRegisterFormFields';
 
@@ -29,7 +34,6 @@ type FormValues = {
  */
 const CompleteRegisterForm = ({
     setIsCreatePerson,
-    user,
     editDataBasic,
     setEditDataBasic,
     personDTO,
@@ -38,7 +42,6 @@ const CompleteRegisterForm = ({
     loadingLineClick,
 }: {
     setIsCreatePerson?: Dispatch<SetStateAction<boolean>>;
-    user: User;
     editDataBasic?: boolean;
     setEditDataBasic?: Dispatch<SetStateAction<boolean>>;
     personDTO?: PersonDTO;
@@ -49,7 +52,8 @@ const CompleteRegisterForm = ({
     const { optionsSex } = useSexOptionsContext();
     const [errorBack, setErrorBack] = useState('');
     const [isBtnLoading, setBtnLoading] = useState(false);
-    const { setPerson } = usePersonContext();
+    const { person, setPerson } = usePersonContext();
+    const { userDTO } = useUserContext();
 
     /**
      * Formulario principal
@@ -94,26 +98,33 @@ const CompleteRegisterForm = ({
         setBtnUpdate?.(true);
 
         try {
-            if (user) {
-                const res = await updateOrCreatePerson(
-                    user.jwt,
-                    data,
-                    editDataBasic,
-                    personDTO?.id
-                );
-
-                if (res) {
-                    if (editDataBasic && personDTO) {
-                        const freshData = await getPerson(
-                            personDTO.id,
-                            user.jwt
-                        );
-
-                        if (freshData && setEditDataBasic) {
-                            setPerson(freshData);
-                            setEditDataBasic(false);
-                        }
-                    }
+            if (userDTO) {
+                if (editDataBasic && person) {
+                    const response = await updateOrCreatePerson(
+                        data,
+                        undefined,
+                        editDataBasic,
+                        person.id
+                    );
+                    setPerson(await getPerson(person.id));
+                    setEditDataBasic?.(false);
+                } else {
+                    const response = await updateOrCreatePerson(
+                        data,
+                        userDTO,
+                        editDataBasic,
+                        undefined
+                    );
+                    // Actualización de rol
+                    const res = await fetchJwtBaseApi(
+                        '/auth/refresh-jwt',
+                        undefined,
+                        undefined,
+                        undefined,
+                        'POST'
+                    );
+                    const id = getPathId(response);
+                    setPerson(await getPerson(Number(id)));
                     setIsCreatePerson?.(true);
                 }
             }

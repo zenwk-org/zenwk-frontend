@@ -4,7 +4,6 @@ import FlyoutMenu from '@user/components/general/FlyoutMenu';
 import UserMenu from '@user/components/general/UserMenu';
 import { mergeRefs } from '@user/utils/utilsRef';
 import { TEXT_CYAN_COLOR } from '@app/styles/constans-color';
-import { User } from '@user/context/JwtContext';
 import { UserDTO } from '@app/app/(modules)/user/types/user-dto';
 
 interface Props {
@@ -13,7 +12,6 @@ interface Props {
     avatarBtnRef: React.Ref<HTMLButtonElement>;
     userDTO?: UserDTO;
     profilePicture?: boolean | string;
-    userData?: User;
 }
 
 /**
@@ -27,7 +25,6 @@ const ProfileMenu = ({
     avatarBtnRef,
     userDTO,
     profilePicture,
-    userData,
 }: Props) => {
     return (
         <FlyoutMenu
@@ -55,11 +52,7 @@ const ProfileMenu = ({
             )}
             position="right"
         >
-            <UserMenu
-                profilePicture={profilePicture}
-                userDTO={userDTO}
-                userData={userData}
-            />
+            <UserMenu profilePicture={profilePicture} userDTO={userDTO} />
         </FlyoutMenu>
     );
 };

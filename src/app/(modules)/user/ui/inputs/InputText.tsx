@@ -21,6 +21,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     minWidth?: number;
     variant?: 'default' | 'verified'; // 👈 Nuevo prop
     type?: string;
+    fullWidth?: boolean;
 }
 
 const InputText = forwardRef<HTMLInputElement, Props>(
@@ -33,6 +34,7 @@ const InputText = forwardRef<HTMLInputElement, Props>(
             minWidth = 120,
             variant = 'default',
             type = 'text',
+            fullWidth = false,
             ...props
         },
         ref
@@ -61,9 +63,10 @@ const InputText = forwardRef<HTMLInputElement, Props>(
         );
 
         const inputClass = clsx(
-            'block rounded-lg border-[1px] bg-white py-[0.33rem]',
-            'px-4 text-xs focus:outline-none',
-            'w-fit max-w-full min-w-[120px]',
+            'block rounded-lg border-[1px] bg-white px-4 py-[0.33rem] text-xs focus:outline-none',
+            fullWidth
+                ? 'w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg'
+                : `w-fit max-w-full min-w-[${minWidth}px]`,
             isError
                 ? 'text-[#E77B73] placeholder:text-[#E77B73]'
                 : 'text-gray-500 placeholder:text-gray-400',

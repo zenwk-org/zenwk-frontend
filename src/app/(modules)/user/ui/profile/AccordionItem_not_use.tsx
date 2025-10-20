@@ -1,5 +1,6 @@
 import React, { useState, ReactNode } from 'react';
 import { ChevronDown, CheckCircle2, AlertTriangle, Info } from 'lucide-react';
+import { UserMessages } from '@user/constants/user-messages';
 
 type StatusType = 'success' | 'warning' | 'info' | null;
 
@@ -40,7 +41,9 @@ const AccordionItem = ({
     // Simula actualización con éxito
     const simulateUpdate = () => {
         setStatus('success');
-        setMessage('✅ Contraseña actualizada con éxito');
+        setMessage(
+            UserMessages.profileConfiguration.alerts.updatePasswordSuccess
+        );
         setTimeout(() => {
             setStatus(null);
             setMessage(defaultDescription);
@@ -98,7 +101,7 @@ const AccordionItem = ({
                         onClick={simulateUpdate}
                         className="mt-3 inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
                     >
-                        Guardar cambios
+                        {UserMessages.buttons.save}
                     </button>
                 </div>
             </div>
@@ -108,26 +111,34 @@ const AccordionItem = ({
 
 // Ejemplo de uso
 const ProfileSettingsAccordion = () => {
+    const { profileConfiguration } = UserMessages;
+
     return (
         <>
             <AccordionItem
-                title="Seguridad"
-                defaultDescription="Recomendado: cambia tu contraseña cada 3 meses"
+                title={profileConfiguration.sections.updatePassword.title}
+                defaultDescription={
+                    profileConfiguration.sections.updatePassword.description
+                }
             >
-                {' '}
-                holi{' '}
+                holi
             </AccordionItem>
+
             <AccordionItem
-                title="Seguridad"
-                defaultDescription="Recomendado: cambia tu contraseña cada 3 meses"
+                title={profileConfiguration.sections.updatePassword.title}
+                defaultDescription={
+                    profileConfiguration.sections.updatePassword.description
+                }
             >
-                {' '}
-                holi{' '}
+                holi
             </AccordionItem>
+
             <div className="mx-auto max-w-2xl overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
                 <AccordionItem
-                    title="Seguridad"
-                    defaultDescription="Recomendado: cambia tu contraseña porque fe err ere  er ere   cada 3 meses"
+                    title={profileConfiguration.sections.updatePassword.title}
+                    defaultDescription={
+                        profileConfiguration.sections.updatePassword.description
+                    }
                 >
                     <form className="space-y-3">
                         <input
@@ -144,8 +155,10 @@ const ProfileSettingsAccordion = () => {
                 </AccordionItem>
 
                 <AccordionItem
-                    title="Correo electrónico"
-                    defaultDescription="Último cambio: hace 6 meses"
+                    title={profileConfiguration.sections.updateEmail.title}
+                    defaultDescription={profileConfiguration.sections.updateEmail.description(
+                        'usuario@correo.com'
+                    )}
                 >
                     <input
                         type="email"

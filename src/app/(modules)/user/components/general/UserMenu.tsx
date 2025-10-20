@@ -3,21 +3,19 @@
 import { CircleUser, Cog, LoaderCircle, CircleX } from 'lucide-react';
 import { UserMessages } from '@user/constants/user-messages';
 import { TEXT_ROSA_COLOR, TEXT_BLUE_COLOR } from '@app/styles/constans-color';
-import { useJwtContext } from '@user/utils/useJwtContext';
 import { RingLoader } from 'react-spinners';
 import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
-import { User } from '@user/context/JwtContext';
-import {
-    LOCAL_STORAGE_JWT_ITEM,
-    LOCAL_STORAGE_SEX_OPTIONS,
-} from '@app/shared/constants/common-constants';
+
 import { useRouter } from 'next/navigation';
 import { UserDTO } from '@app/app/(modules)/user/types/user-dto';
 import React, { useState } from 'react';
+import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
+import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
 
 import Text from '@user/ui/user-feed/Text';
 import UserProfilePhoto from '@user/components/general/UserProfilePhoto';
 import Link from 'next/link';
+import { unescape } from 'querystring';
 
 /**
  * Interface que representa los props usados por el componente.
@@ -26,7 +24,6 @@ interface Props {
     profilePicture?: boolean | string;
     userDTO?: UserDTO;
     isPhotoMenuOpen?: boolean;
-    userData?: User;
 }
 
 /**
@@ -38,12 +35,12 @@ const UserMenu = ({
     profilePicture,
     userDTO,
     isPhotoMenuOpen = true,
-    userData,
 }: Props) => {
     const [click, setClick] = useState(false);
     const [clickProfile, setClickProfile] = useState(false);
-    const { setUser } = useJwtContext();
     const router = useRouter();
+    const { setUserDTO } = useUserContext();
+    const { setPerson } = usePersonContext();
 
     /**
      * Manejador para el logOut
@@ -52,23 +49,18 @@ const UserMenu = ({
         try {
             setClick((prev) => !prev);
 
-            if (true) {
-                localStorage.removeItem(LOCAL_STORAGE_JWT_ITEM);
-                localStorage.removeItem(LOCAL_STORAGE_SEX_OPTIONS);
-                const path = '/auth/logout';
-                const res = await fetchJwtBaseApi(
-                    path,
-                    undefined,
-                    userData?.jwt,
-                    undefined,
-                    'DELETE'
-                );
-                // console.log('UserMenu -- handleClicLogOut: ', res);
-                // Se actualiza el contexto, si no genera un loop render.
-                setUser({ jwt: '', userId: 0 });
-            }
+            const path = '/auth/logout';
+            const res = await fetchJwtBaseApi(
+                path,
+                undefined,
+                undefined,
+                undefined,
+                'DELETE'
+            );
+            // Se actualiza el contexto
+            setUserDTO(undefined);
+            setPerson(undefined);
         } catch (error) {
-            console.log('UserMenu -- error: ', error);
         } finally {
             // Pausa, para animación
             await new Promise((resolve) => setTimeout(resolve, 500));

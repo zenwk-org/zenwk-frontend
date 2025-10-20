@@ -1,7 +1,5 @@
-import { Policy } from "@mui/icons-material";
-
 /**
- * Mensajes usados en el múdulo de usuarios.
+ * Mensajes usados en el módulo de usuarios.
  */
 export const UserMessages = {
     welcome: {
@@ -14,21 +12,33 @@ export const UserMessages = {
     formComplete: {
         age: { placeholder: "Edad... ", labelOption: "Edad" },
         sex: { placeholder: "Sexo...", labelOption: "Sexo" },
-        labelNames: "Nombres",
-        labelLastNames: "Apellidos",
-        labelSexAndAge: "Sexo y Edad",
-        // Placeholders para los inputs
+        labels: {
+            firstName: "Primer nombre",
+            middleName: "Segundo nombre",
+            lastName: "Primer apellido",
+            middleLastName: "Segundo apellido",
+            sex: "Sexo",
+            age: "Edad",
+            names: "Nombres",
+            surnames: "Apellidos",
+            dateOfBirth: "Fecha de nacimiento",
+        },
         placeholder: {
             firstName: "Primer nombre...",
             middleName: "Segundo nombre...",
             lastName: "Primer apellido...",
             middleLastName: "Segundo apellido...",
+            dateOfBirth: "No registrado",
         },
     },
     buttons: {
         welcome: {
             buttonSave: "Guardar información personal",
         },
+        save: "Guardar cambios",
+        back: "Atrás",
+        updatePersonalInfo: "Actualizar información personal",
+        deleteAccount: "Eliminar cuenta ",
     },
     messageToolTip: {
         closeWindow: "Lo haré después",
@@ -61,6 +71,102 @@ export const UserMessages = {
             tasks: "Tareas",
             proyects: "Proyectos",
             reports: "Análisis y Reportes",
+        },
+    },
+    profileConfiguration: {
+        header: {
+            title: "Configuración de Perfil",
+        },
+        sections: {
+            updatePhotoProfile: {
+                title: "Cambia tu foto de perfil",
+                description: "Aquí puedes actualizar tu foto de perfil",
+                changeButton: "Cambiar foto",
+                saveButton: "Guardar foto",
+                deleteButton: "Eliminar foto",
+            },
+            personalInfo: {
+                title: "Información personal",
+                description:
+                    "Actualiza tus datos básicos y cambia tu foto de perfil",
+            },
+            updateEmail: {
+                title: "Correo asociado a tu cuenta",
+                badge: "Verificado",
+                description: (email: string) => `Tu correo es ${email}`,
+                confirmButton: "Confirmar correo",
+                confirmMessage: "Confirma tu correo para activar los cambios",
+                checkInbox:
+                    "Revisa tu bandeja de entrada y aprueba el cambio de correo electrónico",
+                newEmailSuccess: "¡Listo! Tu nueva dirección de correo es ",
+                newEmailLabel: "Nuevo correo",
+                confirmEmailLabel: "Confirmar nuevo correo",
+                updateButton: "Actualizar correo",
+                errorNotEquals: "Las direcciones de correo no coinciden.",
+            },
+            updatePassword: {
+                title: "Cambia tu contraseña",
+                description: "Recomendado: cambia tu contraseña cada 3 meses",
+                currentPassword: "Contraseña actual",
+                currentPasswordPlaceholder: "Contraseña actual...",
+                newPassword: "Nueva contraseña",
+                newPasswordPlaceholder: "Nueva contraseña...",
+                confirmPassword: "Confirmar contraseña",
+                confirmPasswordPlaceholder: "Confirmar contraseña...",
+                updateButton: "Actualizar contraseña",
+                errorNotEquals: "Las contraseñas ingresadas no coinciden.",
+            },
+            deleteAccount: {
+                title: "Eliminar tu cuenta",
+                description:
+                    "¿Está seguro de eliminar su cuenta? Esta acción es permanente",
+                confirmTitle: "¿Está seguro de eliminar su cuenta?",
+                confirmButton: "Eliminar definitivamente",
+            },
+        },
+        alerts: {
+            updatePasswordSuccess: "!Listo! Contraseña actualizada con éxito",
+        },
+    },
+    welcomeUser: {
+        header: {
+            title: "Bienvenido ",
+            subtitle: ", nos alegra verte aquí.",
+        },
+        sections: {
+            completeRegister: "Completa tu registro",
+        },
+        alerts: {
+            updateSuccess:
+                "Tus datos personales se han actualizado correctamente. ¡Gracias por mantener tu información al día!",
+        },
+    },
+    validation: {
+        required: {
+            firstName: "Por favor, ingresa tu primer nombre.",
+            lastName: "Por favor, ingresa tu primer apellido.",
+            age: "Por favor, selecciona tu edad.",
+            sex: "Por favor, selecciona tu sexo.",
+        },
+        pattern: {
+            name: "Solo se permiten letras y espacios.",
+            age: "La edad debe ser un número.",
+        },
+        length: {
+            minName: "Mínimo 2 caracteres.",
+            maxName: "Máximo 50 caracteres.",
+        },
+        validate: {
+            trim: "El campo no puede estar vacío.",
+            ageNaN: "Edad no válida.",
+            ageNegative: "La edad no puede ser negativa.",
+            ageMax: "Edad no válida (máx 120).",
+        },
+    },
+    errors: {
+        image: {
+            readFile: "Error leyendo archivo",
+            blobGeneration: "Error generando blob",
         },
     },
 };

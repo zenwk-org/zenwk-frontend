@@ -1,3 +1,5 @@
+import { UserMessages } from "@user/constants/user-messages";
+
 /**
  * Convierte un arrayBuffer/base64 recibido del backend en un objeto URL usable por <img>
  * @param data
@@ -28,7 +30,7 @@ export const backendToImageUrl = (data: ArrayBuffer | string): string => {
 };
 
 /**
- * Convierte la imagen antes de de persistirla.
+ * Convierte la imagen antes de persistirla.
  * @param file
  * @param quality
  * @param maxWidth
@@ -44,7 +46,8 @@ export const compressImage = async (
         const reader = new FileReader();
 
         reader.onload = (e) => {
-            if (!e.target?.result) return reject("Error leyendo archivo");
+            if (!e.target?.result)
+                return reject(UserMessages.errors.image.readFile);
 
             img.src = e.target.result as string;
 
@@ -61,7 +64,10 @@ export const compressImage = async (
 
                 canvas.toBlob(
                     (blob) => {
-                        if (!blob) return reject("Error generando blob");
+                        if (!blob)
+                            return reject(
+                                UserMessages.errors.image.blobGeneration
+                            );
                         const compressedFile = new File([blob], file.name, {
                             type: "image/jpeg",
                         });
@@ -73,7 +79,7 @@ export const compressImage = async (
             };
         };
 
-        reader.onerror = reject;
+        reader.onerror = () => reject(UserMessages.errors.image.readFile);
         reader.readAsDataURL(file);
     });
 };

@@ -1,11 +1,10 @@
 'use client';
 
-import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
+import { fetchJwtBaseApi, fetchTokenCrsfApi } from '@app/helpers/fetch-api';
 import SetPasswordUser from '@auth/components/SetPasswordUser';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { useRouter } from 'next/navigation';
 import { loginApi } from '@auth/utils/authUtils';
-import { useJwtContext } from '@user/utils/useJwtContext';
 
 /**
  * Componente para el formulario de reingreso de contraseña en el registro del usuario,
@@ -14,7 +13,6 @@ import { useJwtContext } from '@user/utils/useJwtContext';
  */
 const SetPasswordRegister = () => {
     const router = useRouter();
-    const { setUser } = useJwtContext();
     /**
      * Recibe una contrseña válida y consume el API de registro de usuario.
      */
@@ -37,13 +35,11 @@ const SetPasswordRegister = () => {
             );
 
             if (result) {
-                // Utilidad loginApi
+                // Paso 1:  cookie httpOnly para CSRF token
+                await fetchTokenCrsfApi(email);
+                // Paso 2:  cookie httpOnly para jwt token
                 const res = await loginApi(email, password);
                 if (res) {
-                    const jwtJson = { jwt: res.token, userId: res.userId };
-                    // Se actualiza contexto
-                    setUser(jwtJson);
-                    localStorage.setItem('jwt-user', JSON.stringify(jwtJson));
                     // Pausa para mejorar la interacción con el usuario
                     await new Promise((resolve) => setTimeout(resolve, 500));
                     router.push('/user');

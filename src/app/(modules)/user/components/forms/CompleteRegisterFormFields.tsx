@@ -88,7 +88,6 @@ const CompleteRegisterFormFields = ({
             );
             setBtnDisabled(!hasChanges);
         });
-        // watch simula la implementación del patrón observable.
         return () => subscription.unsubscribe();
     }, [watch, defaultValues]);
 
@@ -106,19 +105,21 @@ const CompleteRegisterFormFields = ({
                     className="group relative cursor-pointer rounded-md bg-gray-200 p-2 text-gray-600 hover:bg-gray-300 hover:text-black"
                 >
                     <ArrowLeft size={16} strokeWidth={1.7} />
-                    <Tooltip position="top">Atrás</Tooltip>
+                    <Tooltip position="top">
+                        {UserMessages.buttons.back}
+                    </Tooltip>
                 </button>
             )}
-            {/* Nombres */}
-            {/* <Subtitle
-                isError={Boolean(errors.firstName)}
-                text={UserMessages.formComplete.labelNames}
-            /> */}
-            <div className="grid grid-cols-2 gap-5">
+
+            {/* Nombres 
+            <div className="m-2 flex flex-col gap-2 rounded-lg bg-white p-1 px-4 text-gray-500 sm:flex-row sm:gap-4">
+
+            */}
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <FirstNameField form={form} />
 
                 <InputText
-                    text="Segundo nombre"
+                    text={UserMessages.formComplete.labels.middleName}
                     placeholder={
                         UserMessages.formComplete.placeholder.middleName
                     }
@@ -137,13 +138,9 @@ const CompleteRegisterFormFields = ({
             </div>
 
             {/* Apellidos */}
-            {/* <Subtitle
-                text={UserMessages.formComplete.labelLastNames}
-                isError={Boolean(errors.lastName)}
-            /> */}
-            <div className="grid grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <InputText
-                    text="Primer apelllido"
+                    text={UserMessages.formComplete.labels.lastName}
                     placeholder={UserMessages.formComplete.placeholder.lastName}
                     {...register('lastName', {
                         required: requiredLastName,
@@ -161,7 +158,7 @@ const CompleteRegisterFormFields = ({
                 </InputText>
 
                 <InputText
-                    text="Segundo apelllido"
+                    text={UserMessages.formComplete.labels.middleLastName}
                     placeholder={
                         UserMessages.formComplete.placeholder.middleLastName
                     }
@@ -180,18 +177,14 @@ const CompleteRegisterFormFields = ({
             </div>
 
             {/* Sexo y edad */}
-            {/* <Subtitle
-                text={UserMessages.formComplete.labelSexAndAge}
-                isError={Boolean(errors.sex || errors.age)}
-            /> */}
-            <div className="mb-6 grid grid-cols-2 gap-5">
+            <div className="mb-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <Controller
                     control={control}
                     name="sex"
                     rules={{ required: requiredSex }}
                     render={({ field }) => (
                         <SelectGeneral
-                            text="Sexo"
+                            text={UserMessages.formComplete.labels.sex}
                             data={optionsSex}
                             placeholder={
                                 UserMessages.formComplete.sex.placeholder
@@ -216,7 +209,7 @@ const CompleteRegisterFormFields = ({
                     rules={{ required: requiredAge }}
                     render={({ field }) => (
                         <SelectGeneral
-                            text="Edad"
+                            text={UserMessages.formComplete.labels.age}
                             data={ageGenerator}
                             placeholder={
                                 UserMessages.formComplete.age.placeholder
@@ -263,7 +256,7 @@ const CompleteRegisterFormFields = ({
                             icon={<Save size={17} strokeWidth={1.5} />}
                             shape="square"
                             positionToltip="top"
-                            nameButtom="Guardar"
+                            nameButtom={UserMessages.buttons.save}
                             buttonLoading={isBtnLoading}
                             lineLoading={true}
                         />

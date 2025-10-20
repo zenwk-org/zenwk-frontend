@@ -1,5 +1,5 @@
 import { fetchJwtBaseApi } from "@app/helpers/fetch-api";
-import { User } from "@user/context/JwtContext";
+import { User } from "@app/app/(modules)/user/context/JwtContext-eliminar";
 
 /**
  * Realiza el login contra la API de autenticación.

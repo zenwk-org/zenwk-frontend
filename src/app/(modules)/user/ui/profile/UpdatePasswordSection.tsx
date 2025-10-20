@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { formValidate } from '@app/shared/utils/formValidate';
-import { Messages } from '@app/shared/constants/messages';
 import { RefreshCcw } from 'lucide-react';
 
 import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
@@ -9,6 +8,7 @@ import InputText from '@user/ui/inputs/InputText';
 import FormErrorUser from '@user/ui/forms/FormErrorUser';
 import ProfileButtomForm from '@app/app/(modules)/user/components/profile/ProfileButtomForm';
 import Text from '@user/ui/user-feed/Text';
+import { UserMessages } from '@user/constants/user-messages';
 
 const UpdatePasswordSection = () => {
     const [disabled, setDisabled] = useState(true);
@@ -36,9 +36,6 @@ const UpdatePasswordSection = () => {
     const passwordValue = useWatch({ control, name: 'password' });
     const repasswordValue = useWatch({ control, name: 'reepassword' });
 
-    /**
-     * Habilitar boton actualizar cuando no hayan errores.
-     */
     useEffect(() => {
         if (isValid && repasswordValue?.length > 0) {
             setDisabled(false);
@@ -47,33 +44,24 @@ const UpdatePasswordSection = () => {
         }
     }, [isValid, repasswordValue, getValues, passwordValue]);
 
-    /**
-     * Configuración de validación para el campo de contraseña.
-     */
     const passwordRegister = register('password', {
         required: requiredPassword,
         pattern: patternPassword,
     });
 
-    /**
-     * Configuración de validación para el campo de contraseña.
-     */
     const reepasswordRegister = register('reepassword', {
         required: requiredPassword,
         validate: validateEquals(
             getValues('password'),
-            'Las contraseñas ingresadas no coinciden.'
+            UserMessages.profileConfiguration.sections.updatePassword
+                .errorNotEquals
         ),
     });
 
-    /**
-     * Envio de formulario, actualización de contraseña.
-     */
     const onSubmit = handleSubmit(async (data) => {
         setLineLoading(true);
         setLoadBtnUpdatePassword(true);
         try {
-            // Consumir api de creación de evento  y link
             console.log(data);
         } catch (error) {
             setError('root', { message: error as string });
@@ -85,7 +73,6 @@ const UpdatePasswordSection = () => {
             setValue('passwordCurrent', '');
             setValue('password', '');
             setValue('reepassword', '');
-            // borrar simula la aprobación
             await new Promise((resolve) => setTimeout(resolve, 2000));
             setPasswordChangeSucceeded(false);
         }
@@ -93,16 +80,16 @@ const UpdatePasswordSection = () => {
 
     return (
         <div>
-            {/** Encabezado de la sección */}
             <ProfileItemHeader lineLoading={lineLoading} />
 
-            {/** Cuerpo de la sección */}
             <div className="grid items-center justify-items-center py-5">
-                {/** Mensaje de éxito en la actualización de la contraseña */}
                 {passwordChangeSucceeded && (
                     <div className="mx-auto mb-2 flex w-full max-w-[260px] flex-col items-center rounded-md bg-[#EBF9F0]">
                         <Text
-                            text="¡Listo! Tu contraseña se ha actualizado correctamente "
+                            text={
+                                UserMessages.profileConfiguration.alerts
+                                    .updatePasswordSuccess
+                            }
                             className="mx-auto max-w-[260px] p-2 text-center text-emerald-700"
                             sizeOffset={-8}
                         />
@@ -110,14 +97,19 @@ const UpdatePasswordSection = () => {
                 )}
 
                 <form onSubmit={onSubmit}>
-                    {/** Input: constraseña actual */}
                     <div className="flex-co mx-auto mb-3 flex w-full max-w-[260px]">
                         <InputText
                             variant="verified"
                             minWidth={260}
-                            text="Contraseña actual"
+                            text={
+                                UserMessages.profileConfiguration.sections
+                                    .updatePassword.currentPassword
+                            }
                             type="password"
-                            placeholder="Contraseña actual..."
+                            placeholder={
+                                UserMessages.profileConfiguration.sections
+                                    .updatePassword.currentPasswordPlaceholder
+                            }
                             {...register('passwordCurrent', {
                                 required: requiredPassword,
                                 pattern: patternPassword,
@@ -131,13 +123,18 @@ const UpdatePasswordSection = () => {
                         </InputText>
                     </div>
 
-                    {/** Input: nueva constraseña */}
                     <div className="flex-co mx-auto flex w-full max-w-[260px]">
                         <InputText
                             minWidth={260}
-                            text="Nueva contraseña"
+                            text={
+                                UserMessages.profileConfiguration.sections
+                                    .updatePassword.newPassword
+                            }
                             type="password"
-                            placeholder="Nueva contraseña..."
+                            placeholder={
+                                UserMessages.profileConfiguration.sections
+                                    .updatePassword.newPasswordPlaceholder
+                            }
                             {...passwordRegister}
                             isError={Boolean(errors.password)}
                         >
@@ -147,13 +144,19 @@ const UpdatePasswordSection = () => {
                             />
                         </InputText>
                     </div>
-                    {/** Input: confirmar constraseña */}
+
                     <div className="flex-co mx-auto flex w-full max-w-[260px]">
                         <InputText
                             minWidth={260}
-                            text="Confirmar contraseña"
+                            text={
+                                UserMessages.profileConfiguration.sections
+                                    .updatePassword.confirmPassword
+                            }
                             type="password"
-                            placeholder="Confirmar contraseña..."
+                            placeholder={
+                                UserMessages.profileConfiguration.sections
+                                    .updatePassword.confirmPasswordPlaceholder
+                            }
                             {...reepasswordRegister}
                             isError={Boolean(errors.reepassword)}
                         >
@@ -163,6 +166,7 @@ const UpdatePasswordSection = () => {
                             />
                         </InputText>
                     </div>
+
                     <div className="flex-co mx-auto flex w-full max-w-[260px]">
                         <button
                             type="submit"
@@ -178,7 +182,10 @@ const UpdatePasswordSection = () => {
                                 }
                                 shape="square"
                                 positionToltip="top"
-                                nameButtom="Actualizar contraseña"
+                                nameButtom={
+                                    UserMessages.profileConfiguration.sections
+                                        .updatePassword.updateButton
+                                }
                             />
                         </button>
                     </div>

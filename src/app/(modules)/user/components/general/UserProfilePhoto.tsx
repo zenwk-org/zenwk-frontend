@@ -1,11 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { User } from 'lucide-react';
-import {
-    TEXT_CYAN_COLOR,
-    BG_CYAN_HOVER,
-    BG_CYAN,
-} from '@app/styles/constans-color';
+import { TEXT_CYAN_COLOR, BG_CYAN_HOVER } from '@app/styles/constans-color';
 
 interface Props {
     profilePicture?: boolean | string;

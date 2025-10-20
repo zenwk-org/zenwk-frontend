@@ -1,10 +1,7 @@
-import LablePageInfo from '../../app/(modules)/(auth)/ui/LablePageInfo';
+import LablePageInfo from '@auth/ui/LablePageInfo';
 import CenteredHeaderWithBack from '@app/app/(modules)/(auth)/components/CenteredHeaderWithBack';
 import OpenMailbox from '@auth/components/OpenMailbox';
 
-/**
- * .....
- */
 interface Props {
     title?: string;
     infoText: string;

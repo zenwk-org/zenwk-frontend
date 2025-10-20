@@ -3,20 +3,42 @@ import { PersonDTO } from "@app/app/(modules)/user/types/person-dto";
 import { safeValue } from "@app/shared/utils/stringUtils";
 
 /**
+ * Extrae el ID del header "Location" de una respuesta HTTP.
+ * Sirve para respuestas tipo 201 Created que devuelven:
+ * Location: http://servidor/api/resource/{id}
+ *
+ * @param response - Objeto Response retornado por fetch()
+ * @returns El ID extraído como string o null si no se encuentra.
+ */
+export const getPathId = (response: Response): string | null => {
+    const location = response.headers.get("Location");
+
+    if (!location) {
+        return null;
+    }
+
+    try {
+        const url = new URL(location, window.location.origin);
+        const pathSegments = url.pathname.split("/").filter(Boolean);
+        const id = pathSegments[pathSegments.length - 1];
+        return id ?? null;
+    } catch (error) {
+        return null;
+    }
+};
+
+/**
  * Consulta los datos de una persona a partri de su id.
  * @param idPerson
  * @param jwt
  */
-export const getPerson = async (
-    idPerson: number,
-    jwt: string
-): Promise<PersonDTO> => {
+export const getPerson = async (idPerson: number): Promise<PersonDTO> => {
     try {
         const path = "/persons/" + idPerson;
         const res = await fetchJwtBaseApi(
             path,
             undefined,
-            jwt,
+            undefined,
             undefined,
             "GET"
         );
@@ -32,8 +54,8 @@ export const getPerson = async (
  * @param personDTO
  */
 export const updateOrCreatePerson = async (
-    jwt: string,
     dataPerson: any | undefined,
+    user: any | undefined,
     editDataBasic: boolean | undefined,
     idPerson?: number | undefined
 ) => {
@@ -42,14 +64,14 @@ export const updateOrCreatePerson = async (
     const personJson = buildPersonPayload(
         undefined,
         dataPerson,
-        undefined,
-        true
+        user,
+        editDataBasic
     );
 
     const res = await fetchJwtBaseApi(
         path,
         undefined,
-        jwt,
+        undefined,
         personJson,
         editDataBasic ? "PUT" : "POST"
     );
@@ -105,7 +127,7 @@ export const buildPersonPayload = (
     payload.profilePicture = personDTO?.profilePicture;
 
     if (!editDataBasic) {
-        payload.idUser = user.userId;
+        payload.idUser = user.id;
     }
 
     return payload;
