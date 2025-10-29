@@ -9,12 +9,12 @@ import {
  * incluyendo validación de email, contraseña, longitud mínima y comparación de contraseñas.
  */
 export const formValidate = () => {
-    const requiredEmail = "Por favor, ingresa un email.";
-    const requiredPassword = "Por favor, ingresa una contraseña.";
+    const requiredEmail = "Ingresa un email.";
+    const requiredPassword = "Ingresa una contraseña.";
 
     const patternEmail: RegisterOptions["pattern"] = {
         value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
-        message: "Formato de email incorrecto.",
+        message: "Formato de email incorrecto",
     };
 
     const patternPassword: RegisterOptions["pattern"] = {
@@ -31,7 +31,7 @@ export const formValidate = () => {
     const validateTrim: RegisterOptions["validate"] = {
         trim: (v: string) => {
             if (!v.trim()) {
-                return "🤡";
+                return "Espacios ingresados.";
             }
             return true;
         },

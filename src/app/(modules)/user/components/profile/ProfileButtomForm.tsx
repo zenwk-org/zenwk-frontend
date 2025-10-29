@@ -19,6 +19,7 @@ const ProfileButtomForm = ({
     shape,
     positionToltip = 'top',
     nameButtom,
+    classColor = 'default',
 }: {
     lineLoading?: boolean;
     buttonLoading?: boolean;
@@ -29,17 +30,22 @@ const ProfileButtomForm = ({
     hiddenArrow?: boolean;
     disabled?: boolean;
     nameButtom?: string;
+    classColor?: 'yellow' | 'default';
 }) => {
     const className = clsx(
-        'group relative',
+        'group relative mt-5',
         nameButtom
-            ? 'flex w-full items-center justify-center gap-4 bg-gray-200 p-[0.3rem] px-4'
-            : 'border bg-gray-100 p-[0.4rem]',
+            ? classColor === 'yellow'
+                ? 'flex w-full items-center justify-center gap-4 bg-indigo-400 p-[0.4rem] px-4'
+                : 'flex w-full items-center justify-center gap-4 bg-indigo-300 p-[0.4rem] px-4'
+            : 'border-[0.1rem] border-indigo-600 bg-indigo-100 p-[0.7rem] hover:border-indigo-800 hover:bg-indigo-200',
         disabled
-            ? 'cursor-not-allowed border-gray-400 bg-gray-100 text-gray-400'
-            : 'cursor-pointer border-black group-hover:text-black hover:bg-gray-300',
+            ? 'cursor-not-allowed border-gray-400'
+            : classColor === 'yellow'
+              ? 'cursor-pointer group-hover:text-white hover:bg-indigo-500'
+              : 'cursor-pointer group-hover:text-white hover:bg-indigo-400',
         shape === 'circle' && 'rounded-full',
-        shape === 'square' && 'rounded-md'
+        shape === 'square' && 'rounded-lg'
     );
 
     return (
@@ -48,7 +54,7 @@ const ProfileButtomForm = ({
                 <Text
                     text={nameButtom}
                     sizeOffset={0}
-                    className={`font-[400] ${disabled ? 'cursor-not-allowed text-gray-400' : 'cursor-pointer text-gray-700 group-hover:text-black'} `}
+                    className={`font-[500] text-white ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'} `}
                 />
             )}
             {lineLoading && buttonLoading ? (

@@ -1,9 +1,12 @@
 import Label from '@app/app/(modules)/(auth)/ui/Label';
+import { useEffect, useState } from 'react';
 import Paragraph from '@app/shared/ui/Paragraph';
 import ButtonOpen from '@app/shared/ui/ButtonOpen';
 
 import { Messages } from '@app/shared/constants/messages';
 import { AuthMessages } from '@auth/constants/auth-messages';
+import Text from '@user/ui/user-feed/Text';
+import AlertInfo from '@app/shared/components/AlertInfo';
 
 /**
  * Componente OpenMailbox: Botones para abrir bandejas de correos.
@@ -14,20 +17,24 @@ import { AuthMessages } from '@auth/constants/auth-messages';
 const OpenMailbox = ({
     isSuccessResend,
     typeStyle,
+    className = '',
 }: {
     isSuccessResend: boolean;
-    typeStyle?: 'profileConfiguration' | 'default' | 'other';
+    typeStyle?: 'profileConfiguration' | 'default' | 'loginOpt' | 'other';
+    className?: string;
 }) => {
+    const [visible, setVisible] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setVisible(false), 10000); // 10 segundos
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
-        <div className="mt-3 w-full text-center sm:w-[400px]">
-            {isSuccessResend && (
-                <>
-                    <Label text={AuthMessages.otp.codeResentSuccess} />
-                </>
-            )}
+        <div className="w-full text-center sm:w-[400px]">
             <Paragraph
                 text={
-                    <ul className="mt-2 flex justify-center space-x-2">
+                    <ul className="flex justify-center space-x-2">
                         <li>
                             <ButtonOpen
                                 href="https://mail.google.com"

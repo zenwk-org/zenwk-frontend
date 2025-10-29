@@ -3,6 +3,7 @@ import { useState, ReactNode } from 'react';
 import Text from '@user/ui/user-feed/Text';
 import ChevronDownIcon from '@user/components/icons/ChevronDownIcon';
 import { CheckCircle2, AlertTriangle, Info } from 'lucide-react';
+import Title from '@user/ui/user-feed/Title';
 
 type StatusType = 'success' | 'warning' | 'info' | null;
 
@@ -51,23 +52,21 @@ const ProfileItemConfiguration = ({
                     className="group flex cursor-pointer items-center gap-3"
                     onClick={setClickOption}
                 >
-                    <Text
+                    <Title
                         sizeOffset={10}
                         text={text}
-                        className={`font-[340] group-hover:text-black hover:cursor-pointer ${
-                            isActive ? 'font-[340] text-black' : 'text-black'
-                            // isActive ? 'font-[340] text-[#B54A87]' : 'text-black'
+                        className={`group-hover:text-black hover:cursor-pointer ${
+                            isActive ? 'font-[450] text-black' : 'text-gray-800'
                         }`}
                     />
 
                     <div className="rounded-lg p-3 hover:bg-gray-100">
                         <ChevronDownIcon
-                            size={17}
-                            sizeStroke={2}
+                            size={20}
+                            sizeStroke={3}
                             className={`h-4 w-4 transition-transform duration-300 group-hover:text-black ${
                                 isActive
-                                    ? // ? 'rotate-180 font-[340] text-[#B54A87]'
-                                      'rotate-180 font-[340] text-black'
+                                    ? 'rotate-180 font-[340] text-black'
                                     : 'text-black'
                             }`}
                         />
@@ -87,8 +86,8 @@ const ProfileItemConfiguration = ({
                     >
                         <Text
                             text={description}
-                            className="font-[280]"
-                            sizeOffset={2}
+                            className="font-[330] text-gray-500"
+                            sizeOffset={15}
                         />
                     </span>
                 </div>
@@ -100,9 +99,7 @@ const ProfileItemConfiguration = ({
                     isActive ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
                 }`}
             >
-                <div className="mx-3 rounded-lg bg-gray-50 text-gray-700 dark:text-gray-300">
-                    {children}
-                </div>
+                <div className="dark:text-gray-300">{children}</div>
             </div>
         </>
     );

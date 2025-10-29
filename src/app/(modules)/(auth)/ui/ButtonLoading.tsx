@@ -7,7 +7,7 @@ import clsx from 'clsx';
  */
 const ButtonLoading = ({ text }: { text: string }) => {
     const defaultClassName = clsx(
-        'relative mb-2 block h-9.5 w-full rounded-lg bg-[#3BB79F] px-5 text-center text-sm font-medium text-white hover:bg-[#32A18C] focus:ring-4 focus:ring-[#6ADBC5] focus:outline-none sm:w-[400px] dark:bg-[#339989] dark:hover:bg-[#2E887B] dark:focus:ring-[#5CC6B2]'
+        'relative mb-2 block h-9.5 w-full rounded-lg bg-[#789CE2] px-5 text-center text-sm font-medium text-white hover:bg-[#5280DA] focus:ring-1 focus:ring-[#789CE2] focus:outline-none sm:w-[400px] dark:bg-[#339989] dark:hover:bg-[#2E887B] dark:focus:ring-[#5CC6B2]'
     );
 
     return (

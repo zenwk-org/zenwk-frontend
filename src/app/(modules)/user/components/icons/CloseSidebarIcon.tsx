@@ -1,7 +1,7 @@
-import { TEXT_VIOLET_REDDISH_HOVER } from "@app/styles/constans-color";
+import { TEXT_VIOLET_REDDISH_HOVER } from '@app/styles/constans-color';
 
 const CloseSidebarIcon = ({
-    className = ` ${TEXT_VIOLET_REDDISH_HOVER} text-[#135CDC] cursor-pointer`,
+    className = ` hover:text-[#5280DA] text-[#135CDC] cursor-pointer`,
     sizeStroke = 2,
     size = 24,
 }: {
@@ -20,7 +20,7 @@ const CloseSidebarIcon = ({
         strokeLinecap="round"
         strokeLinejoin="round"
         className={className}
-        style={{ filter: "drop-shadow(0px 1px 1px rgba(0,0,0,0))" }}
+        style={{ filter: 'drop-shadow(0px 1px 1px rgba(0,0,0,0))' }}
     >
         <rect width="18" height="18" x="3" y="3" rx="2" />
         <path d="M15 3v18" />

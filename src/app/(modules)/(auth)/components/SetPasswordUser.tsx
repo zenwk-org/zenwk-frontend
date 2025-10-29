@@ -19,6 +19,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import useRedirectRegister from '@auth/hooks/useRedirectRegister';
 import LoadButton from '@auth/components/LoadButton';
 import Spinner from '@app/shared/ui/Spinner';
+import InputText from '@user/ui/inputs/InputText';
+import Text from '@user/ui/user-feed/Text';
 
 /**
  * Interface que prepsenta los valores permitidos en la desestructuración.
@@ -112,6 +114,7 @@ const SetPasswordUser = React.memo(
             } catch (error: unknown) {
                 const errors = error as ClientErrorMessage;
                 setError('repassword', { message: errors.message });
+                setError('password', { message: '' });
                 setErrorPassword(true);
             } finally {
                 setBtnLoading(false);
@@ -120,22 +123,23 @@ const SetPasswordUser = React.memo(
 
         /** Componente JSX con el formulario para el reingreso de contraseña. */
         return (
-            <>
-                <CenteredHeaderWithBack
-                    onBack={() => errorPassword && router.push(`/`)}
-                    icon={handleIcon()}
-                >
-                    <Title title={title} />
-                </CenteredHeaderWithBack>
-                <div className="grid justify-center px-2">
-                    {!isResetPassword && (
-                        <HeaderText text={headerText} isCenter={false} />
-                    )}
+            <div className="mx-auto w-full max-w-[250px] place-items-center py-5 sm:max-w-[420px]">
+                <Text
+                    text={title}
+                    className="my-2 text-center text-black"
+                    sizeOffset={80}
+                />
+
+                <div className="mt-7 grid justify-items-center text-gray-500 sm:max-w-[420px]">
                     <form onSubmit={onSubmit}>
                         {!isResetPassword && <InputDisabled text={email} />}
 
-                        <FormInput
-                            label={
+                        <InputText
+                            sizeText={5}
+                            sizeTextInput={0}
+                            fullWidth={true}
+                            inputClass="h-full w-full rounded-lg px-6 py-2 border-[0.14rem] focus:outline-none"
+                            text={
                                 isResetPassword
                                     ? AuthMessages.login.resetPassword
                                           .newPassword
@@ -154,10 +158,14 @@ const SetPasswordUser = React.memo(
                             isError={Boolean(errors.password)}
                         >
                             <FormError error={errors.password?.message ?? ''} />
-                        </FormInput>
+                        </InputText>
 
-                        <FormInput
-                            label={
+                        <InputText
+                            sizeText={5}
+                            sizeTextInput={0}
+                            fullWidth={true}
+                            inputClass="h-full w-full rounded-lg px-6 py-2 border-[0.14rem] focus:outline-none"
+                            text={
                                 isResetPassword
                                     ? AuthMessages.login.resetPassword
                                           .newRePassword
@@ -176,10 +184,15 @@ const SetPasswordUser = React.memo(
                             <FormError
                                 error={errors.repassword?.message ?? ''}
                             />
-                        </FormInput>
+                        </InputText>
 
                         <LoadButton
                             loading={isBtnLoading}
+                            isError={Boolean(
+                                errors.password ||
+                                    errors.root ||
+                                    errors.repassword
+                            )}
                             textButton={buttonText}
                             textLoading={
                                 isResetPassword
@@ -189,7 +202,7 @@ const SetPasswordUser = React.memo(
                         />
                     </form>
                 </div>
-            </>
+            </div>
         );
     }
 );

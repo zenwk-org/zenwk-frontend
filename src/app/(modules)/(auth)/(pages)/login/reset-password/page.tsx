@@ -4,6 +4,7 @@ import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
 import { AuthMessages } from '@auth/constants/auth-messages';
 
 import SetPasswordUser from '@auth/components/SetPasswordUser';
+import AnimatedPage from '@auth/components/AnimatedPage';
 
 /**
  * Componente para el formulario de reingreso de contraseña en el registro del usuario.
@@ -37,20 +38,23 @@ const SetChangePassword = () => {
 
         if (result) {
             // Espera de 3 segundos
-            setTimeout(() => {
-                return router.push('/login');
-            }, 1000);
+            // setTimeout(() => {
+            //     return router.push('/login');
+            // }, 1000);
+            return router.push('/login');
         }
     };
     /** Componente JSX con el formulario para el reingreso de contraseña. */
     return (
-        <SetPasswordUser
-            isResetPassword={true}
-            title={AuthMessages.login.resetPassword.title}
-            headerText={AuthMessages.login.resetPassword.title}
-            buttonText={AuthMessages.buttons.saveContinue}
-            onSubmitPassword={changePassword}
-        />
+        <AnimatedPage>
+            <SetPasswordUser
+                isResetPassword={true}
+                title={AuthMessages.login.resetPassword.title}
+                headerText={AuthMessages.login.resetPassword.title}
+                buttonText={AuthMessages.buttons.saveContinue}
+                onSubmitPassword={changePassword}
+            />
+        </AnimatedPage>
     );
 };
 

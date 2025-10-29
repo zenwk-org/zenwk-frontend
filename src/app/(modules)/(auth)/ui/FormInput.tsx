@@ -2,9 +2,11 @@ import { forwardRef } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { usePasswordToggle } from '@app/shared/hooks/usePasswordToggle';
+import clsx from 'clsx';
 
 import Label from './Label';
 import Tooltip from '@app/shared/ui/Tooltip';
+import Text from '@user/ui/user-feed/Text';
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     label: string;
@@ -35,15 +37,20 @@ const FormInput = forwardRef<HTMLInputElement, Props>((props, ref) => {
 
     return (
         <div className="mb-3">
-            <Label text={label} />
+            <Text
+                text={label}
+                sizeOffset={5}
+                //className="mb-2 font-[350] text-[#D62727] sm:w-[400px] sm:w-[400px]"
+                className={`mb-2 sm:w-[400px] ${!isError ? 'text-gray-800' : 'text-[#D62727]'}`}
+            />
             <div className="relative h-9 w-full">
                 <input
                     className={`h-full w-full rounded-lg border p-2.5 ${
                         type === 'password' && 'pr-8'
-                    } placeholder:text-gray-400 sm:w-[400px] ${
+                    } sm:w-[400px] ${
                         isError
-                            ? 'border-red-500 bg-red-50 text-sm text-red-900 placeholder-red-700 focus:border-red-500 focus:ring-red-500'
-                            : 'border-gray-300 bg-gray-50 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500'
+                            ? 'border-[0.01rem] border-[#F76363] bg-red-50 text-sm text-[#D62727] placeholder:text-[#E67575]'
+                            : ':border-[0.1rem] border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-indigo-400 focus:ring-[3px] focus:ring-indigo-300/60 focus:ring-offset-1 focus:ring-offset-indigo-50'
                     }`}
                     type={getInputType()}
                     placeholder={placeholder}

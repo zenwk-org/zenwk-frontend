@@ -12,7 +12,7 @@ export const Messages = {
 
         // Texto genérico reutilizable
         literalTexts: {
-            here: " aquí",
+            here: " aquí.",
             confirmReturn: (errorMessage?: string) =>
                 `${errorMessage?.trim() || ""} ¿Desea volver al `,
             register: "registro?",
@@ -22,5 +22,6 @@ export const Messages = {
     placeholder: {
         // Ejemplo de email para usar como placeholder en formularios
         emailExample: "name@your-email.com",
+        password: "Ingresa tu contraseña",
     },
 };

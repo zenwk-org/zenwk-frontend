@@ -3,15 +3,18 @@
  */
 export const UserMessages = {
     welcome: {
-        title: "Hola, ",
+        title: "Hola ",
         subtitle:
-            ". Gracias por estar aquí. Que tu jornada transcurra con enfoque y serenidad.",
+            ", gracias por estar aquí. Que tu jornada transcurra con enfoque y serenidad.",
         completeRegister:
             "¡Completa tu registro, ya casi estás listo para empezar! ",
+
+        successMessage:
+            "Tus datos personales se han actualizado correctamente. ¡Gracias por mantener tu información al día!",
     },
     formComplete: {
-        age: { placeholder: "Edad... ", labelOption: "Edad" },
-        sex: { placeholder: "Sexo...", labelOption: "Sexo" },
+        age: { placeholder: "Seleccionar", labelOption: "Edad" },
+        sex: { placeholder: "Seleccionar", labelOption: "Sexo" },
         labels: {
             firstName: "Primer nombre",
             middleName: "Segundo nombre",
@@ -24,10 +27,10 @@ export const UserMessages = {
             dateOfBirth: "Fecha de nacimiento",
         },
         placeholder: {
-            firstName: "Primer nombre...",
-            middleName: "Segundo nombre...",
-            lastName: "Primer apellido...",
-            middleLastName: "Segundo apellido...",
+            firstName: "Primer nombre",
+            middleName: "Segundo nombre",
+            lastName: "Primer apellido",
+            middleLastName: "Segundo apellido",
             dateOfBirth: "No registrado",
         },
     },
@@ -43,6 +46,7 @@ export const UserMessages = {
     messageToolTip: {
         closeWindow: "Lo haré después",
         start: "inicio",
+        back: "Volver",
     },
     header: {
         userMenu: {
@@ -143,10 +147,10 @@ export const UserMessages = {
     },
     validation: {
         required: {
-            firstName: "Por favor, ingresa tu primer nombre.",
-            lastName: "Por favor, ingresa tu primer apellido.",
-            age: "Por favor, selecciona tu edad.",
-            sex: "Por favor, selecciona tu sexo.",
+            firstName: "Ingresa tu primer nombre.",
+            lastName: "Ingresa tu primer apellido.",
+            age: "Selecciona tu edad.",
+            sex: "Selecciona tu sexo.",
         },
         pattern: {
             name: "Solo se permiten letras y espacios.",

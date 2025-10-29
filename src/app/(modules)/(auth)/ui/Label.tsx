@@ -1,3 +1,5 @@
+import Text from '@user/ui/user-feed/Text';
+
 /**
  * Componente Label
  *
@@ -8,9 +10,11 @@
  */
 const Label = ({ text }: { text: React.ReactNode }) => {
     return (
-        <label className="mb-2 block font-light text-gray-700 sm:w-[400px] dark:text-gray-600">
-            {text}
-        </label>
+        <Text
+            text={text}
+            sizeOffset={5}
+            className="mb-2 text-gray-700 sm:w-[400px]"
+        />
     );
 };
 

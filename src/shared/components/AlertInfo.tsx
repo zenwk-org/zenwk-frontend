@@ -5,13 +5,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 type AlertProps = {
     children: React.ReactNode;
     duration?: number; // en segundos
+    position?: 'top' | 'bottom'; // posición flotante
 };
 
-const AlertInfo = ({ children, duration = 2 }: AlertProps) => {
+const AlertInfo = ({
+    children,
+    duration = 2,
+    position = 'top',
+}: AlertProps) => {
     const [visible, setVisible] = useState(true);
 
     useEffect(() => {
-        if (duration < 0.1) duration = 0.1; // evitar valores menores
+        if (duration < 0.1) duration = 0.1;
         const timer = setTimeout(() => setVisible(false), duration * 1000);
         return () => clearTimeout(timer);
     }, [duration]);
@@ -20,11 +25,35 @@ const AlertInfo = ({ children, duration = 2 }: AlertProps) => {
         <AnimatePresence>
             {visible && (
                 <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3 }}
-                    className=""
+                    initial={{
+                        opacity: 0,
+                        y: position === 'top' ? -25 : 25,
+                        scale: 0.97,
+                        filter: 'blur(6px)',
+                    }}
+                    animate={{
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        filter: 'blur(0px)',
+                        transition: {
+                            duration: 0.6,
+                            ease: [0.25, 0.1, 0.25, 1], // ease-in-out suave
+                        },
+                    }}
+                    exit={{
+                        opacity: 0,
+                        y: position === 'top' ? -20 : 20,
+                        scale: 0.96,
+                        filter: 'blur(4px)',
+                        transition: {
+                            duration: 1.2, // salida más lenta
+                            ease: [0.4, 0, 0.2, 1], // ease-out natural
+                        },
+                    }}
+                    className={`fixed left-1/2 z-50 max-w-[450px] min-w-[200px] -translate-x-1/2 rounded-xl bg-[#EBF9F0] px-5 py-3 text-center text-emerald-700 backdrop-blur-md ${
+                        position === 'top' ? 'top-4' : 'bottom-6'
+                    }`}
                 >
                     {children}
                 </motion.div>

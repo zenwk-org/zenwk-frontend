@@ -233,6 +233,7 @@ export const fetchValidateTokenApi = async (
 ) => {
     try {
         const path = "/verification/token/validate";
+
         const mergedOptions = getMergedOptions("POST", undefined, {
             code,
             email,
@@ -350,6 +351,7 @@ export const getUrlServer = (): string => {
  */
 export const fetchTokenCrsfApi = async (correo: string) => {
     const path = "/verification/csrf/token";
+
     try {
         const queryString = getQueryString(undefined);
         const mergedOptions = getMergedOptions("POST", undefined, {
@@ -357,6 +359,7 @@ export const fetchTokenCrsfApi = async (correo: string) => {
         });
 
         const requestUrl = `${getTokenUrl(getUrl(queryString, path))}`;
+
         // Registro del la cookie httpOnly
         await getFetch(requestUrl, mergedOptions);
     } catch (error: unknown) {

@@ -1,6 +1,12 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, {
+    Dispatch,
+    SetStateAction,
+    useState,
+    useRef,
+    useEffect,
+} from 'react';
 import { Camera, Save, Trash2 } from 'lucide-react';
 import { getInitials } from '@app/shared/utils/stringUtils';
 import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
@@ -11,7 +17,7 @@ import { UserMessages } from '@user/constants/user-messages';
 
 import Text from '@user/ui/user-feed/Text';
 import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
-import ProfileBotonForm from '@app/app/(modules)/user/components/profile/ProfileButtomForm';
+import ProfileBotonForm from '@user/components/profile/ProfileButtomForm';
 import Spinner from '@app/shared/ui/Spinner';
 
 interface FormValues {
@@ -28,7 +34,12 @@ interface FormValues {
  * @param param0
  * @returns
  */
-const ProfilePhotoSection = () => {
+const ProfilePhotoSection = ({
+    setLineLoadingFather,
+}: {
+    setLineLoadingFather?: Dispatch<SetStateAction<boolean>>;
+}) => {
+    //const ProfilePhotoSection = () => {
     const refLoadPhotoInput = useRef<HTMLInputElement | null>(null);
     const [lineLoading, setLineLoading] = useState(false);
     const [loadPhotoLoading, setLoadPhotoLoading] = useState(false);
@@ -65,7 +76,7 @@ const ProfilePhotoSection = () => {
     /**
      * Cargador hasta que la persona sea definida.
      */
-    if (!person) {
+    if (!person || !setLineLoadingFather) {
         return <Spinner />;
     }
 
@@ -89,7 +100,7 @@ const ProfilePhotoSection = () => {
     ) => {
         try {
             setLineLoading(true);
-
+            setLineLoadingFather(true);
             if (action === 'loadPhoto') {
                 setLoadPhotoLoading(true);
                 setActiveSavePhoto(true);
@@ -104,7 +115,7 @@ const ProfilePhotoSection = () => {
             throw error;
         } finally {
             setLineLoading(false);
-
+            setLineLoadingFather(false);
             if (action === 'loadPhoto') {
                 setLoadPhotoLoading(false);
             } else if (action === 'savePhoto') {
@@ -228,7 +239,7 @@ const ProfilePhotoSection = () => {
                     return prev;
                 }
                 const dataUpdate = { ...prev, profilePicture: undefined };
-                updateOrCreatePerson(dataUpdate, true, person.id);
+                updateOrCreatePerson(dataUpdate, undefined, true, person.id);
                 return dataUpdate;
             });
         } catch (error) {
@@ -240,7 +251,7 @@ const ProfilePhotoSection = () => {
     return (
         <>
             {/** Encabezado de la sección */}
-            <ProfileItemHeader lineLoading={lineLoading} />
+            {/* <ProfileItemHeader lineLoading={lineLoading} /> */}
 
             {/** Cuerpo de la sección */}
             <div className="grid items-center justify-items-center px-4 py-6">
@@ -254,14 +265,14 @@ const ProfilePhotoSection = () => {
                 <div className="flex items-center justify-items-center -space-x-4">
                     <div className="flex items-center justify-center -space-x-4">
                         <div
-                            className={`${photoProfile || profilePicture ? 'overflow-hidden' : 'grid items-center justify-items-center'} relative h-25 w-25 rounded-full border border-black bg-[#D5DDE2]`}
+                            className={`${photoProfile || profilePicture ? 'overflow-hidden' : 'grid items-center justify-items-center'} relative h-25 w-25 rounded-full border-[0.1rem] border-black bg-gray-300`}
                         >
                             {/* Texto por defecto */}
                             {!profilePicture && !preview ? (
                                 <Text
                                     text={getInitials(firstName, lastName)}
                                     sizeOffset={20}
-                                    className="font-[300] text-black"
+                                    className="text-black"
                                 />
                             ) : (
                                 !preview && (
@@ -308,9 +319,9 @@ const ProfilePhotoSection = () => {
                             icon={
                                 <Camera
                                     size={20}
-                                    strokeWidth={1.5}
+                                    strokeWidth={1.8}
                                     // className="text-[#0056B3]"
-                                    className="text-black"
+                                    className="text-indigo-600 hover:text-indigo-800"
                                 />
                             }
                             text={
@@ -336,10 +347,10 @@ const ProfilePhotoSection = () => {
                                     buttonLoading={savePhotoLoading}
                                     icon={
                                         <Save
-                                            size={16}
-                                            strokeWidth={1.5}
+                                            size={20}
+                                            strokeWidth={1.8}
                                             // className="text-[#0056B3]"
-                                            className="text-black"
+                                            className="text-indigo-600 hover:text-indigo-800"
                                         />
                                     }
                                     text={
@@ -366,10 +377,10 @@ const ProfilePhotoSection = () => {
                                     buttonLoading={deletePhotoLoading}
                                     icon={
                                         <Trash2
-                                            size={16}
-                                            strokeWidth={1.5}
+                                            size={20}
+                                            strokeWidth={1.8}
                                             // className="text-[#0056B3]"
-                                            className="text-black"
+                                            className="text-indigo-600 hover:text-indigo-800"
                                         />
                                     }
                                     text={

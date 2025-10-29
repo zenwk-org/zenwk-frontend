@@ -27,7 +27,7 @@ import BrainIcon from '@user/components/icons/BrainIcon'; // nuevo icono IA (deb
 export const sections = [
     {
         title: UserMessages.sidebar.options.myTime,
-        icon: <AlarmClockIcon sizeStroke={1.1} size={20} className="" />,
+        icon: <AlarmClockIcon sizeStroke={1.8} size={20} className="" />,
         links: [
             { href: '/', label: 'Iniciar registro' },
             { href: '/', label: 'Iniciar registro 2' },
@@ -36,19 +36,19 @@ export const sections = [
     },
     {
         title: UserMessages.sidebar.options.tasks,
-        icon: <CalendarCheckIcon sizeStroke={1.1} size={20} className="" />,
+        icon: <CalendarCheckIcon sizeStroke={1.8} size={20} className="" />,
         links: [],
         aiAction: 'Priorizar mis tareas con IA',
     },
     {
         title: UserMessages.sidebar.options.proyects,
-        icon: <FolderRootIcon sizeStroke={1.1} size={20} className="" />,
+        icon: <FolderRootIcon sizeStroke={1.8} size={20} className="" />,
         links: [],
         aiAction: 'Detectar riesgos del proyecto',
     },
     {
         title: UserMessages.sidebar.options.reports,
-        icon: <CurveIcon sizeStroke={1.1} size={20} className="" />,
+        icon: <CurveIcon sizeStroke={1.8} size={20} className="" />,
         links: [
             { href: '/', label: 'Iniciar registro' },
             { href: '/', label: 'Iniciar registro 2' },
@@ -102,14 +102,14 @@ const Sidebar = () => {
     return (
         <div ref={sidebarRef} className="">
             {/* Botón superior */}
-            <div className="m-[0.4rem] mx-4 h-fit w-full max-w-[50px] cursor-pointer rounded-lg bg-white shadow-[0_10px_14px_rgba(0,0,0,0.18)] select-none">
+            <div
+                onClick={onClickHandler}
+                className="group relative z-50 m-[0.4rem] mx-4 h-fit w-full max-w-[50px] cursor-pointer rounded-lg bg-yellow-50 shadow-[0_10px_14px_rgba(0,0,0,0.18)] select-none hover:text-[#5280DA]"
+            >
                 {hiddenSidebar ? (
-                    <div className="flex h-10 items-center justify-center px-4">
-                        <div
-                            className="group relative"
-                            onClick={onClickHandler}
-                        >
-                            <CloseSidebarIcon sizeStroke={1.1} size={25} />
+                    <div className="flex h-10 items-center justify-center px-4 hover:text-[#5280DA]">
+                        <div>
+                            <CloseSidebarIcon sizeStroke={1.3} size={28} />
                             <Tooltip position="right" hiddenArrow>
                                 Ocultar sidebar
                             </Tooltip>
@@ -117,11 +117,8 @@ const Sidebar = () => {
                     </div>
                 ) : (
                     <div className="flex h-10 items-center justify-center rounded-t-lg rounded-b-lg px-4 py-1">
-                        <div
-                            className="group relative"
-                            onClick={onClickHandler}
-                        >
-                            <SidebarIcon sizeStroke={0.2} size={25} />
+                        <div>
+                            <SidebarIcon sizeStroke={0.3} size={29} />
                             <Tooltip position="right" hiddenArrow>
                                 Abrir sidebar
                             </Tooltip>
@@ -130,9 +127,9 @@ const Sidebar = () => {
                 )}
             </div>
 
-            {/* Contenido con animación */}
+            {/* Contenido con animación. absolute z-50: suporpone / flotante */}
             <div
-                className={`mx-4 h-fit origin-top-left transform-gpu rounded-lg border-0 border-gray-300 bg-white shadow-[0_10px_14px_rgba(0,0,0,0.18)] transition-transform duration-200 ease-in-out select-none ${
+                className={`absolute z-50 mx-4 h-fit origin-top-left transform-gpu rounded-lg border-0 border-gray-300 bg-white shadow-[0_10px_14px_rgba(0,0,0,0.18)] transition-transform duration-200 ease-in-out select-none ${
                     hiddenSidebar
                         ? 'scale-100 opacity-100'
                         : 'scale-0 overflow-hidden opacity-0'
@@ -143,23 +140,24 @@ const Sidebar = () => {
                         const isOpen = openSections.includes(idx);
 
                         return (
-                            <div key={idx}>
+                            <div key={idx} className="w-full max-w-[250px]">
                                 {/* Título */}
                                 <Text
-                                    sizeOffset={-1}
+                                    sizeOffset={3}
+                                    className={`font-[410] tracking-tighter ${
+                                        isOpen
+                                            ? 'text-[#2D64D2]'
+                                            : 'text-gray-600'
+                                    } hover:text-[#5280DA]`}
                                     text={
                                         <div
                                             onClick={() => toggleSection(idx)}
-                                            className={`group relative flex cursor-pointer items-center px-4 py-3 hover:bg-gray-50 ${
-                                                isOpen && 'bg-gray-50'
+                                            className={`group relative flex w-full cursor-pointer items-center px-4 py-3 hover:bg-gray-100 ${
+                                                isOpen && 'bg-gray-100'
                                             } ${idx == 0 ? 'hover: rounded-t-lg' : idx === sections.length - 1 && !isOpen && 'hover: rounded-b-lg'}`}
                                         >
                                             <div
-                                                className={`mr-2 flex items-center gap-2 font-[340] tracking-tighter ${
-                                                    isOpen
-                                                        ? TEXT_VIOLET_REDDISH_BOLD
-                                                        : TEXT_CYAN_COLOR
-                                                } ${TEXT_VIOLET_REDDISH_BOLD_HOVER}`}
+                                                className={`mr-2 flex w-full items-center gap-2 group-hover:text-[#5280DA]`}
                                             >
                                                 {section.icon}
                                                 {section.title}
@@ -167,14 +165,14 @@ const Sidebar = () => {
 
                                             {section.links.length > 0 && (
                                                 <ChevronRightIcon
-                                                    className={`ml-auto transition-transform duration-200 ${
+                                                    className={`ml-auto transition-transform duration-200 group-hover:text-[#5280DA] ${
                                                         isOpen
                                                             ? 'rotate-90 ' +
-                                                              TEXT_VIOLET_REDDISH_BOLD
-                                                            : TEXT_CYAN_COLOR
+                                                              'text-[#2D64D2]'
+                                                            : 'text-gray-600'
                                                     }`}
                                                     size={18}
-                                                    sizeStroke={1.3}
+                                                    sizeStroke={2}
                                                 />
                                             )}
 
@@ -199,9 +197,12 @@ const Sidebar = () => {
                                                 {/* Aplicar si se quita botón de I.A ${idx === sections.length - 1 && i === section.links.length - 1 && "hover:rounded-b-lg"} */}
                                                 <Link
                                                     href={link.href}
-                                                    className="block w-full px-4 py-2 text-xs text-gray-600 transition-colors hover:bg-gray-100"
+                                                    className="block w-full px-4 py-2 text-gray-600 transition-colors hover:bg-gray-100"
                                                 >
-                                                    {link.label}
+                                                    <Text
+                                                        text={link.label}
+                                                        sizeOffset={0}
+                                                    />
                                                 </Link>
                                             </li>
                                         ))}

@@ -13,7 +13,7 @@ interface Props {
 const FormError = ({ error }: Props) => {
     return (
         <>
-            <div className="mt-1 mb-2 w-full text-sm text-red-600 sm:w-[400px] dark:text-red-500">
+            <div className="mt-1 mb-2 w-full text-sm text-[#E1564C] sm:w-[400px] dark:text-[#E1564C]">
                 <span className="font-stretch-normal">{error}</span>
             </div>
         </>

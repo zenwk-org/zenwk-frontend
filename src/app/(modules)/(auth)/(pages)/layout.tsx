@@ -1,23 +1,42 @@
-import Footer from "@app/shared/ui/Footer";
-import Header from "@app/shared/ui/Header";
+'use client';
+import Footer from '@app/shared/ui/Footer';
+import Header from '@app/shared/ui/Header';
+import { useState, useEffect } from 'react';
 
 /**
  * Layout general para las páginas de autenticación.
- * Envuelve el contenido con el proveedor de flujo de registro (`RegisterFlowProvider`)
- * y renderiza el encabezado (`Header`), el contenido (`children`) y el pie de página (`Footer`).
+ * Incluye transición suave de aparición sin provocar scroll
+ * incluso en pantallas grandes.
  */
 export default function AuthLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => setVisible(true), 50);
+        return () => clearTimeout(timeout);
+    }, []);
+
     return (
-        <div className="flex min-h-screen flex-col bg-gray-100">
+        <div className="flex h-screen flex-col overflow-hidden bg-white">
             <Header />
-            <main className="flex flex-1 items-start justify-center px-4 pt-15">
-                {/* Contenido centrado vertical y horizontal */}
-                <div className="w-full max-w-[860px]">{children}</div>
-            </main>
+
+            {/* Contenedor central animado sin afectar el alto del layout */}
+            <div className="relative flex flex-1 items-center justify-center">
+                <div
+                    className={`absolute inset-0 flex items-center justify-center transition-all duration-700 ease-in-out ${
+                        visible
+                            ? 'translate-y-0 opacity-100'
+                            : 'translate-y-[10px] opacity-0'
+                    }`}
+                >
+                    <div className="w-full max-w-[860px]">{children}</div>
+                </div>
+            </div>
+
             <Footer />
         </div>
     );

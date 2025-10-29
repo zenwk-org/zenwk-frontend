@@ -16,7 +16,7 @@ interface Props {
 const UserProfilePhoto = ({ profilePicture, isOpenMenu }: Props) => {
     return profilePicture ? (
         <Image
-            className={`${isOpenMenu ? 'h-9 w-9' : 'h-7 w-7'} rounded-full object-cover`}
+            className={`h-9 w-9 rounded-full border-[0.094rem] border-black object-cover`}
             src={`data:image/jpeg;base64,${profilePicture}`}
             width={33}
             height={33}
@@ -24,9 +24,13 @@ const UserProfilePhoto = ({ profilePicture, isOpenMenu }: Props) => {
         />
     ) : (
         <div
-            className={`flex items-center justify-center rounded-full border-[0.093rem] border-cyan-800 ${isOpenMenu ? 'h-7 w-7 bg-[#758E9F] text-white' : 'h-6.5 w-6.5 ' + TEXT_CYAN_COLOR + ' ' + BG_CYAN_HOVER + ' hover:text-white'} `}
+            className={`flex h-8 w-8 items-center justify-center rounded-full border-[0.094rem] border-gray-800 hover:border-[#1D4087] ${isOpenMenu ? 'bg-gray-50' : 'hover:bg-50'} `}
         >
-            <User size={20} strokeWidth={1.2} />
+            <User
+                size={25}
+                strokeWidth={1.3}
+                className="text-black hover:text-[#1D4087]"
+            />
         </div>
     );
 };

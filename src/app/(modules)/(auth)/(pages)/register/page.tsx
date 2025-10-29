@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { formValidate } from '@app/shared/utils/formValidate';
@@ -9,6 +9,7 @@ import {
 } from '@app/helpers/fetch-api';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { Messages } from '@app/shared/constants/messages';
+import { UserMessages } from '@user/constants/user-messages';
 
 import HeaderText from '@app/app/(modules)/(auth)/ui/HeaderText';
 import Title from '@app/app/(modules)/(auth)/ui/Title';
@@ -17,6 +18,12 @@ import FormError from '@app/shared/ui/FormError';
 import CenteredHeaderWithBack from '@auth/components/CenteredHeaderWithBack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LoadButton from '@auth/components/LoadButton';
+import Tooltip from '@app/shared/ui/Tooltip';
+import Text from '@user/ui/user-feed/Text';
+import InputText from '@user/ui/inputs/InputText';
+import HeaderAction from '@auth/components/HeaderAction';
+import AnimatedPage from '@auth/components/AnimatedPage';
+import AlertInfo from '@app/shared/components/AlertInfo';
 
 /**
  * Registro del usuario, renderiza la pantalla para la gestión del OTP.
@@ -26,6 +33,8 @@ const Register = () => {
     const searchParams = useSearchParams();
     const email = searchParams.get('email') as string;
     const [loading, setLoading] = useState(false);
+    const [existUser, setExistUser] = useState(false);
+    const [countdown, setCountdown] = useState(3);
 
     // Hook para navegación programática
     const router = useRouter();
@@ -52,23 +61,38 @@ const Register = () => {
             const validateEmail = await fetchValidateRegisterEmail(data.email);
             if (!validateEmail) {
                 const result = await fetchTokenApi(data.email);
-                console.log(result);
+                // console.log(result);
                 if (result) {
+                    setLoading(false);
                     return router.push(
                         `/register/opt?email=${encodeURIComponent(result.email)}&uuid=${encodeURIComponent(result.uuid)}`
                     );
                 }
             } else {
-                return router.push(
-                    `/login?email=${encodeURIComponent(data.email)}`
-                );
+                setExistUser(true);
+                let seconds = 3;
+                setCountdown(seconds);
+
+                const interval = setInterval(() => {
+                    seconds -= 1;
+                    setCountdown(seconds);
+
+                    if (seconds <= 0) {
+                        clearInterval(interval);
+                        // Redirige al inicio de sesión
+                        setExistUser(false);
+                        setLoading(false);
+                        router.push(
+                            `/login?email=${encodeURIComponent(data.email)}`
+                        );
+                    }
+                }, 1000);
             }
         } catch (error: unknown) {
             // Captura y muestra el error en el campo email
             const errorMessage = error as string;
             setError('email', { message: errorMessage || 'Error unknown...' });
         } finally {
-            setLoading(false);
         }
     });
 
@@ -83,47 +107,76 @@ const Register = () => {
         return router.push('/login');
     };
     return (
-        <>
-            <CenteredHeaderWithBack
-                onBack={handleOnBack}
-                icon={
-                    <ArrowBackIcon className="mb-2 inline cursor-pointer text-cyan-600 hover:text-cyan-900" />
-                }
-            >
-                {/* Renderiza encabezado según si viene de login o no */}
-                {!email && <Title title={AuthMessages.register.title} />}
-                {email && (
-                    <>
-                        <Title title={AuthMessages.register.subtitle} />
-                    </>
+        <AnimatedPage>
+            <div className="mx-auto w-full max-w-[250px] place-items-center py-5 select-none sm:max-w-[420px]">
+                <HeaderAction
+                    title={
+                        !email
+                            ? AuthMessages.register.title
+                            : AuthMessages.register.subtitle
+                    }
+                    message={AuthMessages.register.welcome}
+                    onAction={handleOnBack}
+                    tooltipText={UserMessages.messageToolTip.back}
+                    icon={
+                        <ArrowBackIcon
+                            sx={{ fontSize: '0.9rem' }}
+                            className="inline cursor-pointer text-[0.01rem] text-black"
+                        />
+                    }
+                />{' '}
+                {/* Notificación */}
+                {existUser && (
+                    <AlertInfo duration={5}>
+                        <Text
+                            sizeOffset={15}
+                            text={
+                                <>
+                                    {AuthMessages.otp.emailExist}
+                                    <p className="">
+                                        {`Te redirigiremos al inicio de sesión en `}
+                                        <label className="font-[500]">{`${countdown} s...`}</label>
+                                    </p>
+                                </>
+                            }
+                            className="my-3 rounded-lg bg-[#EBF9F0] p-1 text-center text-emerald-800"
+                        />
+                    </AlertInfo>
                 )}
-            </CenteredHeaderWithBack>
-            <HeaderText text={AuthMessages.register.welcome} />
+                {/* Formulario de ingreso de correo */}
+                <div className="grid justify-items-center text-gray-500 sm:max-w-[420px]">
+                    <form onSubmit={onSubmit}>
+                        <InputText
+                            type="root"
+                            text={AuthMessages.inputs.email}
+                            sizeText={5}
+                            sizeTextInput={0}
+                            inputClass="h-full w-full rounded-lg px-6 py-2 border-[0.14rem] focus:outline-none"
+                            fullWidth={true}
+                            placeholder={Messages.placeholder.emailExample}
+                            {...register('email', {
+                                required: requiredEmail,
+                                pattern: patternEmail,
+                                value: email && email,
+                            })}
+                            isError={Boolean(errors.email || errors.root)}
+                        >
+                            <FormError error={errors.email?.message ?? ''} />
+                        </InputText>
 
-            {/* Formulario de ingreso de correo */}
-            <div className="grid justify-items-center px-2">
-                <form onSubmit={onSubmit}>
-                    <FormInput
-                        type="root"
-                        label={AuthMessages.inputs.email}
-                        placeholder={Messages.placeholder.emailExample}
-                        {...register('email', {
-                            required: requiredEmail,
-                            pattern: patternEmail,
-                            value: email && email,
-                        })}
-                        isError={Boolean(errors.email || errors.root)}
-                    >
-                        <FormError error={errors.email?.message ?? ''} />
-                    </FormInput>
-
-                    <LoadButton
-                        loading={loading}
-                        textButton={AuthMessages.buttons.registerWithEmail}
-                    />
-                </form>
+                        <LoadButton
+                            isError={Boolean(errors.email || errors.root)}
+                            loading={loading}
+                            textButton={
+                                existUser
+                                    ? 'Redirigiendo a inicio de sesión'
+                                    : AuthMessages.buttons.registerWithEmail
+                            }
+                        />
+                    </form>
+                </div>
             </div>
-        </>
+        </AnimatedPage>
     );
 };
 

@@ -4,19 +4,21 @@ import React, { useState } from 'react';
 import Spinner from '@app/shared/ui/Spinner';
 import Title from '@user/ui/user-feed/Title';
 import ProfileItemConfiguration from '@user/components/profile/ProfileItemConfiguration';
-import PersonalInfoSection from '@app/app/(modules)/user/ui/profile/PersonalInfoSection';
-import ProfilePhotoSection from '@user/ui/profile/ProfilePhotoSection';
-import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
+import UpdateEmailSection from '@user/ui/profile/UpdateEmailSection';
+import UpdatePasswordSection from '@user/ui/profile/UpdatePasswordSection';
+import DeleteAccount from '@user/ui/profile/DeleteAccount';
+import Text from '@user/ui/user-feed/Text';
 
 import { UserMessages } from '@user/constants/user-messages';
 import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
 import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
 import AnimatedPage from '@auth/components/AnimatedPage';
+import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
 
 /**
  * Componente principal para la configuración del perfil
  */
-const ProfileConfiguration = () => {
+const SettingsAccount = () => {
     // Controlar secciones abiertas en el acordeón "Configuración de Perfil".
     const [activeSection, setActiveSection] = useState<
         | 'updateInfoBasic'
@@ -64,68 +66,86 @@ const ProfileConfiguration = () => {
                     <div className="w-full py-5 text-justify">
                         <ul>
                             {/** Sección: imagen */}
-                            <ProfileItemConfiguration
-                                text={
-                                    UserMessages.profileConfiguration.sections
-                                        .updatePhotoProfile.title
-                                }
-                                description={
-                                    UserMessages.profileConfiguration.sections
-                                        .updatePhotoProfile.description
-                                }
-                                isActive={
-                                    activeSection === 'updatePhotoProfile'
-                                }
-                                setClickOption={() =>
-                                    setActiveSection(
-                                        activeSection === 'updatePhotoProfile'
-                                            ? null
-                                            : 'updatePhotoProfile'
-                                    )
-                                }
-                            >
-                                {activeSection === 'updatePhotoProfile' &&
-                                    person && (
-                                        <div className="rounded-2xl bg-yellow-50">
-                                            <ProfilePhotoSection
-                                                setLineLoadingFather={
-                                                    setLineLoading
-                                                }
-                                            />
-                                        </div>
-                                    )}
-                            </ProfileItemConfiguration>
 
                             {/** Sección: información personal */}
+
+                            {/** Sección: Actualizar email */}
                             <ProfileItemConfiguration
                                 text={
-                                    UserMessages.profileConfiguration.sections
-                                        .personalInfo.title
+                                    <div className="flex items-center gap-2">
+                                        {
+                                            UserMessages.profileConfiguration
+                                                .sections.updateEmail.title
+                                        }
+                                        <Text
+                                            text={
+                                                UserMessages
+                                                    .profileConfiguration
+                                                    .sections.updateEmail.badge
+                                            }
+                                            className="rounded-lg bg-indigo-100 px-[0.3rem]"
+                                        />
+                                    </div>
                                 }
-                                description={
-                                    UserMessages.profileConfiguration.sections
-                                        .personalInfo.description
-                                }
-                                isActive={activeSection === 'updateInfoBasic'}
+                                description={UserMessages.profileConfiguration.sections.updateEmail.description(
+                                    userDTO.email
+                                )}
+                                isActive={activeSection === 'updateEmail'}
                                 setClickOption={() =>
                                     setActiveSection(
-                                        activeSection === 'updateInfoBasic'
+                                        activeSection === 'updateEmail'
                                             ? null
-                                            : 'updateInfoBasic'
+                                            : 'updateEmail'
                                     )
                                 }
                             >
-                                {activeSection === 'updateInfoBasic' &&
-                                    person && (
-                                        <div>
-                                            <PersonalInfoSection
-                                                loadingLineClick={
-                                                    loadingLineClick
-                                                }
-                                                setLineLoading={setLineLoading}
-                                            />
-                                        </div>
-                                    )}
+                                {activeSection === 'updateEmail' && (
+                                    <UpdateEmailSection userDTO={userDTO} />
+                                )}
+                            </ProfileItemConfiguration>
+
+                            {/** Sección: Cambiar contraseña */}
+                            <ProfileItemConfiguration
+                                text={
+                                    UserMessages.profileConfiguration.sections
+                                        .updatePassword.title
+                                }
+                                isActive={activeSection === 'updatePassword'}
+                                setClickOption={() =>
+                                    setActiveSection(
+                                        activeSection === 'updatePassword'
+                                            ? null
+                                            : 'updatePassword'
+                                    )
+                                }
+                            >
+                                {activeSection === 'updatePassword' && (
+                                    <UpdatePasswordSection />
+                                )}
+                            </ProfileItemConfiguration>
+
+                            {/** Sección: Eliminar cuenta */}
+                            <ProfileItemConfiguration
+                                text={
+                                    UserMessages.profileConfiguration.sections
+                                        .deleteAccount.title
+                                }
+                                description={
+                                    UserMessages.profileConfiguration.sections
+                                        .deleteAccount.description
+                                }
+                                isActive={activeSection === 'deleteAccount'}
+                                setClickOption={() =>
+                                    setActiveSection(
+                                        activeSection === 'deleteAccount'
+                                            ? null
+                                            : 'deleteAccount'
+                                    )
+                                }
+                            >
+                                {activeSection === 'deleteAccount' && (
+                                    <DeleteAccount />
+                                )}
                             </ProfileItemConfiguration>
                         </ul>
                     </div>
@@ -135,4 +155,4 @@ const ProfileConfiguration = () => {
     );
 };
 
-export default ProfileConfiguration;
+export default SettingsAccount;

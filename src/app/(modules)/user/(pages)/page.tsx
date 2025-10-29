@@ -1,11 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { UserMessages } from '../constants/user-messages';
 import { UserStateEnum } from '@app/app/(modules)/user/types/user-dto';
-import {
-    TEXT_CYAN_COLOR,
-    TEXT_VIOLET_REDDISH,
-} from '@app/styles/constans-color';
+import { BLUE_LOGO, TEXT_VIOLET_REDDISH } from '@app/styles/constans-color';
 import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
 import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
 
@@ -13,6 +10,9 @@ import Title from '@user/ui/user-feed/Title';
 import CompleteRegisterForm from '@user/ui/forms/CompleteRegisterForm';
 import Text from '@user/ui/user-feed/Text';
 import AlertInfo from '@app/shared/components/AlertInfo';
+import AnimatedPage from '@auth/components/AnimatedPage';
+import HeaderAction from '@auth/components/HeaderAction';
+import { motion } from 'framer-motion';
 
 /** Componente encargado de consultar el usuario con los datos envidados después del login.
  * Si el jwt ha esxpirado retorna a la pagina del login.
@@ -21,65 +21,93 @@ const WelcomeUser = () => {
     const [isCreatePerson, setIsCreatePerson] = useState(false);
     const { person } = usePersonContext();
     const { userDTO } = useUserContext();
+    const [position, setPosition] = useState<'start' | 'center' | 'end'>(
+        'center'
+    );
+
+    useEffect(() => {
+        if (person?.firstName && person?.lastName) {
+            setPosition('start');
+
+            if (isCreatePerson) {
+                const timer = setTimeout(() => {
+                    setIsCreatePerson(false);
+                }, 4 * 1000); // Espera 4 segundos
+
+                return () => clearTimeout(timer);
+            }
+        }
+    }, [person, isCreatePerson, setPosition]);
 
     /**
      * Componente JSX con la pagina del usuario
      */
     return (
-        <div className="mx-auto grid max-w-lg select-none">
-            <Title
-                sizeOffset={0}
-                text={
-                    <div
-                        className={`mb-5 inline-block text-center ${TEXT_CYAN_COLOR} font-[300] tracking-tight`}
-                    >
-                        {UserMessages.welcome.title}
-                        <label className="font-medium">
-                            {person?.firstName}
-                        </label>
-                        {UserMessages.welcome.subtitle}
-                    </div>
-                }
-            />
-
-            {/** Formulario para completar los datos personales */}
+        <AnimatedPage align={position}>
             <div className="">
-                {!isCreatePerson &&
-                    userDTO != undefined &&
-                    userDTO.state === UserStateEnum.INCOMPLETE_PERFIL && (
-                        <div className="mx-auto max-w-lg place-items-center rounded-xl bg-white px-5 py-5 shadow-2xs">
-                            <article className="mb-4 px-12">
-                                <Title
-                                    sizeOffset={-5}
-                                    text={UserMessages.welcome.completeRegister}
-                                    className={`text-center font-[370] text-cyan-800`}
-                                />
-                                <CompleteRegisterForm
-                                    setIsCreatePerson={setIsCreatePerson}
-                                    // user={userData}
-                                />
-                            </article>
-                        </div>
-                    )}
+                {/* Solo se muestra ese mensaje cuando la persona esta creada */}
 
-                {isCreatePerson && (
-                    <AlertInfo duration={3}>
+                {!isCreatePerson && person?.firstName && person?.lastName && (
+                    <motion.div
+                        className="mt-5 flex w-full flex-col items-center justify-start"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: 'easeOut' }}
+                    >
                         <Text
-                            sizeOffset={4}
+                            sizeOffset={15}
                             text={
                                 <div
-                                    className={`font-[350] ${TEXT_VIOLET_REDDISH} rounded-xl bg-white p-5 text-center shadow-xl`}
+                                    className={`rounded-x w-full rounded-2xl p-5 text-center font-[375] text-gray-600 shadow`}
                                 >
-                                    {
-                                        'Tus datos personales se han actualizado correctamente. ¡Gracias por mantener tu información al día!'
-                                    }
+                                    {UserMessages.welcome.title}
+                                    <label className="font-[400] text-[#5280DA]">
+                                        {person?.firstName}
+                                    </label>
+                                    {UserMessages.welcome.subtitle}
                                 </div>
                             }
                         />
-                    </AlertInfo>
+                    </motion.div>
                 )}
+
+                {/** Formulario para completar los datos personales */}
+                <div className="mx-auto flex w-full max-w-[250px] items-center py-5 select-none sm:max-w-[500px]">
+                    {!isCreatePerson &&
+                        userDTO != undefined &&
+                        userDTO.state === UserStateEnum.INCOMPLETE_PERFIL && (
+                            <div className="flex items-center justify-center">
+                                <article className="mb-4 px-12">
+                                    <HeaderAction
+                                        title={
+                                            UserMessages.welcome
+                                                .completeRegister
+                                        }
+                                    />
+                                    <p className="mb-7" />
+                                    <CompleteRegisterForm
+                                        setIsCreatePerson={setIsCreatePerson}
+                                    />
+                                </article>
+                            </div>
+                        )}
+
+                    {/* Notificacion isCreatePerson*/}
+                    {isCreatePerson && (
+                        <AlertInfo duration={3}>
+                            <Text
+                                sizeOffset={20}
+                                text={
+                                    <div className="my-3 rounded-lg bg-[#EBF9F0] p-1 text-center font-[330] text-emerald-800">
+                                        {UserMessages.welcome.successMessage}
+                                    </div>
+                                }
+                            />
+                        </AlertInfo>
+                    )}
+                </div>
             </div>
-        </div>
+        </AnimatedPage>
     );
 };
 

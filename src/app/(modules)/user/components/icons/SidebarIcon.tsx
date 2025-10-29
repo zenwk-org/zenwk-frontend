@@ -1,7 +1,7 @@
-import { CYAN_CUSTOM_COLOR } from "@app/styles/constans-color";
+import { CYAN_CUSTOM_COLOR } from '@app/styles/constans-color';
 
 const SidebarIcon = ({
-    className = "hover:fill-[#C470A0] fill-[#135CDC] cursor-pointer",
+    className = 'hover:fill-[#5280DA] fill-[#135CDC] cursor-pointer',
     sizeStroke = 0.1,
     size = 24,
 }: {
@@ -14,7 +14,7 @@ const SidebarIcon = ({
         width={size}
         height={size}
         viewBox="0 0 24 24"
-        style={{ filter: "drop-shadow(0px 1px 1px rgba(0,0,0,0))" }}
+        style={{ filter: 'drop-shadow(0px 1px 1px rgba(0,0,0,0))' }}
         className={className}
         fill={CYAN_CUSTOM_COLOR}
         stroke={CYAN_CUSTOM_COLOR}

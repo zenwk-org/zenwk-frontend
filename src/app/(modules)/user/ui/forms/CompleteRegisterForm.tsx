@@ -53,7 +53,7 @@ const CompleteRegisterForm = ({
     const [errorBack, setErrorBack] = useState('');
     const [isBtnLoading, setBtnLoading] = useState(false);
     const { person, setPerson } = usePersonContext();
-    const { userDTO } = useUserContext();
+    const { userDTO, setUserDTO } = useUserContext();
 
     /**
      * Formulario principal
@@ -123,6 +123,17 @@ const CompleteRegisterForm = ({
                         undefined,
                         'POST'
                     );
+                    // Actualizar usuario en contexto
+                    const pathUserMe = '/users/me';
+                    const userData = await fetchJwtBaseApi(
+                        pathUserMe,
+                        undefined,
+                        undefined,
+                        undefined,
+                        'GET'
+                    );
+                    setUserDTO(userData);
+
                     const id = getPathId(response);
                     setPerson(await getPerson(Number(id)));
                     setIsCreatePerson?.(true);
@@ -144,13 +155,6 @@ const CompleteRegisterForm = ({
             onSubmit={onSubmit}
             errorBack={errorBack}
             isBtnLoading={isBtnLoading}
-            requiredLastName={requiredLastName}
-            requiredAge={requiredAge}
-            requiredSex={requiredSex}
-            minLengthName={minLengthName}
-            maxLengthName={maxLengthName}
-            patternName={patternName}
-            validateTrim={validateTrim}
             editDataBasic={editDataBasic}
             setEditDataBasic={setEditDataBasic}
             loadingLineClick={loadingLineClick}

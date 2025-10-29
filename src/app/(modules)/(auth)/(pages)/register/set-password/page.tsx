@@ -6,6 +6,8 @@ import { AuthMessages } from '@auth/constants/auth-messages';
 import { useRouter } from 'next/navigation';
 import { loginApi } from '@auth/utils/authUtils';
 
+import AnimatedPage from '@auth/components/AnimatedPage';
+
 /**
  * Componente para el formulario de reingreso de contraseña en el registro del usuario,
  * si la contraseña es valida consume el api de creación de usuario.
@@ -41,7 +43,7 @@ const SetPasswordRegister = () => {
                 const res = await loginApi(email, password);
                 if (res) {
                     // Pausa para mejorar la interacción con el usuario
-                    await new Promise((resolve) => setTimeout(resolve, 500));
+                    // await new Promise((resolve) => setTimeout(resolve, 500));
                     router.push('/user');
                 }
             }
@@ -51,12 +53,14 @@ const SetPasswordRegister = () => {
     };
     /** Componente JSX con el formulario para el reingreso de contraseña. */
     return (
-        <SetPasswordUser
-            title={AuthMessages.register.enterPassword}
-            headerText={AuthMessages.setPassword.title}
-            buttonText={AuthMessages.register.linkText}
-            onSubmitPassword={createRegister}
-        />
+        <AnimatedPage>
+            <SetPasswordUser
+                title={AuthMessages.register.enterPassword}
+                headerText={AuthMessages.setPassword.title}
+                buttonText={AuthMessages.register.linkText}
+                onSubmitPassword={createRegister}
+            />
+        </AnimatedPage>
     );
 };
 

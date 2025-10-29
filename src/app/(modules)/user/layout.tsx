@@ -14,26 +14,21 @@ import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext
 import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
 import { getPerson } from '@user/utils/personUtils';
 
-/**
- * Layout para los pages de user
- * @param param0
- * @returns
- */
 export default function UserLayout({
     children,
+    alignTop,
 }: {
     children: React.ReactNode;
     isSidebarExpanded: boolean;
+    alignTop?: boolean;
 }) {
     const { sidebarWidth } = useSidebarContext();
     const router = useRouter();
     const [authorized, setAuthorized] = useState<boolean | null>(null);
     const { setUserDTO } = useUserContext();
     const { setPerson } = usePersonContext();
+    const [visible, setVisible] = useState(false);
 
-    /**
-     * useEffect que redirige a login  si no existe sesión activa.
-     */
     useEffect(() => {
         const loadUser = async () => {
             try {
@@ -51,55 +46,65 @@ export default function UserLayout({
                     setPerson(personaData);
                 }
                 setAuthorized(true);
-            } catch (error) {
+            } catch {
                 router.push('/login');
                 setUserDTO(undefined);
             }
         };
-
         loadUser();
     }, []);
 
-    /**
-     * Bloquea scroll mientras está cargando autorización.
-     * Evita warning generado en el navegador.
-     */
     useEffect(() => {
         if (authorized === null) {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = '';
         }
-
         return () => {
             document.body.style.overflow = '';
         };
     }, [authorized, router]);
 
-    /**
-     * Cargador.
-     */
-    if (authorized === null || !authorized) {
-        return <Spinner />;
+    useEffect(() => {
+        const timeout = setTimeout(() => setVisible(true), 50);
+        return () => clearTimeout(timeout);
+    }, []);
+
+    if (authorized === null) {
+        return (
+            <div className="flex min-h-screen items-center justify-center bg-white">
+                <Spinner />
+            </div>
+        );
+    }
+
+    if (!authorized) {
+        router.push('/login');
+        return null;
     }
 
     return (
         <SexOptionsContextProvider>
-            <div className="flex min-h-screen flex-col bg-gray-100">
-                {/* Encabezado */}
+            <div className="flex min-h-[100dvh] flex-col overflow-hidden">
                 <HeaderMenu />
 
-                {/* Contenido con sidebar */}
-                <main className="flex flex-1">
+                <main className="flex flex-1 overflow-hidden">
                     <Sidebar />
 
-                    <div className="flex-1 gap-6 px-4 py-10 transition-all duration-400 ease-in-out sm:px-6 md:px-8">
-                        <div>{children}</div>
+                    <div
+                        className={`flex flex-1 flex-col transition-all duration-700 ease-in-out ${
+                            visible
+                                ? 'translate-y-0 opacity-100'
+                                : 'translate-y-[6px] opacity-0'
+                        }`}
+                    >
+                        <div className="box-border flex-1 overflow-y-auto px-4 py-6 sm:px-6 md:px-8">
+                            {children}
+                        </div>
                     </div>
                 </main>
 
-                {/* Pie de página */}
-                <Footer style={{ marginLeft: `${sidebarWidth}px` }} />
+                <Footer />
             </div>
         </SexOptionsContextProvider>
     );

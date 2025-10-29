@@ -15,6 +15,7 @@ import {
     getUrlServer,
     fetchVerifcation,
 } from '@app/helpers/fetch-api';
+import { UserMessages } from '@user/constants/user-messages';
 
 import FormInput from '@app/app/(modules)/(auth)/ui/FormInput';
 import HeaderText from '@app/app/(modules)/(auth)/ui/HeaderText';
@@ -28,6 +29,11 @@ import CenteredHeaderWithBack from '@auth/components/CenteredHeaderWithBack';
 import GeneralPageInfo from '@app/shared/ui/GeneralPageInfo';
 import LoadButton from '@auth/components/LoadButton';
 import Spinner from '@app/shared/ui/Spinner';
+import Tooltip from '@app/shared/ui/Tooltip';
+import Text from '@user/ui/user-feed/Text';
+import InputText from '@user/ui/inputs/InputText';
+import HeaderAction from '@auth/components/HeaderAction';
+import AnimatedPage from '@auth/components/AnimatedPage';
 
 /**
  * Página ForgotPassword: permite ingresar el email para recuperar contraseña.
@@ -112,6 +118,7 @@ const ForgotPassword = () => {
             setError('email', { message: errorApi.message });
         } finally {
             setLoading(false);
+            setBtnLoading(false);
         }
     });
 
@@ -132,80 +139,122 @@ const ForgotPassword = () => {
      * Renderiza el formulario de recuperación de contraseña.
      */
     return (
-        <>
-            {!isSendEmail ? (
-                <>
-                    {/** Formulario de email */}
-                    <CenteredHeaderWithBack
-                        onBack={handleOnBack}
-                        icon={
-                            <ArrowBackIcon className="mb-2 inline cursor-pointer text-cyan-600 hover:text-cyan-900" />
-                        }
-                    >
-                        <Title title={AuthMessages.forgotPassword.title} />
-                    </CenteredHeaderWithBack>
-                    <HeaderText text={AuthMessages.forgotPassword.subtitle} />
+        <AnimatedPage>
+            {/*  */}
+            <>
+                {!isSendEmail ? (
+                    <div className="mx-auto w-full max-w-[250px] place-items-center py-5 sm:max-w-[420px]">
+                        <HeaderAction
+                            title={AuthMessages.forgotPassword.title}
+                            message={AuthMessages.forgotPassword.subtitle}
+                            onAction={handleOnBack}
+                            tooltipText={UserMessages.messageToolTip.back}
+                            icon={
+                                <ArrowBackIcon
+                                    sx={{ fontSize: '0.9rem' }}
+                                    className="inline cursor-pointer text-[0.01rem] text-black"
+                                />
+                            }
+                        />
+                        {/** Formulario de email */}
+                        <div className="grid justify-items-center text-gray-500 sm:max-w-[420px]">
+                            <form onSubmit={onSubmit}>
+                                <InputText
+                                    type="root"
+                                    sizeText={5}
+                                    sizeTextInput={0}
+                                    fullWidth={true}
+                                    inputClass="h-full w-full rounded-lg px-6 py-2 border-[0.14rem] focus:outline-none"
+                                    text={AuthMessages.inputs.email}
+                                    placeholder={
+                                        Messages.placeholder.emailExample
+                                    }
+                                    {...registerEmail}
+                                    onChange={() => {
+                                        if (!isRegistered) {
+                                            setRegistered(true);
+                                        }
+                                    }}
+                                    isError={Boolean(errors.email)}
+                                >
+                                    <FormError
+                                        error={errors.email?.message || ''}
+                                    />
+                                </InputText>
 
-                    <div className="grid justify-center">
-                        <form onSubmit={onSubmit}>
-                            <FormInput
-                                type="root"
-                                label={AuthMessages.inputs.email}
-                                placeholder={Messages.placeholder.emailExample}
-                                {...registerEmail}
-                                onChange={() => {
-                                    if (!isRegistered) {
-                                        setRegistered(true);
+                                <LoadButton
+                                    textButton={
+                                        AuthMessages.buttons.forgotPassword
                                     }
-                                }}
-                                isError={Boolean(errors.email)}
-                            >
-                                <FormError
-                                    error={errors.email?.message || ''}
+                                    loading={isBtnLoading}
                                 />
-                            </FormInput>
-                            {!isRegistered && (
-                                <Label
-                                    text={
-                                        <div className="text-center">
-                                            {AuthMessages.register.promptText}
-                                            <Link
-                                                href={`/register?email=${email}`}
-                                            >
-                                                <LabelLink
-                                                    text={
-                                                        AuthMessages.register
-                                                            .linkText
-                                                    }
-                                                />
-                                            </Link>
-                                        </div>
-                                    }
-                                />
-                            )}
-                            <LoadButton
-                                textButton={AuthMessages.buttons.forgotPassword}
-                                loading={isBtnLoading}
-                            />
-                        </form>
+
+                                {!isRegistered && (
+                                    <Text
+                                        className="mt-7 font-[400] text-black"
+                                        text={
+                                            <div className="text-center">
+                                                {
+                                                    AuthMessages.register
+                                                        .promptText
+                                                }
+                                                <Link
+                                                    href={`/register?email=${email}`}
+                                                >
+                                                    <label className="inline cursor-pointer font-[400] text-[#5280DA] hover:underline">
+                                                        {
+                                                            AuthMessages
+                                                                .register
+                                                                .linkText
+                                                        }
+                                                    </label>
+                                                </Link>
+                                            </div>
+                                        }
+                                    />
+                                )}
+                            </form>
+                        </div>
                     </div>
-                </>
-            ) : (
-                <div className="">
-                    {/** SimulaciónPGA cuando el email se envía con éxito.*/}
-                    <GeneralPageInfo
-                        title={AuthMessages.forgotPassword.sendEmail.title}
-                        helloText={AuthMessages.forgotPassword.sendEmail.hello}
-                        infoText={AuthMessages.commons.sendEmail.successText}
-                        keyWord={email}
-                        onBack={() => setSendEmail(false)}
-                        icon={
-                            <ArrowBackIcon className="mb-2 inline cursor-pointer text-cyan-600 hover:text-cyan-900" />
-                        }
-                    />
-                </div>
-            )}
-        </>
+                ) : (
+                    <div className="">
+                        {/** SimulaciónPGA cuando el email se envía con éxito.*/}
+                        <GeneralPageInfo
+                            title={AuthMessages.forgotPassword.sendEmail.title}
+                            helloText={
+                                AuthMessages.forgotPassword.sendEmail.hello
+                            }
+                            infoText={
+                                <>
+                                    <label className="">
+                                        {
+                                            AuthMessages.commons.sendEmail
+                                                .successText
+                                        }
+                                    </label>
+                                    <Text
+                                        className="py-5 text-center font-[400] text-gray-900"
+                                        text={
+                                            AuthMessages.commons.sendEmail
+                                                .openInbox
+                                        }
+                                        sizeOffset={15}
+                                    />
+                                </>
+                            }
+                            keyWord={email}
+                            onBack={() => setSendEmail(false)}
+                            icon={
+                                <ArrowBackIcon
+                                    sx={{ fontSize: '1rem' }}
+                                    className="inline cursor-pointer text-[0.01rem] text-black"
+                                />
+                            }
+                        />
+                    </div>
+                )}
+            </>
+        </AnimatedPage>
     );
 };
 

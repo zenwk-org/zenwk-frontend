@@ -2,15 +2,15 @@ import { Controller, UseFormReturn } from 'react-hook-form';
 import { UserMessages } from '@user/constants/user-messages';
 import { ageGenerator } from '@app/shared/utils/userUtils';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Save, ArrowLeft } from 'lucide-react';
+import { formValidateUser } from '@user/utils/formValidateUser';
 import SelectGeneral, { Option } from '@user/ui/inputs/SelectGeneral';
 
 import InputText from '@user/ui/inputs/InputText';
 import FormErrorUser from '@user/ui/forms/FormErrorUser';
-import Button from '@user/ui/buttons/Button';
-import FirstNameField from '@user/components/forms/iputs/FirstNameField';
-import Tooltip from '@app/shared/ui/Tooltip';
+
 import ProfileButtomForm from '@user/components/profile/ProfileButtomForm';
+import LoadButton from '@auth/components/LoadButton';
+import clsx from 'clsx';
 
 /**
  * Interrace que representa los valores del formulario.
@@ -30,13 +30,6 @@ interface Props {
     onSubmit: () => void;
     errorBack: string;
     isBtnLoading: boolean;
-    requiredLastName: string;
-    requiredAge: string;
-    requiredSex: string;
-    minLengthName: { value: number; message: string };
-    maxLengthName: { value: number; message: string };
-    patternName: { value: RegExp; message: string };
-    validateTrim?: (value: string) => true | string;
     editDataBasic?: boolean;
     setEditDataBasic?: Dispatch<SetStateAction<boolean>>;
     loadingLineClick?: () => Promise<void>;
@@ -54,13 +47,6 @@ const CompleteRegisterFormFields = ({
     onSubmit,
     errorBack,
     isBtnLoading,
-    requiredLastName,
-    requiredAge,
-    requiredSex,
-    minLengthName,
-    maxLengthName,
-    patternName,
-    validateTrim,
     editDataBasic,
     setEditDataBasic,
     loadingLineClick,
@@ -74,6 +60,16 @@ const CompleteRegisterFormFields = ({
     } = form;
     const [btnDisabled, setBtnDisabled] = useState(true);
     const defaultValues = form.control._defaultValues; // Valores por defecto del form
+    const {
+        requiredLastName,
+        requiredAge,
+        requiredSex,
+        minLengthName,
+        maxLengthName,
+        patternName,
+        requiredFirstName,
+        validateTrim,
+    } = formValidateUser();
 
     /**
      * Detecta si algún campo del formulario se edito y
@@ -91,32 +87,41 @@ const CompleteRegisterFormFields = ({
         return () => subscription.unsubscribe();
     }, [watch, defaultValues]);
 
+    const classField = clsx(
+        editDataBasic
+            ? 'h-full max-w-[180px] rounded-lg border-[0.13rem] px-4 py-[0.3rem] focus:border-[#A6B3FD] focus:outline-none'
+            : 'h-full w-full rounded-lg border-[0.14rem] px-4 py-[0.4rem] focus:outline-none'
+    );
+
     return (
         <form onSubmit={onSubmit} className="">
-            {editDataBasic && (
-                <button
-                    type="button"
-                    onClick={async () => {
-                        if (setEditDataBasic) {
-                            await loadingLineClick?.();
-                            setEditDataBasic((prev) => !prev);
-                        }
-                    }}
-                    className="group relative cursor-pointer rounded-md bg-gray-200 p-2 text-gray-600 hover:bg-gray-300 hover:text-black"
+            <div
+                className={`grid grid-cols-1 gap-5 sm:grid-cols-2 ${editDataBasic ? 'text-black' : 'text-gray-500'}`}
+            >
+                <InputText
+                    text="Primer nombre"
+                    placeholder={
+                        UserMessages.formComplete.placeholder.firstName
+                    }
+                    {...register('firstName', {
+                        required: requiredFirstName,
+                        pattern: patternName,
+                        minLength: minLengthName,
+                        maxLength: maxLengthName,
+                        validate: validateTrim,
+                    })}
+                    isError={Boolean(errors.firstName || errors.root)}
+                    sizeTextInput={editDataBasic ? -0.1 : 0}
+                    sizeText={editDataBasic ? 2 : 5}
+                    inputClass={classField}
+                    fullWidth={true}
+                    variant={editDataBasic ? 'editPerson' : 'default'}
                 >
-                    <ArrowLeft size={16} strokeWidth={1.7} />
-                    <Tooltip position="top">
-                        {UserMessages.buttons.back}
-                    </Tooltip>
-                </button>
-            )}
-
-            {/* Nombres 
-            <div className="m-2 flex flex-col gap-2 rounded-lg bg-white p-1 px-4 text-gray-500 sm:flex-row sm:gap-4">
-
-            */}
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                <FirstNameField form={form} />
+                    <FormErrorUser
+                        sizeOffset={-15}
+                        error={errors.firstName?.message ?? ''}
+                    />
+                </InputText>
 
                 <InputText
                     text={UserMessages.formComplete.labels.middleName}
@@ -129,6 +134,11 @@ const CompleteRegisterFormFields = ({
                         maxLength: maxLengthName,
                     })}
                     isError={Boolean(errors.middleName || errors.root)}
+                    sizeTextInput={editDataBasic ? -0.1 : 0}
+                    sizeText={editDataBasic ? 2 : 5}
+                    inputClass={classField}
+                    fullWidth={true}
+                    variant={editDataBasic ? 'editPerson' : 'default'}
                 >
                     <FormErrorUser
                         sizeOffset={-15}
@@ -138,7 +148,9 @@ const CompleteRegisterFormFields = ({
             </div>
 
             {/* Apellidos */}
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div
+                className={`grid grid-cols-1 gap-5 sm:grid-cols-2 ${editDataBasic ? 'text-black' : 'text-gray-500'}`}
+            >
                 <InputText
                     text={UserMessages.formComplete.labels.lastName}
                     placeholder={UserMessages.formComplete.placeholder.lastName}
@@ -150,13 +162,17 @@ const CompleteRegisterFormFields = ({
                         validate: validateTrim,
                     })}
                     isError={Boolean(errors.lastName || errors.root)}
+                    sizeTextInput={editDataBasic ? -0.1 : 0}
+                    sizeText={editDataBasic ? 2 : 5}
+                    inputClass={classField}
+                    fullWidth={true}
+                    variant={editDataBasic ? 'editPerson' : 'default'}
                 >
                     <FormErrorUser
                         sizeOffset={-15}
                         error={errors.lastName?.message ?? ''}
                     />
                 </InputText>
-
                 <InputText
                     text={UserMessages.formComplete.labels.middleLastName}
                     placeholder={
@@ -168,6 +184,11 @@ const CompleteRegisterFormFields = ({
                         pattern: patternName,
                     })}
                     isError={Boolean(errors.middleLastName || errors.root)}
+                    sizeTextInput={editDataBasic ? -0.1 : 0}
+                    sizeText={editDataBasic ? 2 : 5}
+                    inputClass={classField}
+                    fullWidth={true}
+                    variant={editDataBasic ? 'editPerson' : 'default'}
                 >
                     <FormErrorUser
                         sizeOffset={-15}
@@ -177,13 +198,18 @@ const CompleteRegisterFormFields = ({
             </div>
 
             {/* Sexo y edad */}
-            <div className="mb-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div
+                className={`grid grid-cols-1 gap-5 sm:grid-cols-2 ${!editDataBasic && 'mb-6'}`}
+            >
                 <Controller
                     control={control}
                     name="sex"
                     rules={{ required: requiredSex }}
                     render={({ field }) => (
                         <SelectGeneral
+                            variant={editDataBasic ? 'editPerson' : 'newUser'}
+                            sizeTextInput={editDataBasic ? -0.1 : 0}
+                            paramHeigth={editDataBasic ? -4 : 0}
                             text={UserMessages.formComplete.labels.sex}
                             data={optionsSex}
                             placeholder={
@@ -209,6 +235,9 @@ const CompleteRegisterFormFields = ({
                     rules={{ required: requiredAge }}
                     render={({ field }) => (
                         <SelectGeneral
+                            variant={editDataBasic ? 'editPerson' : 'newUser'}
+                            sizeTextInput={editDataBasic ? -0.1 : 0}
+                            paramHeigth={editDataBasic ? -4 : 0}
                             text={UserMessages.formComplete.labels.age}
                             data={ageGenerator}
                             placeholder={
@@ -245,28 +274,46 @@ const CompleteRegisterFormFields = ({
 
             {/** Botón crear o editar*/}
             {editDataBasic ? (
-                <div className="flex justify-center">
-                    <button
-                        className="flex w-full items-center justify-items-center gap-5"
-                        type="submit"
-                        disabled={btnDisabled}
-                    >
-                        <ProfileButtomForm
+                <div className="">
+                    <div className="flex gap-5">
+                        <button
+                            className="flex w-full"
+                            type="button"
+                            onClick={async () => {
+                                if (setEditDataBasic) {
+                                    await loadingLineClick?.();
+                                    setEditDataBasic((prev) => !prev);
+                                }
+                            }}
+                        >
+                            <ProfileButtomForm
+                                icon={null}
+                                shape="square"
+                                nameButtom="Cancelar"
+                            />
+                        </button>
+                        <button
+                            type="submit"
+                            className="flex w-full"
                             disabled={btnDisabled}
-                            icon={<Save size={17} strokeWidth={1.5} />}
-                            shape="square"
-                            positionToltip="top"
-                            nameButtom={UserMessages.buttons.save}
-                            buttonLoading={isBtnLoading}
-                            lineLoading={true}
-                        />
-                    </button>
+                        >
+                            <ProfileButtomForm
+                                disabled={btnDisabled}
+                                classColor="yellow"
+                                icon={null}
+                                shape="square"
+                                nameButtom={UserMessages.buttons.save}
+                                lineLoading={true}
+                            />
+                        </button>
+                    </div>
                 </div>
             ) : (
-                <Button
-                    type="submit"
+                <LoadButton
                     loading={isBtnLoading}
-                    text={UserMessages.buttons.welcome.buttonSave}
+                    // error global
+                    isError={Object.keys(errors).length > 0}
+                    textButton={UserMessages.buttons.welcome.buttonSave}
                 />
             )}
         </form>

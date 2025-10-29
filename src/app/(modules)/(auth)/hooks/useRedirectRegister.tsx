@@ -1,7 +1,7 @@
-import { useRouter } from "next/navigation";
-import { useEffect, Dispatch, SetStateAction } from "react";
+import { useRouter } from 'next/navigation';
+import { useEffect, Dispatch, SetStateAction } from 'react';
 
-import { fetchValidateTokenApi } from "@app/helpers/fetch-api";
+import { fetchValidateTokenApi } from '@app/helpers/fetch-api';
 
 /**
  * Verifica la validez del token, UUID y correo electrónico proporcionados.
@@ -23,24 +23,29 @@ const useRedirectRegister = (
      */
     useEffect(() => {
         const validateToken = async () => {
+            // // borrar
+            // setLoading(false);
+            // return true;
+            // // borrar
+
             /**
              * Función para validar el flujo del registro.
              */
             try {
                 if (email && uuid) {
-                    const res = await fetchValidateTokenApi("", email, uuid);
+                    const res = await fetchValidateTokenApi('', email, uuid);
 
                     if (!res) {
-                        throw "";
+                        throw '';
                     }
                 } else {
-                    throw "";
+                    throw '';
                 }
             } catch (error) {
                 if (isResetPassword) {
                     return router.push(`/login/forgot-password?email=${email}`);
                 } else {
-                    return router.push("/login");
+                    return router.push('/login');
                 }
             } finally {
                 setLoading(false);

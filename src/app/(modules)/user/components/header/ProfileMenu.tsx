@@ -29,24 +29,24 @@ const ProfileMenu = ({
     return (
         <FlyoutMenu
             trigger={({ onClick, ref }) => (
-                <div className="flex space-x-0.5">
+                <div className="flex space-x-1">
                     <button
                         type="button"
                         tabIndex={0}
                         ref={mergeRefs(ref, avatarBtnRef)}
-                        className="flex cursor-pointer rounded-full bg-gradient-to-r hover:ring-2 hover:ring-gray-300 focus:ring-4 focus:ring-gray-300 focus:transition-shadow focus:duration-500"
+                        className="flex cursor-pointer rounded-full bg-gradient-to-r from-gray-100 to-gray-200 transition-shadow duration-300 hover:ring-4 hover:ring-[#C7D3F0] focus:ring-4 focus:ring-[#C7D3F0] focus:outline-none"
                         onClick={onClick}
                     >
                         {isPhotoProfile()}
                     </button>
                     <button
-                        className={`${TEXT_CYAN_COLOR} cursor-pointer transition-transform duration-300 hover:scale-130`}
+                        className={`cursor-pointer text-black transition-transform duration-300 hover:scale-130`}
                         onClick={() => {
                             handleChevronClick();
                             onClick();
                         }}
                     >
-                        <ChevronDown size={15} strokeWidth={1.4} />
+                        <ChevronDown size={15} strokeWidth={1.8} />
                     </button>
                 </div>
             )}
