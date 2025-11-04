@@ -10,6 +10,7 @@ import Text from '@user/ui/user-feed/Text';
 import AlertInfo from '@app/shared/components/AlertInfo';
 import AnimatedPage from '@auth/components/AnimatedPage';
 import HeaderAction from '@auth/components/HeaderAction';
+import { motion } from 'framer-motion';
 
 /** Componente encargado de consultar el usuario con los datos envidados después del login.
  * Si el jwt ha esxpirado retorna a la pagina del login.
@@ -44,20 +45,27 @@ const WelcomeUser = () => {
             <div className="">
                 {/* Solo se muestra ese mensaje cuando la persona esta creada */}
                 {!isCreatePerson && person?.firstName && person?.lastName && (
-                    <Text
-                        sizeOffset={15}
-                        text={
-                            <div
-                                className={`rounded-x mt-3 w-full rounded-2xl px-10 py-5 text-center font-[375] text-gray-600 shadow`}
-                            >
-                                {UserMessages.welcome.title}
-                                <label className="font-[400] text-[#5280DA]">
-                                    {person?.firstName}
-                                </label>
-                                {UserMessages.welcome.subtitle}
-                            </div>
-                        }
-                    />
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 1, ease: 'easeInOut' }}
+                    >
+                        <Text
+                            sizeOffset={15}
+                            text={
+                                <div
+                                    className={`rounded-x mt-3 w-full rounded-2xl px-10 py-5 text-center font-[375] text-gray-600 shadow`}
+                                >
+                                    {UserMessages.welcome.title}
+                                    <label className="font-[400] text-[#5280DA]">
+                                        {person?.firstName}
+                                    </label>
+                                    {UserMessages.welcome.subtitle}
+                                </div>
+                            }
+                        />
+                    </motion.div>
                 )}
 
                 {/** Formulario para completar los datos personales */}

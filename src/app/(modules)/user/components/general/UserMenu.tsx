@@ -146,7 +146,7 @@ const UserMenu = ({
                                     >
                                         {clickProfile ? (
                                             <RingLoader
-                                                color="#000000"
+                                                color="#365FC9"
                                                 size={20}
                                                 speedMultiplier={1.8}
                                             />
@@ -176,7 +176,7 @@ const UserMenu = ({
                                     >
                                         {clickSettings ? (
                                             <RingLoader
-                                                color="#000000"
+                                                color="#365FC9"
                                                 size={20}
                                                 speedMultiplier={1.8}
                                             />
@@ -206,12 +206,11 @@ const UserMenu = ({
                             >
                                 {isLoading ? (
                                     <RingLoader
-                                        //color="#E1564C"
+                                        color="#E1564C"
                                         size={20}
                                         speedMultiplier={1.8}
                                     />
                                 ) : (
-                                    // Ícono original
                                     <CircleX size={20} strokeWidth={1.8} />
                                 )}
                                 {UserMessages.header.userMenu.logout}

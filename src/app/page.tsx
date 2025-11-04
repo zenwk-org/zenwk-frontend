@@ -1,25 +1,22 @@
 'use client';
 
-import HeaderText from './(modules)/(auth)/ui/HeaderText';
-import SubTitle from './(modules)/(auth)/ui/SubTitle';
 import Footer from '@app/shared/ui/Footer';
 import Header from '@app/shared/ui/Header';
-import Link from 'next/link';
 import ProfileMenu from '@user/components/header/ProfileMenu';
 import UserProfilePhoto from './(modules)/user/components/general/UserProfilePhoto';
 import Tooltip from '@app/shared/ui/Tooltip';
 import WelcomeSection from '@app/shared/components/WelcomeSection';
-import Title from '@user/ui/user-feed/Title';
 import Text from '@user/ui/user-feed/Text';
 import HeaderAction from '@auth/components/HeaderAction';
 
 import { useUserContext } from '@user/utils/useUserContext';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useLoadUser } from '@app/shared/hooks/useLoadUser';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
 import LotusIcon from '@user/components/icons/LotusIcon';
+import HomeIcon from '@mui/icons-material/Home';
 
 /**
  * Página de inicio (landing principal de ZenWK)
@@ -29,10 +26,24 @@ const Home = () => {
     const { person } = useLoadUser();
     const { userDTO } = useUserContext();
     const router = useRouter();
+    const [showGuestProfile, setShowGuestProfile] = useState(false);
 
     const handleChevronClick = () => {
         avatarBtnRef.current?.focus();
     };
+
+    /**
+     * Este efecto controla el delay solo cuando userDTO es null
+     */
+    useEffect(() => {
+        let timeout: ReturnType<typeof setTimeout>;
+        // Para constrolar la aparición del tooltip
+        timeout = setTimeout(() => {
+            setShowGuestProfile(true);
+        }, 100);
+        setShowGuestProfile(false);
+        return () => clearTimeout(timeout);
+    }, [userDTO]);
 
     /**
      * Cargar la foto el usuario o un ícono por defecto si el usuario no ha cargado una imagen.
@@ -47,6 +58,10 @@ const Home = () => {
         );
     };
 
+    const onAction = () => {
+        return router.push('/');
+    };
+
     return (
         // min-h-screen: ocupa todo el alto de la pantalla
         <div className="flex min-h-screen w-full flex-col bg-transparent">
@@ -54,8 +69,23 @@ const Home = () => {
             <header className="h-fulll sticky top-0 z-50 bg-blue-50/60 shadow-sm backdrop-blur-sm">
                 <Header
                     content={
-                        <div className="flex items-center gap-1">
-                            <div className="group relative flex items-center md:order-2 rtl:space-x-reverse">
+                        <div className="group relative flex items-center gap-1">
+                            {!userDTO && showGuestProfile ? (
+                                <div className="flex items-center md:order-2 rtl:space-x-reverse">
+                                    <ProfileMenu
+                                        avatarBtnRef={avatarBtnRef}
+                                        isPhotoProfile={isPhotoProfile}
+                                        userDTO={userDTO}
+                                        profilePicture={person?.profilePicture}
+                                        handleChevronClick={handleChevronClick}
+                                        isFromHome={true}
+                                    />
+
+                                    <Tooltip position="left" hiddenArrow>
+                                        Iniciar sesión
+                                    </Tooltip>
+                                </div>
+                            ) : (
                                 <ProfileMenu
                                     avatarBtnRef={avatarBtnRef}
                                     isPhotoProfile={isPhotoProfile}
@@ -64,13 +94,7 @@ const Home = () => {
                                     handleChevronClick={handleChevronClick}
                                     isFromHome={true}
                                 />
-
-                                {!userDTO && (
-                                    <Tooltip position="left" hiddenArrow>
-                                        Iniciar sesión
-                                    </Tooltip>
-                                )}
-                            </div>
+                            )}
                         </div>
                     }
                 />
@@ -109,7 +133,9 @@ const Home = () => {
                         </button>
                         <button
                             className="w-full"
-                            onClick={() => router.push('/register')}
+                            onClick={() =>
+                                router.push('/register?fromHome=true')
+                            }
                         >
                             <Text
                                 text="Únete a Zenwk"

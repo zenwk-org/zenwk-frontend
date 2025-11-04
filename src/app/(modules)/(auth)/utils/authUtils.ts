@@ -1,5 +1,5 @@
 import { fetchJwtBaseApi } from "@app/helpers/fetch-api";
-import { User } from "@app/app/(modules)/user/context/JwtContext-eliminar";
+// import { useUserContext } from "@user/utils/useUserContext";
 
 /**
  * Realiza el login contra la API de autenticación.
@@ -33,21 +33,21 @@ export const loginApi = async (
  * @param userData
  * @returns
  */
-export const fetchGetUser = async (userData: User) => {
-    try {
-        const pathFindByIdUser = `/users/${userData.userId}`;
-        const res = await fetchJwtBaseApi(
-            pathFindByIdUser,
-            undefined,
-            userData.jwt,
-            undefined,
-            "GET"
-        );
-        return res;
-    } catch (error) {
-        throw error;
-    }
-};
+// export const fetchGetUser = async (userData: User) => {
+//     try {
+//         const pathFindByIdUser = `/users/${userData.userId}`;
+//         const res = await fetchJwtBaseApi(
+//             pathFindByIdUser,
+//             undefined,
+//             userData.jwt,
+//             undefined,
+//             "GET"
+//         );
+//         return res;
+//     } catch (error) {
+//         throw error;
+//     }
+// };
 /**
  *  Refresca el jwt. Útil cuando se asigna un nuevo rol dentro la misma sesión de ese  usuario.
  * Uso para roles automáticos. Otro rol dado por administrador  es neceario el cierre e inicio de sesión.

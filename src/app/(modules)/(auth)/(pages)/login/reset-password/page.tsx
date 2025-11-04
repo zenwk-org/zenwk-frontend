@@ -1,61 +1,11 @@
-'use client';
-import { useRouter } from 'next/navigation';
-import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
-import { AuthMessages } from '@auth/constants/auth-messages';
+import { Suspense } from 'react';
+import ResetPassword from './ResetPassword';
+import Spinner from '@app/shared/ui/Spinner';
 
-import SetPasswordUser from '@auth/components/SetPasswordUser';
-import AnimatedPage from '@auth/components/AnimatedPage';
-
-/**
- * Componente para el formulario de reingreso de contraseña en el registro del usuario.
- * si la contraseña es valida consume el api para la creación del usuario.
- * @returns - Componente JSX.
- */
-const SetChangePassword = () => {
-    const router = useRouter();
-    /**
-     * Recibe una contrseña válida y consume el API reset-password.
-     */
-    const changePassword = async (
-        email: string,
-        password: string,
-        uuid: string,
-        tokenCode: string
-    ) => {
-        const path = '/auth/reset-password/' + email;
-        const createUserJson = {
-            password: password,
-            uuid: uuid,
-            codeToken: tokenCode,
-        };
-        const result = await fetchJwtBaseApi(
-            path,
-            undefined,
-            undefined,
-            createUserJson,
-            'POST'
-        );
-
-        if (result) {
-            // Espera de 3 segundos
-            // setTimeout(() => {
-            //     return router.push('/login');
-            // }, 1000);
-            return router.push('/login');
-        }
-    };
-    /** Componente JSX con el formulario para el reingreso de contraseña. */
+export default function LoginPage() {
     return (
-        <AnimatedPage>
-            <SetPasswordUser
-                isResetPassword={true}
-                title={AuthMessages.login.resetPassword.title}
-                headerText={AuthMessages.login.resetPassword.title}
-                buttonText={AuthMessages.buttons.saveContinue}
-                onSubmitPassword={changePassword}
-            />
-        </AnimatedPage>
+        <Suspense fallback={<Spinner />}>
+            <ResetPassword />
+        </Suspense>
     );
-};
-
-export default SetChangePassword;
+}
