@@ -19,7 +19,7 @@ interface HeaderActionProps {
     /** Tamaño opcional del texto */
     sizeOffsetMessage?: number;
     /** Variante de color del fondo del ícono */
-    variant?: 'light' | 'medium';
+    variant?: 'light' | 'medium' | 'xl';
     /** Permite reemplazar el ícono (por defecto usa ArrowBackIcon) */
     icon?: React.ReactNode;
 }
@@ -64,7 +64,7 @@ const HeaderAction: React.FC<HeaderActionProps> = ({
                 {/* Titulo del paso en el flujo */}
                 <Text
                     text={title}
-                    className="my-2 text-center text-black"
+                    className={` ${variant === 'xl' ? 'font-[550] tracking-[0.01rem] text-gray-500' : 'my-5 text-black'} text-center`}
                     sizeOffset={sizeOffsetTitle}
                 />
             </div>
@@ -73,7 +73,7 @@ const HeaderAction: React.FC<HeaderActionProps> = ({
                 <Text
                     text={message}
                     sizeOffset={sizeOffsetMessage}
-                    className="my-5 text-center text-gray-500"
+                    className={` ${variant === 'xl' ? 'tracking-[0.01rem] whitespace-break-spaces text-black' : 'my-5 text-gray-500'} text-center`}
                 />
             )}
         </>

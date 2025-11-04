@@ -46,6 +46,9 @@ export default function UserLayout({
                     <header className="sticky top-0 z-50 bg-transparent shadow-sm backdrop-blur-sm">
                         <HeaderMenu />
                     </header>
+                    <div className="fixed z-40 w-full pt-15">
+                        <Sidebar />
+                    </div>
                     <main
                         className={`flex flex-1 transition-all duration-700 ease-in-out ${
                             visible
@@ -53,9 +56,6 @@ export default function UserLayout({
                                 : 'translate-y-[6px] opacity-0'
                         }`}
                     >
-                        <div className="fixed z-40 mt-3 w-full">
-                            <Sidebar />
-                        </div>
                         <div className="mx-auto justify-center px-4 sm:px-6 md:px-10">
                             {children}
                         </div>

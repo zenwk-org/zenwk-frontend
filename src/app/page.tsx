@@ -2,23 +2,24 @@
 
 import HeaderText from './(modules)/(auth)/ui/HeaderText';
 import SubTitle from './(modules)/(auth)/ui/SubTitle';
-import Title from './(modules)/(auth)/ui/Title';
 import Footer from '@app/shared/ui/Footer';
 import Header from '@app/shared/ui/Header';
 import Link from 'next/link';
-import { CircleX } from 'lucide-react';
-import { RingLoader } from 'react-spinners';
+import ProfileMenu from '@user/components/header/ProfileMenu';
 import UserProfilePhoto from './(modules)/user/components/general/UserProfilePhoto';
 import Tooltip from '@app/shared/ui/Tooltip';
-import { useLoadUser } from '@app/shared/hooks/useLoadUser';
-import { useLogout } from '@app/shared/hooks/useLogout';
-import Text from '@user/ui/user-feed/Text';
-import { UserMessages } from '@user/constants/user-messages';
 import WelcomeSection from '@app/shared/components/WelcomeSection';
-import UserMenu from '@user/components/general/UserMenu';
+import Title from '@user/ui/user-feed/Title';
+import Text from '@user/ui/user-feed/Text';
+import HeaderAction from '@auth/components/HeaderAction';
+
 import { useUserContext } from '@user/utils/useUserContext';
-import ProfileMenu from '@user/components/header/ProfileMenu';
 import { useRef } from 'react';
+import { useLoadUser } from '@app/shared/hooks/useLoadUser';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+
+import LotusIcon from '@user/components/icons/LotusIcon';
 
 /**
  * Página de inicio (landing principal de ZenWK)
@@ -27,7 +28,7 @@ const Home = () => {
     const avatarBtnRef = useRef<HTMLButtonElement>(null);
     const { person } = useLoadUser();
     const { userDTO } = useUserContext();
-    const { isLoading, handleLogout } = useLogout();
+    const router = useRouter();
 
     const handleChevronClick = () => {
         avatarBtnRef.current?.focus();
@@ -75,55 +76,56 @@ const Home = () => {
                 />
             </header>
 
-            {/* CONTENIDO PRINCIPAL FLEXIBLE */}
-            <main className="mt-10 flex-1">
+            {/* Contenido */}
+            <main className="mt-7 flex-1">
+                {/* Encabezado del contenido */}
+                <motion.header
+                    className="mb-10"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7 }}
+                >
+                    <div className="mx-auto flex max-w-[470px] flex-col items-center justify-center bg-transparent p-10">
+                        <LotusIcon className="mr-[0.1rem]" width={70} />
+                        <HeaderAction
+                            variant="xl"
+                            sizeOffsetTitle={350}
+                            sizeOffsetMessage={100}
+                            title="Zenwk"
+                            message="El mejor lugar para gestionar tu tiempo, optimizar tu equipo y alcanzar tus
+                        metas con claridad y propósito."
+                        />
+                    </div>
+                    <div className="mx-auto flex max-w-[450px] columns-2 gap-5">
+                        <button
+                            className="w-full"
+                            onClick={() => router.push('/login')}
+                        >
+                            <Text
+                                text="Inicia sesión"
+                                sizeOffset={50}
+                                className="cursor-pointer rounded-3xl bg-black p-2 text-white hover:bg-gray-500"
+                            />
+                        </button>
+                        <button
+                            className="w-full"
+                            onClick={() => router.push('/register')}
+                        >
+                            <Text
+                                text="Únete a Zenwk"
+                                sizeOffset={50}
+                                className="boder-[#365FC9] cursor-pointer rounded-3xl border-2 p-2 text-[#365FC9] hover:bg-[#A2B7E6]/20"
+                            />
+                        </button>
+                    </div>
+                </motion.header>
+
                 <WelcomeSection />
-
-                <div className="mx-auto max-w-[860px] bg-gray-100 px-4 py-10">
-                    <Title
-                        title={
-                            <span className="text-cyan-800">
-                                Registra tus horas de forma motivadora y con
-                                retroalimentación
-                            </span>
-                        }
-                    />
-
-                    <SubTitle
-                        text={
-                            <div className="mb-10 px-10">
-                                <span className="mx-2 font-normal">
-                                    Optimizando el seguimiento de tiempo en
-                                    empresas, emprendimientos y proyectos
-                                    personales. Transformando una rutina
-                                    habitualmente aburrida en una experiencia
-                                    útil y enriquecedora.
-                                </span>
-                            </div>
-                        }
-                    />
-
-                    <HeaderText
-                        text={
-                            <div className="mb-10 flex flex-wrap items-center justify-center gap-4">
-                                <Link href="/register">
-                                    <span className="mx-3 w-full rounded-3xl bg-cyan-900 px-5 py-3 font-light text-white hover:bg-cyan-950">
-                                        Únete a ZenWK
-                                    </span>
-                                </Link>
-
-                                <span className="rounded-3xl border-2 bg-white px-5 py-2 font-normal text-cyan-800 hover:border-gray-700 hover:bg-gray-300 hover:text-gray-700 max-[400px]:px-3 max-[400px]:py-2 max-[400px]:text-sm">
-                                    Así se transforma
-                                </span>
-                            </div>
-                        }
-                    />
-                </div>
             </main>
 
             {/* FOOTER NORMAL (no fijo) */}
             <footer className="mt-10">
-                <Footer bgColor="bg-indigo-50" />
+                <Footer bgColor="bg-gray-100/70" />
             </footer>
         </div>
     );

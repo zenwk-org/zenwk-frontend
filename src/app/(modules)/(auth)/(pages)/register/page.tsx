@@ -124,7 +124,7 @@ const Register = () => {
                             className="inline cursor-pointer text-[0.01rem] text-black"
                         />
                     }
-                />{' '}
+                />
                 {/* Notificación */}
                 {existUser && (
                     <AlertInfo duration={5}>

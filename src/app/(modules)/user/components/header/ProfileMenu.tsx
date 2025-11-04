@@ -1,11 +1,10 @@
 'use client';
-import { ChevronDown } from 'lucide-react';
 import FlyoutMenu from '@user/components/general/FlyoutMenu';
 import UserMenu from '@user/components/general/UserMenu';
 import { mergeRefs } from '@user/utils/utilsRef';
-import { TEXT_CYAN_COLOR } from '@app/styles/constans-color';
 import { UserDTO } from '@app/app/(modules)/user/types/user-dto';
 import { useRouter } from 'next/navigation';
+import { ChevronDown } from 'lucide-react';
 
 interface Props {
     isPhotoProfile: () => React.ReactNode;
