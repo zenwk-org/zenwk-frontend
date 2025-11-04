@@ -2,6 +2,7 @@ import Label from '@app/app/(modules)/(auth)/ui/Label';
 import { useEffect, useState } from 'react';
 import Paragraph from '@app/shared/ui/Paragraph';
 import ButtonOpen from '@app/shared/ui/ButtonOpen';
+import { clsx } from 'clsx';
 
 import { Messages } from '@app/shared/constants/messages';
 import { AuthMessages } from '@auth/constants/auth-messages';
@@ -17,7 +18,7 @@ import AlertInfo from '@app/shared/components/AlertInfo';
 const OpenMailbox = ({
     isSuccessResend,
     typeStyle,
-    className = '',
+    className = 'flex w-auto', // para que centre completamente
 }: {
     isSuccessResend: boolean;
     typeStyle?: 'profileConfiguration' | 'default' | 'loginOpt' | 'other';
@@ -31,34 +32,30 @@ const OpenMailbox = ({
     }, []);
 
     return (
-        <div className="w-full text-center sm:w-[400px]">
-            <Paragraph
-                text={
-                    <ul className="flex justify-center space-x-2">
-                        <li>
-                            <ButtonOpen
-                                href="https://mail.google.com"
-                                text={Messages.commons.gmail}
-                                typeStyle={typeStyle}
-                            />
-                        </li>
-                        <li>
-                            <ButtonOpen
-                                href="https://outlook.live.com/mail"
-                                text={Messages.commons.outlook}
-                                typeStyle={typeStyle}
-                            />
-                        </li>
-                        <li>
-                            <ButtonOpen
-                                href="https://www.icloud.com/mail"
-                                text={Messages.commons.iCloud}
-                                typeStyle={typeStyle}
-                            />
-                        </li>
-                    </ul>
-                }
-            />
+        <div className={className}>
+            <ul className="flex items-center space-x-2">
+                <li>
+                    <ButtonOpen
+                        href="https://mail.google.com"
+                        text={Messages.commons.gmail}
+                        typeStyle={typeStyle}
+                    />
+                </li>
+                <li>
+                    <ButtonOpen
+                        href="https://outlook.live.com/mail"
+                        text={Messages.commons.outlook}
+                        typeStyle={typeStyle}
+                    />
+                </li>
+                <li>
+                    <ButtonOpen
+                        href="https://www.icloud.com/mail"
+                        text={Messages.commons.iCloud}
+                        typeStyle={typeStyle}
+                    />
+                </li>
+            </ul>
         </div>
     );
 };

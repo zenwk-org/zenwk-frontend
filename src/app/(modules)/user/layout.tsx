@@ -1,6 +1,4 @@
 'use client';
-import { useSidebarContext } from '@user/utils/useWidthSidebarContext';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import Footer from '@user/ui/user-feed/Footer';
@@ -9,10 +7,8 @@ import Sidebar from '@user/ui/user-feed/Sidebar';
 import Spinner from '@app/shared/ui/Spinner';
 import SexOptionsContextProvider from '@user/context/SexOptionsContext';
 
-import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
-import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
-import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
-import { getPerson } from '@user/utils/personUtils';
+import BackgroundThemeContextProvider from './context/BackgroundThemeContext';
+import { useLoadUser } from '@app/shared/hooks/useLoadUser';
 
 export default function UserLayout({
     children,
@@ -22,48 +18,9 @@ export default function UserLayout({
     isSidebarExpanded: boolean;
     alignTop?: boolean;
 }) {
-    const { sidebarWidth } = useSidebarContext();
-    const router = useRouter();
-    const [authorized, setAuthorized] = useState<boolean | null>(null);
-    const { setUserDTO } = useUserContext();
-    const { setPerson } = usePersonContext();
+    // const { sidebarWidth } = useSidebarContext();
     const [visible, setVisible] = useState(false);
-
-    useEffect(() => {
-        const loadUser = async () => {
-            try {
-                const pathUserMe = '/users/me';
-                const userData = await fetchJwtBaseApi(
-                    pathUserMe,
-                    undefined,
-                    undefined,
-                    undefined,
-                    'GET'
-                );
-                setUserDTO(userData);
-                if (userData.idPerson) {
-                    const personaData = await getPerson(userData.idPerson);
-                    setPerson(personaData);
-                }
-                setAuthorized(true);
-            } catch {
-                router.push('/login');
-                setUserDTO(undefined);
-            }
-        };
-        loadUser();
-    }, []);
-
-    useEffect(() => {
-        if (authorized === null) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-        return () => {
-            document.body.style.overflow = '';
-        };
-    }, [authorized, router]);
+    const { authorized } = useLoadUser();
 
     useEffect(() => {
         const timeout = setTimeout(() => setVisible(true), 50);
@@ -79,33 +36,34 @@ export default function UserLayout({
     }
 
     if (!authorized) {
-        router.push('/login');
         return null;
     }
 
     return (
-        <SexOptionsContextProvider>
-            <div className="flex min-h-[100dvh] flex-col overflow-hidden">
-                <HeaderMenu />
-
-                <main className="flex flex-1 overflow-hidden">
-                    <Sidebar />
-
-                    <div
-                        className={`flex flex-1 flex-col transition-all duration-700 ease-in-out ${
+        <BackgroundThemeContextProvider>
+            <SexOptionsContextProvider>
+                <div className="flex min-h-screen w-full flex-col bg-transparent">
+                    <header className="sticky top-0 z-50 bg-transparent shadow-sm backdrop-blur-sm">
+                        <HeaderMenu />
+                    </header>
+                    <main
+                        className={`flex flex-1 transition-all duration-700 ease-in-out ${
                             visible
                                 ? 'translate-y-0 opacity-100'
                                 : 'translate-y-[6px] opacity-0'
                         }`}
                     >
-                        <div className="box-border flex-1 overflow-y-auto px-4 py-6 sm:px-6 md:px-8">
+                        <div className="fixed z-40 mt-3 w-full">
+                            <Sidebar />
+                        </div>
+                        <div className="mx-auto justify-center px-4 sm:px-6 md:px-10">
                             {children}
                         </div>
-                    </div>
-                </main>
+                    </main>
 
-                <Footer />
-            </div>
-        </SexOptionsContextProvider>
+                    <Footer />
+                </div>
+            </SexOptionsContextProvider>
+        </BackgroundThemeContextProvider>
     );
 }

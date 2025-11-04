@@ -2,17 +2,14 @@
 import { useState, useEffect } from 'react';
 import { UserMessages } from '../constants/user-messages';
 import { UserStateEnum } from '@app/app/(modules)/user/types/user-dto';
-import { BLUE_LOGO, TEXT_VIOLET_REDDISH } from '@app/styles/constans-color';
 import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
 import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
 
-import Title from '@user/ui/user-feed/Title';
 import CompleteRegisterForm from '@user/ui/forms/CompleteRegisterForm';
 import Text from '@user/ui/user-feed/Text';
 import AlertInfo from '@app/shared/components/AlertInfo';
 import AnimatedPage from '@auth/components/AnimatedPage';
 import HeaderAction from '@auth/components/HeaderAction';
-import { motion } from 'framer-motion';
 
 /** Componente encargado de consultar el usuario con los datos envidados después del login.
  * Si el jwt ha esxpirado retorna a la pagina del login.
@@ -46,29 +43,21 @@ const WelcomeUser = () => {
         <AnimatedPage align={position}>
             <div className="">
                 {/* Solo se muestra ese mensaje cuando la persona esta creada */}
-
                 {!isCreatePerson && person?.firstName && person?.lastName && (
-                    <motion.div
-                        className="mt-5 flex w-full flex-col items-center justify-start"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: 'easeOut' }}
-                    >
-                        <Text
-                            sizeOffset={15}
-                            text={
-                                <div
-                                    className={`rounded-x w-full rounded-2xl p-5 text-center font-[375] text-gray-600 shadow`}
-                                >
-                                    {UserMessages.welcome.title}
-                                    <label className="font-[400] text-[#5280DA]">
-                                        {person?.firstName}
-                                    </label>
-                                    {UserMessages.welcome.subtitle}
-                                </div>
-                            }
-                        />
-                    </motion.div>
+                    <Text
+                        sizeOffset={15}
+                        text={
+                            <div
+                                className={`rounded-x mt-3 w-full rounded-2xl px-10 py-5 text-center font-[375] text-gray-600 shadow`}
+                            >
+                                {UserMessages.welcome.title}
+                                <label className="font-[400] text-[#5280DA]">
+                                    {person?.firstName}
+                                </label>
+                                {UserMessages.welcome.subtitle}
+                            </div>
+                        }
+                    />
                 )}
 
                 {/** Formulario para completar los datos personales */}

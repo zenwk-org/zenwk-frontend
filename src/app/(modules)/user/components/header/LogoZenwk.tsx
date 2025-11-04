@@ -15,7 +15,13 @@ import Text from '@user/ui/user-feed/Text';
  * Logo de de la aplicación (zenwk).
  * @returns
  */
-const LogoZenwk = ({ isToolTip = true }: { isToolTip?: boolean }) => {
+const LogoZenwk = ({
+    isToolTip = true,
+    viewText = true,
+}: {
+    isToolTip?: boolean;
+    viewText?: boolean;
+}) => {
     return (
         <Link href="/">
             <div className="group relative drop-shadow-md select-none">
@@ -26,22 +32,26 @@ const LogoZenwk = ({ isToolTip = true }: { isToolTip?: boolean }) => {
                             className={`flex items-center ${isToolTip && 'cursor-pointer'}`}
                         >
                             <LotusIcon className="mr-[0.1rem]" width={30} />
-                            <span
-                                className={`font-[400] text-[#5280DA]`}
-                                style={{
-                                    filter: 'drop-shadow(0px 2px 1px rgba(196,112,160,0))',
-                                }}
-                            >
-                                {UserMessages.header.logo.zUpperCase}
-                            </span>
-                            <span
-                                className={`font-[400] text-[#000000]`}
-                                style={{
-                                    filter: 'drop-shadow(0px 2px 1px rgba(86,108,123,0))',
-                                }}
-                            >
-                                {UserMessages.header.logo.enwk}
-                            </span>
+                            {viewText && (
+                                <>
+                                    <span
+                                        className={`font-[400] text-[#5280DA]`}
+                                        style={{
+                                            filter: 'drop-shadow(0px 2px 1px rgba(196,112,160,0))',
+                                        }}
+                                    >
+                                        {UserMessages.header.logo.zUpperCase}
+                                    </span>
+                                    <span
+                                        className={`font-[400] text-[#000000]`}
+                                        style={{
+                                            filter: 'drop-shadow(0px 2px 1px rgba(86,108,123,0))',
+                                        }}
+                                    >
+                                        {UserMessages.header.logo.enwk}
+                                    </span>
+                                </>
+                            )}
                         </div>
                     }
                 />

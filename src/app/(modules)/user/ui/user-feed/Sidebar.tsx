@@ -8,6 +8,7 @@ import {
 } from '@app/styles/constans-color';
 import { UserMessages } from '@user/constants/user-messages';
 import { useSidebarContext } from '@user/utils/useWidthSidebarContext';
+import { UserStateEnum } from '@user/types/user-dto';
 
 import Text from '@user/ui/user-feed/Text';
 import SidebarIcon from '@user/components/icons/SidebarIcon';
@@ -20,6 +21,10 @@ import CurveIcon from '@user/components/icons/CurveIcon';
 import Link from 'next/link';
 import ChevronRightIcon from '@user/components/icons/ChevronRightIcon';
 import BrainIcon from '@user/components/icons/BrainIcon'; // nuevo icono IA (debes tenerlo o crearlo)
+import clsx from 'clsx';
+import { useBackgroundThemeContext } from '@user/utils/useBackgroundTheme';
+import { useUserContext } from '@user/utils/useUserContext';
+import { STATE_USER_INCOMPLETE_PERFIL } from '@app/shared/constants/common-constants';
 
 /**
  * Secciones del sidebar con acciones IA.
@@ -62,6 +67,10 @@ const Sidebar = () => {
     // Contexto del width sidebar
     const { setSidebarWidth } = useSidebarContext();
     const [width, setWidth] = useState(0);
+    // Se debe cargar desde el contexto
+    const { backgroundTheme } = useBackgroundThemeContext();
+    const { userDTO } = useUserContext();
+    // console.log('entro ------', userDTO);
 
     // useEffect para obtener el ancho dinámico del sidebar.
     useEffect(() => {
@@ -99,17 +108,45 @@ const Sidebar = () => {
         // Aquí podrías abrir un modal o llamar a tu backend IA
     };
 
+    /**
+     * Deshabilita la opción si no tiene el rol
+     * @returns
+     */
+    const isNotPermitted = (): boolean => {
+        if (!userDTO) {
+            return true;
+        }
+        return userDTO.state === UserStateEnum.INCOMPLETE_PERFIL;
+    };
+
+    /**
+     * Clase para botón del
+     */
+    const classButtonSidebar = clsx(
+        'group relative z-50 m-[0.4rem] mx-4 h-fit w-full max-w-[50px] cursor-pointer rounded-lg shadow-[0_10px_14px_rgba(0,0,0,0.18)] select-none hover:text-[#5280DA]',
+        backgroundTheme
+    );
+
     return (
-        <div ref={sidebarRef} className="">
+        <div
+            ref={sidebarRef}
+            className={` ${isNotPermitted() && 'pointer-events-none opacity-50'} `}
+        >
             {/* Botón superior */}
-            <div
+            <button
                 onClick={onClickHandler}
-                className="group relative z-50 m-[0.4rem] mx-4 h-fit w-full max-w-[50px] cursor-pointer rounded-lg bg-yellow-50 shadow-[0_10px_14px_rgba(0,0,0,0.18)] select-none hover:text-[#5280DA]"
+                className={classButtonSidebar}
+                disabled={isNotPermitted()}
             >
                 {hiddenSidebar ? (
+                    // <div className="flex h-10 items-center justify-center px-4 hover:text-[#5280DA]">
                     <div className="flex h-10 items-center justify-center px-4 hover:text-[#5280DA]">
                         <div>
-                            <CloseSidebarIcon sizeStroke={1.3} size={28} />
+                            <CloseSidebarIcon
+                                className="cursor-pointer text-indigo-700"
+                                sizeStroke={1.3}
+                                size={28}
+                            />
                             <Tooltip position="right" hiddenArrow>
                                 Ocultar sidebar
                             </Tooltip>
@@ -118,14 +155,18 @@ const Sidebar = () => {
                 ) : (
                     <div className="flex h-10 items-center justify-center rounded-t-lg rounded-b-lg px-4 py-1">
                         <div>
-                            <SidebarIcon sizeStroke={0.3} size={29} />
+                            <SidebarIcon
+                                //className="cursor-pointer text-indigo-700"
+                                sizeStroke={0.3}
+                                size={29}
+                            />
                             <Tooltip position="right" hiddenArrow>
                                 Abrir sidebar
                             </Tooltip>
                         </div>
                     </div>
                 )}
-            </div>
+            </button>
 
             {/* Contenido con animación. absolute z-50: suporpone / flotante */}
             <div
@@ -141,6 +182,27 @@ const Sidebar = () => {
 
                         return (
                             <div key={idx} className="w-full max-w-[250px]">
+                                {/* Icono de candado cuando se tienen los permisos.
+                                Pendiente: componentizar, creadr hoook */}
+                                {isNotPermitted() && (
+                                    <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent">
+                                        {/* Icono de candado o puntero bloqueado */}
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth={1.8}
+                                            stroke="currentColor"
+                                            className="h-8 w-8 text-gray-400"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M16.5 10.5V7.5a4.5 4.5 0 00-9 0v3m-.75 0h10.5A1.5 1.5 0 0118 12v7.5A1.5 1.5 0 0116.5 21h-9A1.5 1.5 0 016 19.5V12a1.5 1.5 0 011.5-1.5z"
+                                            />
+                                        </svg>
+                                    </div>
+                                )}
                                 {/* Título */}
                                 <Text
                                     sizeOffset={3}
@@ -152,7 +214,7 @@ const Sidebar = () => {
                                     text={
                                         <div
                                             onClick={() => toggleSection(idx)}
-                                            className={`group relative flex w-full cursor-pointer items-center px-4 py-3 hover:bg-gray-100 ${
+                                            className={`flex w-full cursor-pointer items-center px-4 py-3 hover:bg-gray-100 ${
                                                 isOpen && 'bg-gray-100'
                                             } ${idx == 0 ? 'hover: rounded-t-lg' : idx === sections.length - 1 && !isOpen && 'hover: rounded-b-lg'}`}
                                         >
@@ -175,10 +237,6 @@ const Sidebar = () => {
                                                     sizeStroke={2}
                                                 />
                                             )}
-
-                                            <Tooltip position="right">
-                                                Opciones
-                                            </Tooltip>
                                         </div>
                                     }
                                 />

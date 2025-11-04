@@ -247,10 +247,13 @@ const Opt = () => {
                             sizeOffset={12}
                         />
                     </div>
+                </div>
+                <div className="flex items-center justify-center">
                     <OpenMailbox
                         isSuccessResend={isSuccessResend}
                         typeStyle="loginOpt"
-                        className="mx-10 my-5 rounded-lg bg-[#EBF9F0] p-1 text-emerald-700"
+                        className="flex w-auto"
+                        //className="mx-10 my-5 rounded-lg bg-[#EBF9F0] p-1 text-emerald-700"
                     />
                 </div>
             </div>

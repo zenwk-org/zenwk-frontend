@@ -12,10 +12,21 @@ option {
     padding: 0.5rem; /* ayuda en navegadores compatibles */
 }
 
-.fullscreen-center {
+/* .fullscreen-center {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100dvh; /* Dynamic viewport height */
+    height: 100dvh;
     overflow: hidden;
+} */
+
+/* global CSS */
+html,
+body,
+#__next {
+    height: 100%;
+}
+:root,
+#__next > div {
+    height: 100%;
 }

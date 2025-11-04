@@ -93,6 +93,13 @@ const CompleteRegisterFormFields = ({
             : 'h-full w-full rounded-lg border-[0.14rem] px-4 py-[0.4rem] focus:outline-none'
     );
 
+    /**
+     * 50ms permite que el evento se complete
+     */
+    const handleDisabledButton = () => {
+        setTimeout(() => setBtnDisabled(true), 50);
+    };
+
     return (
         <form onSubmit={onSubmit} className="">
             <div
@@ -274,7 +281,7 @@ const CompleteRegisterFormFields = ({
 
             {/** Botón crear o editar*/}
             {editDataBasic ? (
-                <div className="">
+                <div className="mt-5">
                     <div className="flex gap-5">
                         <button
                             className="flex w-full"
@@ -296,6 +303,7 @@ const CompleteRegisterFormFields = ({
                             type="submit"
                             className="flex w-full"
                             disabled={btnDisabled}
+                            onClick={handleDisabledButton}
                         >
                             <ProfileButtomForm
                                 disabled={btnDisabled}
@@ -303,7 +311,8 @@ const CompleteRegisterFormFields = ({
                                 icon={null}
                                 shape="square"
                                 nameButtom={UserMessages.buttons.save}
-                                lineLoading={true}
+                                lineLoading={isBtnLoading}
+                                buttonLoading={isBtnLoading}
                             />
                         </button>
                     </div>

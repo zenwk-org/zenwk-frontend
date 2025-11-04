@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { formValidate } from '@app/shared/utils/formValidate';
 import { RefreshCcw } from 'lucide-react';
+import { clsx } from 'clsx';
 
 import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
 import InputText from '@user/ui/inputs/InputText';
@@ -9,8 +10,13 @@ import FormErrorUser from '@user/ui/forms/FormErrorUser';
 import ProfileButtomForm from '@app/app/(modules)/user/components/profile/ProfileButtomForm';
 import Text from '@user/ui/user-feed/Text';
 import { UserMessages } from '@user/constants/user-messages';
+import AlertInfo from '@app/shared/components/AlertInfo';
 
-const UpdatePasswordSection = () => {
+const UpdatePasswordSection = ({
+    setLineLoadingFather,
+}: {
+    setLineLoadingFather: Dispatch<SetStateAction<boolean>>;
+}) => {
     const [disabled, setDisabled] = useState(true);
     const [passwordChangeSucceeded, setPasswordChangeSucceeded] =
         useState(false);
@@ -60,6 +66,7 @@ const UpdatePasswordSection = () => {
 
     const onSubmit = handleSubmit(async (data) => {
         setLineLoading(true);
+        setLineLoadingFather(true);
         setLoadBtnUpdatePassword(true);
         try {
             console.log(data);
@@ -75,35 +82,51 @@ const UpdatePasswordSection = () => {
             setValue('reepassword', '');
             await new Promise((resolve) => setTimeout(resolve, 2000));
             setPasswordChangeSucceeded(false);
+            setLineLoadingFather(false);
         }
     });
 
+    const classField = clsx(
+        'h-full w-full rounded-lg border-[0.13rem] px-4 py-[0.33rem] focus:border-[#A6B3FD] focus:outline-none'
+    );
+
     return (
         <div>
-            <ProfileItemHeader lineLoading={lineLoading} />
-
-            <div className="grid items-center justify-items-center py-5">
+            <div className="grid max-w-[400px] items-center justify-items-center rounded-2xl bg-blue-50/70 py-5">
                 {passwordChangeSucceeded && (
-                    <div className="mx-auto mb-2 flex w-full max-w-[260px] flex-col items-center rounded-md bg-[#EBF9F0]">
-                        <Text
-                            text={
-                                UserMessages.profileConfiguration.alerts
-                                    .updatePasswordSuccess
-                            }
-                            className="mx-auto max-w-[260px] p-2 text-center text-emerald-700"
-                            sizeOffset={-8}
-                        />
+                    <div className="mb-2 flex w-full flex-col items-center rounded-md bg-[#EBF9F0]">
+                        {/* pendiente en AlertInfo: lograr que el div obtenga el mismo  ancho que lo demás elementos.. */}
+                        <AlertInfo duration={3} type="user_settings">
+                            <Text
+                                text={
+                                    UserMessages.profileConfiguration.alerts
+                                        .updatePasswordSuccess
+                                }
+                                className="y-3 rounded-lg bg-[#EBF9F0] px-10 text-center font-[450] text-emerald-700"
+                                sizeOffset={15}
+                            />
+                        </AlertInfo>
                     </div>
                 )}
 
-                <form onSubmit={onSubmit}>
-                    <div className="flex-co mx-auto mb-3 flex w-full max-w-[260px]">
+                <form onSubmit={onSubmit} className="max-w-[240px]">
+                    <div className="flex-co mx-auto mb-5 flex w-full">
                         <InputText
+                            //minWidth={280}
+                            minWidth={240}
                             variant="verified"
-                            minWidth={260}
+                            sizeText={2}
+                            fullWidth={true}
+                            sizeTextInput={-0.1}
+                            inputClass={classField}
                             text={
-                                UserMessages.profileConfiguration.sections
-                                    .updatePassword.currentPassword
+                                <label className="rounded-lg bg-indigo-100 p-[0.09rem] px-1 font-[450] text-indigo-700">
+                                    {
+                                        UserMessages.profileConfiguration
+                                            .sections.updatePassword
+                                            .currentPassword
+                                    }
+                                </label>
                             }
                             type="password"
                             placeholder={
@@ -123,9 +146,13 @@ const UpdatePasswordSection = () => {
                         </InputText>
                     </div>
 
-                    <div className="flex-co mx-auto flex w-full max-w-[260px]">
+                    <div className="flex-co mx-auto flex w-full">
                         <InputText
-                            minWidth={260}
+                            minWidth={240}
+                            sizeText={2}
+                            fullWidth={true}
+                            sizeTextInput={-0.1}
+                            inputClass={classField}
                             text={
                                 UserMessages.profileConfiguration.sections
                                     .updatePassword.newPassword
@@ -145,9 +172,13 @@ const UpdatePasswordSection = () => {
                         </InputText>
                     </div>
 
-                    <div className="flex-co mx-auto flex w-full max-w-[260px]">
+                    <div className="flex-co mx-auto flex w-full">
                         <InputText
-                            minWidth={260}
+                            minWidth={240}
+                            sizeText={2}
+                            fullWidth={true}
+                            sizeTextInput={-0.1}
+                            inputClass={classField}
                             text={
                                 UserMessages.profileConfiguration.sections
                                     .updatePassword.confirmPassword
@@ -167,28 +198,23 @@ const UpdatePasswordSection = () => {
                         </InputText>
                     </div>
 
-                    <div className="flex-co mx-auto flex w-full max-w-[260px]">
-                        <button
-                            type="submit"
+                    <button
+                        type="submit"
+                        disabled={disabled}
+                        className="mt-5 mb-3 w-full"
+                    >
+                        <ProfileButtomForm
                             disabled={disabled}
-                            className="mt-4 mb-3 w-full"
-                        >
-                            <ProfileButtomForm
-                                disabled={disabled}
-                                lineLoading={lineLoading}
-                                buttonLoading={loadBtnUpdatePassword}
-                                icon={
-                                    <RefreshCcw size={17} strokeWidth={1.5} />
-                                }
-                                shape="square"
-                                positionToltip="top"
-                                nameButtom={
-                                    UserMessages.profileConfiguration.sections
-                                        .updatePassword.updateButton
-                                }
-                            />
-                        </button>
-                    </div>
+                            lineLoading={lineLoading}
+                            buttonLoading={loadBtnUpdatePassword}
+                            icon={null}
+                            shape="square"
+                            nameButtom={
+                                UserMessages.profileConfiguration.sections
+                                    .updatePassword.updateButton
+                            }
+                        />
+                    </button>
                 </form>
             </div>
         </div>

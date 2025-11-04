@@ -1,7 +1,7 @@
 import { CYAN_CUSTOM_COLOR } from '@app/styles/constans-color';
 
 const SidebarIcon = ({
-    className = 'hover:fill-[#5280DA] fill-[#135CDC] cursor-pointer',
+    className = 'fill-indigo-700 cursor-pointer',
     sizeStroke = 0.1,
     size = 24,
 }: {

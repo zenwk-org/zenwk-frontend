@@ -82,7 +82,7 @@ const FlyoutMenu = ({
     const handleItemClick = async () => {
         if (closeOnSelect) {
             // Pausa para animación
-            await new Promise((resolve) => setTimeout(resolve, 500));
+            await new Promise((resolve) => setTimeout(resolve, 300));
             setIsOpen(false);
         }
     };
@@ -97,7 +97,7 @@ const FlyoutMenu = ({
             <div
                 aria-hidden={!isOpen}
                 className={[
-                    'absolute z-50 mt-2 w-45 max-w-[500px] rounded-xl border border-gray-200 bg-white',
+                    'absolute z-50 mt-2 max-w-[500px] rounded-xl border border-gray-200 bg-white',
                     'shadow-xl shadow-gray-300',
                     // origen de la animación en la esquina del trigger
                     position === 'right'

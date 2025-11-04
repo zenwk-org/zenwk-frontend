@@ -5,7 +5,7 @@ import Link from 'next/link';
 import UserProfilePhoto from '@user/components/general/UserProfilePhoto';
 import LogoZenwk from '@user/components/header/LogoZenwk';
 import ProfileMenu from '@user/components/header/ProfileMenu';
-import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
+import { usePersonContext } from '@user/utils/usePersonContext';
 import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
 
 const userMenuItems = [
@@ -44,14 +44,7 @@ const HeaderMenu = () => {
     };
 
     /**
-     *  useEffect para recuperar el useJwtContext y consultar el usuario.
-     **/
-    //console.log('HeaderMenu: useFetchAuthenticatedUser: [OK]>');
-    //const { userDTO, userData } = useFetchAuthenticatedUser();
-    /**
-
-    /**
-     * Cargar la foto el usuario o un ícono por defecto si el usuario no ha cargado una imagen. 
+     * Cargar la foto el usuario o un ícono por defecto si el usuario no ha cargado una imagen.
      * @returns
      */
     const isPhotoProfile = (isOpenMenu?: boolean) => {
@@ -64,7 +57,7 @@ const HeaderMenu = () => {
     };
 
     return (
-        <nav className="border-b border-b-gray-300 bg-white shadow-[0_4px_5px_-4px_rgba(0,0,0,0.10)] dark:bg-gray-900">
+        <nav className="h-full border-b border-b-gray-300 shadow-[0_4px_5px_-4px_rgba(0,0,0,0.10)] dark:bg-gray-900">
             {/** bkp (anterior limite de la pantalla):  max-w-screen-2xl */}
             <div className="mx-auto flex flex-wrap items-center justify-between px-4 py-2">
                 {/* Logo on acceso directo a inicio */}

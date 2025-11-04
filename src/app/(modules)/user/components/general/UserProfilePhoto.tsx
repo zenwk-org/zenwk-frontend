@@ -24,7 +24,7 @@ const UserProfilePhoto = ({ profilePicture, isOpenMenu }: Props) => {
         />
     ) : (
         <div
-            className={`flex h-8 w-8 items-center justify-center rounded-full border-[0.094rem] border-gray-800 hover:border-[#1D4087] ${isOpenMenu ? 'bg-gray-50' : 'hover:bg-50'} `}
+            className={`flex h-8 w-8 items-center justify-center rounded-full border-[0.094rem] border-gray-800 hover:border-[#1D4087] ${isOpenMenu ? 'bg-gray-100' : 'hover:bg-50'} `}
         >
             <User
                 size={25}

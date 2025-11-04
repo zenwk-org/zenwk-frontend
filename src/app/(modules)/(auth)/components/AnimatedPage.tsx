@@ -1,10 +1,8 @@
 import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
 
 interface AnimatedPageProps {
-    children: ReactNode;
-    /** Controla la alineación vertical del contenido: 'center', 'start' o 'end' */
-    align?: 'center' | 'start' | 'end';
+    children: React.ReactNode;
+    align?: 'start' | 'center' | 'end';
 }
 
 /**
@@ -14,7 +12,6 @@ export default function AnimatedPage({
     children,
     align = 'center',
 }: AnimatedPageProps) {
-    // Mapear la prop `align` a la clase Tailwind correspondiente
     const alignClass =
         align === 'start'
             ? 'items-start'
@@ -23,15 +20,16 @@ export default function AnimatedPage({
               : 'items-center';
 
     return (
-        // fixed inset-0 centra
         <motion.div
-            className={`fixed inset-0 flex w-full justify-center ${alignClass} overflow-y-hidden`}
+            className={`flex h-full w-full flex-1 ${alignClass} `}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.6, ease: 'easeInOut' }}
         >
-            <div className="flex flex-col">{children}</div>
+            <div className="flex flex-1 items-center justify-center">
+                {children}
+            </div>
         </motion.div>
     );
 }

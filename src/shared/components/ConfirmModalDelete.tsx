@@ -2,6 +2,8 @@ import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 import { useSidebarContext } from '@user/utils/useWidthSidebarContext';
 import { UserX, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { createPortal } from 'react-dom';
+import { UserMessages } from '@user/constants/user-messages';
 
 import Text from '@user/ui/user-feed/Text';
 import CloseButtom from './CloseButtom';
@@ -17,7 +19,7 @@ const ConfirmModalDelete = ({
 }: {
     setConfirm: Dispatch<SetStateAction<boolean>>;
     setLaunchModal: Dispatch<SetStateAction<boolean>>;
-    titleText: string;
+    titleText: React.ReactNode;
     btConfirmText: string;
 }) => {
     const router = useRouter();
@@ -26,6 +28,9 @@ const ConfirmModalDelete = ({
     const [isVisible, setIsVisible] = useState(false);
     const [isDelete, setDelete] = useState(false);
     const [countdown, setCountdown] = useState(10);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => setMounted(true), []);
 
     // Activa animación de entrada al montarse
     useEffect(() => {
@@ -64,7 +69,7 @@ const ConfirmModalDelete = ({
         }, 1000);
     };
 
-    return (
+    const modalContent = (
         <div
             className={`fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto bg-black/40 transition-opacity duration-400 ease-in-out select-none ${
                 isClosing ? 'opacity-0' : 'opacity-100'
@@ -76,28 +81,39 @@ const ConfirmModalDelete = ({
                         ? 'scale-95 opacity-0'
                         : 'scale-100 opacity-100'
                 }`}
-                style={{ marginLeft: `${sidebarWidth}px` }}
             >
-                <div className="relative rounded-lg bg-white shadow-sm dark:bg-gray-700">
+                <div
+                    className={`relative rounded-2xl ${isDelete ? 'bg-[#EBF9F0]' : 'bg-white'} shadow-sm dark:bg-gray-700`}
+                >
                     <div className="p-4 text-center md:p-5">
                         {isDelete ? (
                             // Estado de eliminación en progreso con conteo
                             <div className="flex flex-col items-center">
                                 <Text
-                                    text="¡Listo! Tu Cuenta ha sido  elminiado con éxito"
-                                    sizeOffset={3}
-                                    className="mx-auto mt-5 rounded-xl bg-[#EBF9F0] p-2 text-center font-[400] text-emerald-700"
+                                    text="¡Listo! Tu cuenta ha sido  eliminada con éxito."
+                                    sizeOffset={10}
+                                    className="mx-auto mt-5 rounded-2xl text-center font-[470] text-emerald-800"
                                 />
                                 <Loader2
                                     size={30}
-                                    strokeWidth={1.5}
+                                    strokeWidth={1.6}
                                     className="my-3 animate-spin text-emerald-700"
                                 />
 
                                 <Text
-                                    text={`Redirigiendo al inicio en  ${countdown} segundos`}
-                                    sizeOffset={5}
-                                    className="mb-5 font-[350] text-gray-500"
+                                    text={
+                                        <>
+                                            {
+                                                UserMessages
+                                                    .profileConfiguration
+                                                    .sections.deleteAccount
+                                                    .succesMessageRedirect
+                                            }
+                                            <label className="font-[500] text-emerald-700">{`${countdown} ${UserMessages.profileConfiguration.sections.deleteAccount.second}`}</label>
+                                        </>
+                                    }
+                                    sizeOffset={8}
+                                    className="mb-5 text-black"
                                 />
                             </div>
                         ) : (
@@ -106,15 +122,15 @@ const ConfirmModalDelete = ({
                                 <CloseButtom handleClose={handleClose} />
                                 {/** Contenido modal */}
                                 <UserX
-                                    size={23}
-                                    strokeWidth={1.3}
-                                    className="mx-auto mb-4 text-gray-700"
+                                    size={25}
+                                    strokeWidth={1.6}
+                                    className="mx-auto mb-4 text-black"
                                 />
 
                                 <Text
                                     text={titleText}
                                     sizeOffset={5}
-                                    className="mb-5 font-[300] text-gray-700"
+                                    className="mb-5 text-black"
                                 />
                                 <button
                                     type="button"
@@ -123,7 +139,7 @@ const ConfirmModalDelete = ({
                                 >
                                     <Text
                                         text={btConfirmText}
-                                        className="cursor-pointer rounded-lg bg-[#EB333A] p-[0.3rem] px-3 font-[300] text-white hover:bg-red-700"
+                                        className="cursor-pointer rounded-lg bg-[#E1564C] p-[0.3rem] px-3 text-white hover:bg-[#DA3125]"
                                         sizeOffset={0}
                                     />
                                 </button>
@@ -134,7 +150,7 @@ const ConfirmModalDelete = ({
                                 >
                                     <Text
                                         text="Cancelar"
-                                        className="cursor-pointer rounded-lg bg-gray-100 p-[0.3rem] px-3 font-[350] text-gray-700 hover:bg-gray-300 hover:text-black"
+                                        className="cursor-pointer rounded-lg bg-gray-300/60 p-[0.3rem] px-3 text-black/70 hover:bg-gray-300 hover:text-black"
                                         sizeOffset={0}
                                     />
                                 </button>
@@ -145,6 +161,10 @@ const ConfirmModalDelete = ({
             </div>
         </div>
     );
+    // Saca el modal fuera del layout visual usando React Portal.
+    // Así, el modal se monta directamente en el <body>,
+    //  evitando cualquier restricción de overflow.
+    return mounted ? createPortal(modalContent, document.body) : null;
 };
 
 export default ConfirmModalDelete;

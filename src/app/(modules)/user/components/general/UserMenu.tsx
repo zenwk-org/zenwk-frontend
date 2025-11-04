@@ -15,7 +15,9 @@ import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext
 import Text from '@user/ui/user-feed/Text';
 import UserProfilePhoto from '@user/components/general/UserProfilePhoto';
 import Link from 'next/link';
-import { unescape } from 'querystring';
+import { UserStateEnum } from '@user/types/user-dto';
+import clsx from 'clsx';
+import { useLogout } from '@app/shared/hooks/useLogout';
 
 /**
  * Interface que representa los props usados por el componente.
@@ -36,38 +38,9 @@ const UserMenu = ({
     userDTO,
     isPhotoMenuOpen = true,
 }: Props) => {
-    const [click, setClick] = useState(false);
     const [clickProfile, setClickProfile] = useState(false);
     const [clickSettings, setClickSettings] = useState(false);
-    const router = useRouter();
-    const { setUserDTO } = useUserContext();
-    const { setPerson } = usePersonContext();
-
-    /**
-     * Manejador para el logOut
-     */
-    const handleClicLogOut = async () => {
-        try {
-            setClick((prev) => !prev);
-
-            const path = '/auth/logout';
-            const res = await fetchJwtBaseApi(
-                path,
-                undefined,
-                undefined,
-                undefined,
-                'DELETE'
-            );
-            // Se actualiza el contexto
-            setUserDTO(undefined);
-            setPerson(undefined);
-        } catch (error) {
-        } finally {
-            // Pausa, para animación
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            router.push('/login');
-        }
-    };
+    const { handleLogout, isLoading } = useLogout();
 
     /**
      * Genera botón de user profile.
@@ -86,16 +59,40 @@ const UserMenu = ({
      * Animación click en Icono.
      */
     const handleClickProfile = async () => {
+        if (isNotPermitted()) {
+            return;
+        }
         setClickProfile((prev) => !prev);
         await new Promise((resolve) => setTimeout(resolve, 500));
         setClickProfile(false);
     };
 
     const handleClickSettings = async () => {
+        if (isNotPermitted()) {
+            return;
+        }
         setClickSettings((prev) => !prev);
         await new Promise((resolve) => setTimeout(resolve, 500));
         setClickSettings(false);
     };
+
+    /**
+     * Deshabilita la opción si no tiene el rol
+     * @returns
+     */
+    const isNotPermitted = (): boolean => {
+        if (!userDTO) {
+            return true;
+        }
+        return userDTO.state === UserStateEnum.INCOMPLETE_PERFIL;
+    };
+
+    const classLi = clsx(
+        'flex items-center px-4 py-2',
+        isNotPermitted()
+            ? 'pointer-events-none opacity-50'
+            : 'cursor-pointer text-gray-700 hover:bg-gray-100 hover:text-blue-700'
+    );
 
     return (
         <div className="absolute right-0 z-50 mt-2 w-full min-w-[200px] rounded-xl bg-white shadow-lg">
@@ -115,79 +112,99 @@ const UserMenu = ({
                         <Text sizeOffset={2} text={userDTO?.email} />
                     </div>
                 </li>
-                {/** Item: perfil */}
-                <Link href="/user/profile">
-                    <li
-                        className="flex cursor-pointer items-center px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-black"
-                        onClick={handleClickProfile}
-                    >
-                        <Text
-                            sizeOffset={2}
-                            className=""
-                            text={
-                                <span className="flex cursor-pointer items-center gap-x-1">
-                                    {clickProfile ? (
-                                        <RingLoader
-                                            color="#000000"
-                                            size={20}
-                                            speedMultiplier={1.8}
-                                        />
-                                    ) : (
-                                        // Ícono original
-                                        <CircleUser
-                                            size={20}
-                                            strokeWidth={1.8}
-                                        />
-                                    )}
-                                    {UserMessages.header.userMenu.profile}
-                                </span>
-                            }
-                        />
-                    </li>
-                </Link>
-                {/** Item: ajustes */}
-                <Link href="/user/settings">
-                    <li
-                        className="flex cursor-pointer items-center px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-[#135CDC]"
-                        onClick={handleClickSettings}
-                    >
-                        <Text
-                            sizeOffset={2}
-                            className=""
-                            text={
-                                <span
-                                    className={`flex cursor-pointer items-center gap-x-1`}
-                                >
-                                    {clickSettings ? (
-                                        <RingLoader
-                                            color="#000000"
-                                            size={20}
-                                            speedMultiplier={1.8}
-                                        />
-                                    ) : (
-                                        <Cog size={20} strokeWidth={1.8} />
-                                    )}
-                                    {UserMessages.header.userMenu.config}
-                                </span>
-                            }
-                        />
-                    </li>
-                </Link>
+                <div className="relative">
+                    {/* Icono de candado cuando se tienen los permisos.
+                                Pendiente: componentizar, creadr hoook*/}
+                    {isNotPermitted() && (
+                        <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent">
+                            {/* Icono de candado o puntero bloqueado */}
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.8}
+                                stroke="currentColor"
+                                className="h-7 w-7 text-gray-400"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M16.5 10.5V7.5a4.5 4.5 0 00-9 0v3m-.75 0h10.5A1.5 1.5 0 0118 12v7.5A1.5 1.5 0 0116.5 21h-9A1.5 1.5 0 016 19.5V12a1.5 1.5 0 011.5-1.5z"
+                                />
+                            </svg>
+                        </div>
+                    )}
+                    {/** Item: perfil */}
+                    <Link href={isNotPermitted() ? '#' : '/user/profile'}>
+                        <li className={classLi} onClick={handleClickProfile}>
+                            <Text
+                                sizeOffset={3}
+                                className="font-[470]"
+                                text={
+                                    <span
+                                        className={`flex items-center gap-x-1 ${isNotPermitted() ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                                    >
+                                        {clickProfile ? (
+                                            <RingLoader
+                                                color="#000000"
+                                                size={20}
+                                                speedMultiplier={1.8}
+                                            />
+                                        ) : (
+                                            // Ícono original
+                                            <CircleUser
+                                                size={20}
+                                                strokeWidth={1.8}
+                                            />
+                                        )}
+                                        {UserMessages.header.userMenu.profile}
+                                    </span>
+                                }
+                            />
+                        </li>
+                    </Link>
+
+                    {/** Item: ajustes */}
+                    <Link href={isNotPermitted() ? '#' : '/user/settings'}>
+                        <li className={classLi} onClick={handleClickSettings}>
+                            <Text
+                                sizeOffset={3}
+                                className="font-[470]"
+                                text={
+                                    <span
+                                        className={`flex items-center gap-x-1 ${isNotPermitted() ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                                    >
+                                        {clickSettings ? (
+                                            <RingLoader
+                                                color="#000000"
+                                                size={20}
+                                                speedMultiplier={1.8}
+                                            />
+                                        ) : (
+                                            <Cog size={20} strokeWidth={1.8} />
+                                        )}
+                                        {UserMessages.header.userMenu.config}
+                                    </span>
+                                }
+                            />
+                        </li>
+                    </Link>
+                </div>
                 {/** Item: cierre de sesión */}
                 <li
                     className="relative flex cursor-pointer items-center rounded-b-xl px-4 py-3 hover:bg-gray-50"
-                    onClick={handleClicLogOut}
+                    onClick={handleLogout}
                 >
                     <span className="absolute top-0 left-1/2 w-[93%] -translate-x-1/2 border-t border-gray-300 shadow-[0_2px_2px_-2px_rgba(0,0,0,0.2)]" />
 
                     <Text
-                        sizeOffset={2}
+                        sizeOffset={3}
                         className="text-[#DA3125] hover:text-[#DA3125]/80"
                         text={
                             <span
                                 className={`$ flex cursor-pointer items-center gap-x-1`}
                             >
-                                {click ? (
+                                {isLoading ? (
                                     <RingLoader
                                         //color="#E1564C"
                                         size={20}

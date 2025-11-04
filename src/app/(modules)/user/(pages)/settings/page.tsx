@@ -1,5 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { UserMessages } from '@user/constants/user-messages';
+import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
+import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
+import { useBackgroundThemeContext } from '@user/utils/useBackgroundTheme';
 
 import Spinner from '@app/shared/ui/Spinner';
 import Title from '@user/ui/user-feed/Title';
@@ -7,11 +11,6 @@ import ProfileItemConfiguration from '@user/components/profile/ProfileItemConfig
 import UpdateEmailSection from '@user/ui/profile/UpdateEmailSection';
 import UpdatePasswordSection from '@user/ui/profile/UpdatePasswordSection';
 import DeleteAccount from '@user/ui/profile/DeleteAccount';
-import Text from '@user/ui/user-feed/Text';
-
-import { UserMessages } from '@user/constants/user-messages';
-import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
-import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
 import AnimatedPage from '@auth/components/AnimatedPage';
 import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
 
@@ -31,6 +30,12 @@ const SettingsAccount = () => {
     const [lineLoading, setLineLoading] = useState(false);
     const { userDTO } = useUserContext();
     const { person } = usePersonContext();
+
+    const { setBackgroundTheme } = useBackgroundThemeContext();
+
+    useEffect(() => {
+        setBackgroundTheme('bg-blue-100');
+    }, []);
 
     if (!userDTO) {
         return <Spinner />;
@@ -52,23 +57,18 @@ const SettingsAccount = () => {
 
     return (
         <AnimatedPage>
-            <div className="mx-auto w-full max-w-xl place-items-center overflow-hidden rounded-xl bg-white py-5 sm:px-6 md:px-10">
+            <div className="mx-auto max-w-xl place-items-center overflow-hidden rounded-xl bg-white py-5 select-none sm:px-4 md:px-4">
                 <div className="text-center">
                     <Title
                         sizeOffset={25}
                         text={UserMessages.profileConfiguration.header.title}
-                        // className="mt-5 font-[380] text-[#333333]"
-                        className={`rounded-x w-full rounded-2xl bg-yellow-50 p-5 text-center text-black`}
+                        className={`rounded-x w-full rounded-2xl bg-blue-50 p-5 text-center text-black`}
                     />
                     {/** Encabezado de la sección */}
                     <ProfileItemHeader lineLoading={lineLoading} />
 
                     <div className="w-full py-5 text-justify">
                         <ul>
-                            {/** Sección: imagen */}
-
-                            {/** Sección: información personal */}
-
                             {/** Sección: Actualizar email */}
                             <ProfileItemConfiguration
                                 text={
@@ -77,19 +77,20 @@ const SettingsAccount = () => {
                                             UserMessages.profileConfiguration
                                                 .sections.updateEmail.title
                                         }
-                                        <Text
-                                            text={
-                                                UserMessages
-                                                    .profileConfiguration
-                                                    .sections.updateEmail.badge
-                                            }
-                                            className="rounded-lg bg-indigo-100 px-[0.3rem]"
-                                        />
                                     </div>
                                 }
-                                description={UserMessages.profileConfiguration.sections.updateEmail.description(
-                                    userDTO.email
-                                )}
+                                description={
+                                    <>
+                                        {
+                                            UserMessages.profileConfiguration
+                                                .sections.updateEmail
+                                                .descriptionText
+                                        }
+                                        <label className="font-[400] text-indigo-500">
+                                            {userDTO.email}
+                                        </label>
+                                    </>
+                                }
                                 isActive={activeSection === 'updateEmail'}
                                 setClickOption={() =>
                                     setActiveSection(
@@ -100,7 +101,10 @@ const SettingsAccount = () => {
                                 }
                             >
                                 {activeSection === 'updateEmail' && (
-                                    <UpdateEmailSection userDTO={userDTO} />
+                                    <UpdateEmailSection
+                                        setLineLoadingFather={setLineLoading}
+                                        userDTO={userDTO}
+                                    />
                                 )}
                             </ProfileItemConfiguration>
 
@@ -120,7 +124,9 @@ const SettingsAccount = () => {
                                 }
                             >
                                 {activeSection === 'updatePassword' && (
-                                    <UpdatePasswordSection />
+                                    <UpdatePasswordSection
+                                        setLineLoadingFather={setLineLoading}
+                                    />
                                 )}
                             </ProfileItemConfiguration>
 
@@ -132,7 +138,7 @@ const SettingsAccount = () => {
                                 }
                                 description={
                                     UserMessages.profileConfiguration.sections
-                                        .deleteAccount.description
+                                        .deleteAccount.descriptionComplete
                                 }
                                 isActive={activeSection === 'deleteAccount'}
                                 setClickOption={() =>

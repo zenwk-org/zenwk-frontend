@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Spinner from '@app/shared/ui/Spinner';
 import Title from '@user/ui/user-feed/Title';
@@ -7,11 +7,12 @@ import ProfileItemConfiguration from '@user/components/profile/ProfileItemConfig
 import PersonalInfoSection from '@app/app/(modules)/user/ui/profile/PersonalInfoSection';
 import ProfilePhotoSection from '@user/ui/profile/ProfilePhotoSection';
 import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
+import AnimatedPage from '@auth/components/AnimatedPage';
 
 import { UserMessages } from '@user/constants/user-messages';
 import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
 import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
-import AnimatedPage from '@auth/components/AnimatedPage';
+import { useBackgroundThemeContext } from '@user/utils/useBackgroundTheme';
 
 /**
  * Componente principal para la configuración del perfil
@@ -29,6 +30,11 @@ const ProfileConfiguration = () => {
     const [lineLoading, setLineLoading] = useState(false);
     const { userDTO } = useUserContext();
     const { person } = usePersonContext();
+    const { setBackgroundTheme } = useBackgroundThemeContext();
+
+    useEffect(() => {
+        setBackgroundTheme('bg-yellow-100');
+    }, []);
 
     if (!userDTO) {
         return <Spinner />;
@@ -50,18 +56,18 @@ const ProfileConfiguration = () => {
 
     return (
         <AnimatedPage>
-            <div className="mx-auto w-full max-w-xl place-items-center overflow-hidden rounded-xl bg-white py-5 sm:px-6 md:px-10">
-                <div className="text-center">
+            <div className="mx-auto rounded-xl bg-white py-5 sm:px-6 md:px-10">
+                <div className="">
                     <Title
                         sizeOffset={25}
                         text={UserMessages.profileConfiguration.header.title}
                         // className="mt-5 font-[380] text-[#333333]"
                         className={`rounded-x w-full rounded-2xl bg-yellow-50 p-5 text-center text-black`}
                     />
-                    {/** Encabezado de la sección */}
+                    {/** Linea de carga en el encabezado de la sección */}
                     <ProfileItemHeader lineLoading={lineLoading} />
 
-                    <div className="w-full py-5 text-justify">
+                    <div className="w-fit py-5 text-justify">
                         <ul>
                             {/** Sección: imagen */}
                             <ProfileItemConfiguration

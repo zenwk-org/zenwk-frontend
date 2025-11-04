@@ -59,7 +59,7 @@ const PersonalInfoSection = ({
         <div>
             {/** Cuerpo de la sección */}
             <div
-                className={`rounded-2xl ${!editDataBasic && 'bg-yellow-50'} bg-yellow-50 px-6 py-3`}
+                className={`rounded-2xl ${!editDataBasic && 'bg-yellow-50'} bg-yellow-50 px-8 py-3`}
             >
                 {editDataBasic ? (
                     <div className="flex justify-center">
@@ -175,7 +175,7 @@ const PersonalInfoSection = ({
                                     <NotebookPen
                                         size={22}
                                         strokeWidth={1.8}
-                                        className="text-indigo-600 hover:text-indigo-800"
+                                        className="text-indigo-700"
                                     />
                                 }
                                 text={UserMessages.buttons.updatePersonalInfo}

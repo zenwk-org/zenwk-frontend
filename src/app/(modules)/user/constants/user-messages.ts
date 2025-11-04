@@ -38,7 +38,7 @@ export const UserMessages = {
         welcome: {
             buttonSave: "Guardar información personal",
         },
-        save: "Guardar cambios",
+        save: "Guardar",
         back: "Atrás",
         updatePersonalInfo: "Actualizar información personal",
         deleteAccount: "Eliminar cuenta ",
@@ -53,6 +53,7 @@ export const UserMessages = {
             profile: "Perfil",
             config: "Ajustes",
             logout: "Cerrar sesión",
+            out: "Salir",
             company: "My Company",
         },
         logo: {
@@ -84,29 +85,30 @@ export const UserMessages = {
         sections: {
             updatePhotoProfile: {
                 title: "Cambia tu foto de perfil",
-                description: "Aquí puedes actualizar tu foto de perfil",
+                description: "Aquí puedes actualizar tu foto de perfil.",
                 changeButton: "Cambiar foto",
                 saveButton: "Guardar foto",
                 deleteButton: "Eliminar foto",
             },
             personalInfo: {
                 title: "Información personal",
-                description:
-                    "Actualiza tus datos básicos y cambia tu foto de perfil",
+                description: "Actualiza tus datos básicos.",
             },
             updateEmail: {
                 title: "Correo asociado a tu cuenta",
                 badge: "Verificado",
                 description: (email: string) => `Tu correo es ${email}`,
+                descriptionText: "Tu correo actual es ",
                 confirmButton: "Confirmar correo",
                 confirmMessage: "Confirma tu correo para activar los cambios",
                 checkInbox:
-                    "Revisa tu bandeja de entrada y aprueba el cambio de correo electrónico",
+                    "Revisa tu bandeja de entrada y aprueba el cambio de correo electrónico.",
                 newEmailSuccess: "¡Listo! Tu nueva dirección de correo es ",
-                newEmailLabel: "Nuevo correo",
+                newEmailLabel: "Nuevo correo ",
                 confirmEmailLabel: "Confirmar nuevo correo",
                 updateButton: "Actualizar correo",
                 errorNotEquals: "Las direcciones de correo no coinciden.",
+                succesMessageRedirect: "Esta notificación desaparecerá en ",
             },
             updatePassword: {
                 title: "Cambia tu contraseña",
@@ -122,14 +124,17 @@ export const UserMessages = {
             },
             deleteAccount: {
                 title: "Eliminar tu cuenta",
-                description:
-                    "¿Está seguro de eliminar su cuenta? Esta acción es permanente",
+                description: "¿Está seguro de eliminar su cuenta?",
+                descriptionComplete: "Esta acción es permanente.",
+                btnTitle: "Eliminar",
                 confirmTitle: "¿Está seguro de eliminar su cuenta?",
                 confirmButton: "Eliminar definitivamente",
+                succesMessageRedirect: "Redirigiendo al inicio en ",
+                second: " s...",
             },
         },
         alerts: {
-            updatePasswordSuccess: "!Listo! Contraseña actualizada con éxito",
+            updatePasswordSuccess: "!Listo! Contraseña actualizada con éxito.",
         },
     },
     welcomeUser: {

@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { UserDTO } from '@app/app/(modules)/user/types/user-dto';
 import { Messages } from '@app/shared/constants/messages';
 import { formValidate } from '@app/shared/utils/formValidate';
 import { useForm, useWatch } from 'react-hook-form';
 import { RefreshCcw, MailCheck } from 'lucide-react';
+import { clsx } from 'clsx';
 
 import ProfileButtomForm from '@user/components/profile/ProfileButtomForm';
 import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
@@ -12,13 +13,21 @@ import FormErrorUser from '@user/ui/forms/FormErrorUser';
 import Text from '@user/ui/user-feed/Text';
 import OpenMailbox from '@auth/components/OpenMailbox';
 import { UserMessages } from '@user/constants/user-messages';
+import NotificationModal from '@app/shared/components/NotificationModal';
+import AlertInfo from '@app/shared/components/AlertInfo';
 
 /**
  *
  * @param param0
  * @returns
  */
-const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
+const UpdateEmailSection = ({
+    userDTO,
+    setLineLoadingFather,
+}: {
+    userDTO: UserDTO;
+    setLineLoadingFather: Dispatch<SetStateAction<boolean>>;
+}) => {
     const [emailChangeSucceeded, setEmailChangeSucceeded] = useState(false);
     const [isNewEmail, setIsNewEmail] = useState(false);
     const [disabled, setDisabled] = useState(true);
@@ -82,6 +91,7 @@ const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
 
     const onSubmit = handleSubmit(async (data) => {
         setLineLoading(true);
+        setLineLoadingFather(true);
         setLoadBtnUpdateEmail(true);
         try {
             console.log(data);
@@ -95,14 +105,17 @@ const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
             setValue('email', '');
             setValue('reemail', '');
             await new Promise((resolve) => setTimeout(resolve, 2000));
-            setEmailChangeSucceeded(false);
-            setApprove(true);
+            //setEmailChangeSucceeded(false);
+            //setApprove(true);
+            setLineLoadingFather(false);
         }
     });
 
     const handleClikApprove = async () => {
         try {
+            setIsNewEmail(false);
             setLineLoading(true);
+            setLineLoadingFather(true);
             setLoadBtnUpdateEmail(true);
             console.log('handleClikApprove');
         } catch (error) {
@@ -114,80 +127,108 @@ const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
             setLoadBtnUpdateEmail(false);
             setApprove(false);
             setIsNewEmail(true);
+            setLineLoadingFather(true);
+            setLineLoadingFather(false);
         }
     };
 
-    return (
-        <div>
-            <ProfileItemHeader lineLoading={lineLoading} />
+    const classField = clsx(
+        'h-full max-w-[300px] rounded-lg border-[0.13rem] px-4 py-[0.3rem] focus:border-[#A6B3FD] focus:outline-none'
+    );
 
-            {isApprove ? (
-                <div
-                    className="mx-auto flex w-full max-w-[260px] flex-col items-center rounded-md py-8"
-                    onClick={handleClikApprove}
-                >
-                    <ProfileButtomForm
-                        lineLoading={lineLoading}
-                        buttonLoading={loadBtnUpdateEmail}
-                        icon={<MailCheck size={17} strokeWidth={1.5} />}
-                        shape="square"
-                        positionToltip="top"
-                        nameButtom={
-                            UserMessages.profileConfiguration.sections
-                                .updateEmail.confirmButton
-                        }
-                    />
-                </div>
-            ) : (
-                <div className="grid items-center justify-items-center py-5">
-                    <div className="mx-auto flex w-full max-w-[260px] flex-col items-center rounded-md bg-[#EBF9F0]">
-                        {isApprove ? (
-                            <p>
+    return (
+        <div className="">
+            {/* lanzar alerta con le nuevo correo */}
+            {/* pendiente en AlertInfo: lograr que el div obtenga el mismo  ancho que lo demás elementos.. */}
+            {isNewEmail && (
+                <AlertInfo duration={3} type="user_settings">
+                    <Text
+                        text={
+                            <>
                                 {
                                     UserMessages.profileConfiguration.sections
-                                        .updateEmail.confirmMessage
+                                        .updateEmail.newEmailSuccess
                                 }
-                            </p>
-                        ) : emailChangeSucceeded ? (
-                            <div className="py-3">
-                                <Text
-                                    text={
-                                        UserMessages.profileConfiguration
-                                            .sections.updateEmail.checkInbox
-                                    }
-                                    className="mx-auto max-w-[260px] p-2 text-center text-emerald-700"
-                                    sizeOffset={-8}
-                                />
-
-                                <OpenMailbox
-                                    isSuccessResend={false}
-                                    typeStyle="profileConfiguration"
-                                />
-                            </div>
-                        ) : (
-                            <>
-                                {isNewEmail && (
-                                    <Text
-                                        text={
-                                            UserMessages.profileConfiguration
-                                                .sections.updateEmail
-                                                .newEmailSuccess + userDTO.email
-                                        }
-                                        className="mx-auto max-w-[260px] p-2 text-center text-emerald-700"
-                                        sizeOffset={-8}
-                                    />
-                                )}
+                                <label className="font-[470] text-emerald-800">
+                                    {userDTO.email}
+                                </label>
                             </>
+                        }
+                        className="my-3 rounded-lg bg-[#EBF9F0] text-center text-emerald-700"
+                        sizeOffset={15}
+                    />
+                </AlertInfo>
+            )}
+            {/*  Si el usuario abre el corero de verificación... */}
+            {isApprove ? (
+                <div className="rounded-2xl bg-blue-50 p-5">
+                    <div
+                        className="mx-auto flex w-full max-w-[260px] flex-col items-center rounded-2xl bg-blue-50 px-6"
+                        onClick={handleClikApprove}
+                    >
+                        <ProfileButtomForm
+                            lineLoading={lineLoading}
+                            buttonLoading={loadBtnUpdateEmail}
+                            icon={null}
+                            shape="square"
+                            nameButtom={
+                                UserMessages.profileConfiguration.sections
+                                    .updateEmail.confirmButton
+                            }
+                        />
+                    </div>
+                </div>
+            ) : (
+                <div className="grid items-center justify-items-center rounded-2xl bg-blue-50/70 py-5">
+                    <div className="mx-auto flex w-full max-w-[260px] flex-col items-center rounded-md bg-[#EBF9F0]">
+                        {/*  Se muestar notificación con el envió del correo de verificación */}
+                        {emailChangeSucceeded && (
+                            <NotificationModal
+                                type="notification"
+                                setLaunchModal={setEmailChangeSucceeded}
+                                titleText={
+                                    <div className="mx-auto flex flex-col items-center justify-center px-6">
+                                        <Text
+                                            text={
+                                                UserMessages
+                                                    .profileConfiguration
+                                                    .sections.updateEmail
+                                                    .checkInbox
+                                            }
+                                            className="mb-4 text-emerald-700"
+                                            sizeOffset={10}
+                                        />
+
+                                        <OpenMailbox
+                                            isSuccessResend={false}
+                                            typeStyle="profileConfiguration"
+                                        />
+                                    </div>
+                                }
+                            />
                         )}
                     </div>
-
+                    {/* Formulario para el cambio de correo  */}
                     <form onSubmit={onSubmit}>
                         <InputText
                             variant="verified"
-                            minWidth={260}
+                            sizeText={2}
+                            fullWidth={true}
+                            sizeTextInput={-0.1}
+                            inputClass={classField}
                             text={
-                                UserMessages.profileConfiguration.sections
-                                    .updateEmail.newEmailLabel
+                                <div className="flex items-center gap-2">
+                                    {
+                                        UserMessages.profileConfiguration
+                                            .sections.updateEmail.newEmailLabel
+                                    }
+                                    <label className="rounded-lg bg-indigo-100 p-[0.08rem] px-1 font-[450] text-indigo-700">
+                                        {
+                                            UserMessages.profileConfiguration
+                                                .sections.updateEmail.badge
+                                        }
+                                    </label>
+                                </div>
                             }
                             type="text"
                             placeholder={Messages.placeholder.emailExample}
@@ -201,6 +242,10 @@ const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
                         </InputText>
 
                         <InputText
+                            sizeText={2}
+                            fullWidth={true}
+                            sizeTextInput={-0.1}
+                            inputClass={classField}
                             text={
                                 UserMessages.profileConfiguration.sections
                                     .updateEmail.confirmEmailLabel
@@ -220,15 +265,13 @@ const UpdateEmailSection = ({ userDTO }: { userDTO: UserDTO }) => {
                         <button
                             type="submit"
                             disabled={disabled}
-                            className="mt-4 mb-3 w-full"
+                            className="mt-5 w-full"
                         >
                             <ProfileButtomForm
                                 disabled={disabled}
                                 lineLoading={lineLoading}
                                 buttonLoading={loadBtnUpdateEmail}
-                                icon={
-                                    <RefreshCcw size={17} strokeWidth={1.5} />
-                                }
+                                icon={null}
                                 shape="square"
                                 nameButtom={
                                     UserMessages.profileConfiguration.sections

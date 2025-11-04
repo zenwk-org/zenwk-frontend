@@ -22,7 +22,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     placeholder: string;
     isError?: boolean;
     children: React.ReactNode;
-    text?: string;
+    text?: React.ReactNode;
     minWidth?: number;
     variant?: 'default' | 'verified' | 'editPerson';
     type?: string;
@@ -117,7 +117,7 @@ const InputText = forwardRef<HTMLInputElement, Props>(
                             sizeOffset={sizeText}
                             className={`${
                                 isError && TEXT_ROSA_COLOR
-                            } ${variant === 'verified' && 'flex w-fit items-center rounded-lg bg-indigo-100 px-[0.3rem] font-[450]'} ${variant === 'verified' && !isError} `}
+                            } ${variant === 'verified' && !isError} `}
                         />
                     )}
                 </div>

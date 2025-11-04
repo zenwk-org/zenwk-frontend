@@ -86,8 +86,8 @@ const ProfileItemConfiguration = ({
                     >
                         <Text
                             text={description}
-                            className="font-[330] text-gray-500"
-                            sizeOffset={15}
+                            className="font-[400] text-gray-600/80"
+                            sizeOffset={17}
                         />
                     </span>
                 </div>

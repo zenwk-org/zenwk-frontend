@@ -1,4 +1,4 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import clsx from 'clsx';
 import Text from '@user/ui/user-feed/Text';
@@ -22,7 +22,7 @@ const ButtonOpen = ({ href, text, typeStyle = 'default' }: Props) => {
     const baseStyle =
         ' inline-flex items-center gap-1 rounded-lg border-[0.08rem] border-gray-600 px-2 py-1 text-sm hover:border-[#2E887B] hover:text-[#2E887B] sm:text-xs';
     const profileConfiguration =
-        ' cursor-pointer inline-flex items-center gap-1 rounded-md border-[0.08rem] border-emerald-700 p-1 hover:border-emerald-900  hover:text-emerald-900 text-emerald-700  hover:bg-[#D1F2DD]';
+        ' cursor-pointer flex items-center gap-1 rounded-md border-[0.12rem] border-emerald-700 py-[0.1rem] px-[0.3rem] hover:border-emerald-900  hover:text-emerald-900 text-emerald-700  hover:bg-[#D1F2DD]';
     const loginOpt =
         'cursor-pointer inline-flex items-center gap-1 rounded-lg p-2 hover:bg-gray-300 bg-gray-200  text-black font-[350]';
 
@@ -44,8 +44,8 @@ const ButtonOpen = ({ href, text, typeStyle = 'default' }: Props) => {
             {typeStyle === 'profileConfiguration' ? (
                 <Text
                     text={text}
-                    sizeOffset={-20}
-                    className="cursor-pointer hover:text-emerald-900"
+                    sizeOffset={-2}
+                    className="cursor-pointer font-[430] hover:text-emerald-900"
                 />
             ) : typeStyle === 'loginOpt' ? (
                 <Text
@@ -58,7 +58,7 @@ const ButtonOpen = ({ href, text, typeStyle = 'default' }: Props) => {
             )}
 
             {/* Ícono que indica que el enlace se abre en una nueva pestaña */}
-            <OpenInNewIcon className="!text-[0.9rem]" />
+            <ExternalLink strokeWidth={2.5} width={15} />
         </Link>
     );
 };

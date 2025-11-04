@@ -21,7 +21,7 @@ interface Props {
  */
 const Header = ({ content, bgColor }: Props) => {
     const styleHeader = clsx(
-        'mb-10 flex h-14 w-full items-center justify-between px-14 text-white',
+        'flex h-14 w-full items-center justify-between px-4 text-white',
         bgColor
     );
 
@@ -30,7 +30,7 @@ const Header = ({ content, bgColor }: Props) => {
             <div className={styleHeader}>
                 <div className="text-2xl font-semibold tracking-wide text-cyan-900">
                     {/* Logo on acceso directo a inicio */}
-                    <LogoZenwk isToolTip={true} />
+                    <LogoZenwk isToolTip={true} viewText={false} />
                 </div>
 
                 {content}

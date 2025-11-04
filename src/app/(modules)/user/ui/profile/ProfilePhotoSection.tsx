@@ -318,10 +318,10 @@ const ProfilePhotoSection = ({
                             buttonLoading={loadPhotoLoading}
                             icon={
                                 <Camera
-                                    size={20}
+                                    size={22}
                                     strokeWidth={1.8}
                                     // className="text-[#0056B3]"
-                                    className="text-indigo-600 hover:text-indigo-800"
+                                    className="text-indigo-700"
                                 />
                             }
                             text={
@@ -341,6 +341,7 @@ const ProfilePhotoSection = ({
                                     savePhotoHandleClick();
                                 }}
                                 type="button"
+                                disabled={savePhotoLoading}
                             >
                                 <ProfileBotonForm
                                     lineLoading={lineLoading}
@@ -350,7 +351,7 @@ const ProfilePhotoSection = ({
                                             size={20}
                                             strokeWidth={1.8}
                                             // className="text-[#0056B3]"
-                                            className="text-indigo-600 hover:text-indigo-800"
+                                            className="text-indigo-700"
                                         />
                                     }
                                     text={
@@ -371,6 +372,7 @@ const ProfilePhotoSection = ({
                                     deletePhotoHandleClick();
                                 }}
                                 type="button"
+                                disabled={deletePhotoLoading}
                             >
                                 <ProfileBotonForm
                                     lineLoading={lineLoading}
@@ -380,7 +382,7 @@ const ProfilePhotoSection = ({
                                             size={20}
                                             strokeWidth={1.8}
                                             // className="text-[#0056B3]"
-                                            className="text-indigo-600 hover:text-indigo-800"
+                                            className="text-indigo-700"
                                         />
                                     }
                                     text={

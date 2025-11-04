@@ -31,23 +31,19 @@ const DeleteAccount = () => {
     };
 
     return (
-        <div>
-            <ProfileItemHeader lineLoading={lineLoading} />
-            <div
-                className="mx-auto flex w-full max-w-[260px] flex-col items-center rounded-md py-8"
-                onClick={() => setLaunchModal((prev) => !prev)}
-            >
+        <div className="flex place-items-center justify-center rounded-2xl bg-blue-50/90 p-6">
+            <button onClick={() => setLaunchModal((prev) => !prev)}>
                 <ProfileButtomForm
+                    classColor="yellow"
                     lineLoading={lineLoading}
-                    icon={<UserX size={17} strokeWidth={1.5} />}
+                    icon={null}
                     shape="square"
-                    positionToltip="top"
                     nameButtom={
                         UserMessages.profileConfiguration.sections.deleteAccount
-                            .title
+                            .btnTitle
                     }
                 />
-            </div>
+            </button>
             {/* Modal de confirmación */}
             {launchModal && (
                 <ConfirmModalDelete
