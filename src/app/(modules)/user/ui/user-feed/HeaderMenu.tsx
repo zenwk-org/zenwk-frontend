@@ -57,14 +57,14 @@ const HeaderMenu = () => {
     };
 
     return (
-        <nav className="h-full border-b border-b-gray-300 shadow-[0_4px_5px_-4px_rgba(0,0,0,0.10)] dark:bg-gray-900">
+        <nav className="h-11 border-b border-b-gray-300 shadow-[0_4px_5px_-4px_rgba(0,0,0,0.10)] dark:bg-gray-900">
             {/** bkp (anterior limite de la pantalla):  max-w-screen-2xl */}
-            <div className="mx-auto flex flex-wrap items-center justify-between px-4 py-2">
+            <div className="mx-auto flex flex-wrap items-center justify-between px-4">
                 {/* Logo on acceso directo a inicio */}
-                <LogoZenwk isToolTip={true} />
+                <LogoZenwk isToolTip={true} viewText={false} />
 
                 {/* User menu & mobile toggle */}
-                <div className="flex items-center space-x-3 md:order-2 md:space-x-1 rtl:space-x-reverse">
+                <div className="flex items-center space-x-3 py-1 md:order-2 md:space-x-1 rtl:space-x-reverse">
                     <ProfileMenu
                         avatarBtnRef={avatarBtnRef}
                         isPhotoProfile={isPhotoProfile}

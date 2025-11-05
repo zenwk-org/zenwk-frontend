@@ -92,7 +92,7 @@ const UpdatePasswordSection = ({
 
     return (
         <div>
-            <div className="grid max-w-[400px] items-center justify-items-center rounded-2xl bg-blue-50/70 py-5">
+            <div className="grid max-w-[400px] items-center justify-items-center rounded-2xl bg-blue-50/50 py-5">
                 {passwordChangeSucceeded && (
                     <div className="mb-2 flex w-full flex-col items-center rounded-md bg-[#EBF9F0]">
                         {/* pendiente en AlertInfo: lograr que el div obtenga el mismo  ancho que lo demás elementos.. */}

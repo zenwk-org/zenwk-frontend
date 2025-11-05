@@ -66,7 +66,7 @@ const Home = () => {
         // min-h-screen: ocupa todo el alto de la pantalla
         <div className="flex min-h-screen w-full flex-col bg-transparent">
             {/* HEADER FIJO */}
-            <header className="h-fulll sticky top-0 z-50 bg-blue-50/60 shadow-sm backdrop-blur-sm">
+            <header className="sticky top-0 z-50 h-full bg-blue-50/60 shadow-sm backdrop-blur-sm">
                 <Header
                     content={
                         <div className="group relative flex items-center gap-1">

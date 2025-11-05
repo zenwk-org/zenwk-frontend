@@ -163,7 +163,7 @@ const UpdateEmailSection = ({
             {isApprove ? (
                 <div className="rounded-2xl bg-blue-50 p-5">
                     <div
-                        className="mx-auto flex w-full max-w-[260px] flex-col items-center rounded-2xl bg-blue-50 px-6"
+                        className="mx-auto flex w-full max-w-[260px] flex-col items-center rounded-2xl bg-blue-50/30 px-6"
                         onClick={handleClikApprove}
                     >
                         <ProfileButtomForm
