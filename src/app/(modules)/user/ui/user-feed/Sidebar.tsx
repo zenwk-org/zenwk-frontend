@@ -139,7 +139,6 @@ const Sidebar = () => {
                 disabled={isNotPermitted()}
             >
                 {hiddenSidebar ? (
-                    // <div className="flex h-10 items-center justify-center px-4 hover:text-[#5280DA]">
                     <div className="flex h-10 items-center justify-center px-4 hover:text-[#5280DA]">
                         <div>
                             <CloseSidebarIcon

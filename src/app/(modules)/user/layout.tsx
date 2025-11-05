@@ -46,7 +46,7 @@ export default function UserLayout({
                     <header className="sticky top-0 z-50 bg-transparent shadow-sm backdrop-blur-sm">
                         <HeaderMenu />
                     </header>
-                    <div className="fixed z-40 w-full pt-15">
+                    <div className="fixed z-40 w-full pt-12">
                         <Sidebar />
                     </div>
                     <main
