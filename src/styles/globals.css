@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+/* Centrar contenido en input tipo select*/
+select {
+    text-align: center; /* Algunos navegadores */
+    text-align-last: center; /* Safari y otros */
+}
+
+option {
+    text-align: center; /* NO funciona en Safari */
+    font-size: 1rem; /* puede no aplicarse en Safari */
+    padding: 0.5rem; /* ayuda en navegadores compatibles */
+}
+
+/* .fullscreen-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100dvh;
+    overflow: hidden;
+} */
+
+/* global CSS */
+html,
+body,
+#__next {
+    height: 100%;
+}
+:root,
+#__next > div {
+    height: 100%;
+}

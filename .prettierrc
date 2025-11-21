@@ -1,0 +1,18 @@
+{
+    "plugins": ["prettier-plugin-tailwindcss"],
+    "semi": true,
+    "tabWidth": 4,
+    "printWidth": 80,
+    "useTabs": false,
+    "singleQuote": false,
+    "trailingComma": "es5",
+    "tailwindFunctions": ["clsx", "cva", "twMerge", "cn"],
+    "overrides": [
+        {
+            "files": ["*.jsx", "*.tsx"],
+            "options": {
+                "singleQuote": true
+            }
+        }
+    ]
+}
