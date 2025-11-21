@@ -66,7 +66,7 @@ const Home = () => {
         // min-h-screen: ocupa todo el alto de la pantalla
         <div className="flex min-h-screen w-full flex-col bg-transparent">
             {/* HEADER FIJO */}
-            <header className="sticky top-0 z-50 h-full bg-blue-50/60 shadow-sm backdrop-blur-sm">
+            <header className="sticky top-0 z-50 h-full bg-transparent shadow-sm backdrop-blur-sm">
                 <Header
                     content={
                         <div className="group relative flex items-center gap-1">
@@ -101,7 +101,7 @@ const Home = () => {
             </header>
 
             {/* Contenido */}
-            <main className="mt-7 flex-1">
+            <main className="mt-7 flex flex-1 flex-col items-center justify-center">
                 {/* Encabezado del contenido */}
                 <motion.header
                     className="mb-10"
@@ -120,7 +120,8 @@ const Home = () => {
                         metas con claridad y propósito."
                         />
                     </div>
-                    <div className="mx-auto flex max-w-[450px] columns-2 gap-5">
+                    {/* Botones inicio sesión / registrarse */}
+                    <div className="mx-auto flex max-w-[450px] columns-2 gap-5 px-4 py-7">
                         <button
                             className="w-full"
                             onClick={() => router.push('/login')}
@@ -128,7 +129,7 @@ const Home = () => {
                             <Text
                                 text="Inicia sesión"
                                 sizeOffset={50}
-                                className="cursor-pointer rounded-3xl bg-black p-2 text-white hover:bg-gray-500"
+                                className="cursor-pointer rounded-3xl bg-black p-2 text-white hover:bg-black/70"
                             />
                         </button>
                         <button
@@ -140,12 +141,12 @@ const Home = () => {
                             <Text
                                 text="Únete a Zenwk"
                                 sizeOffset={50}
-                                className="boder-[#365FC9] cursor-pointer rounded-3xl border-2 p-2 text-[#365FC9] hover:bg-[#A2B7E6]/20"
+                                className="boder-[#365FC9] cursor-pointer rounded-3xl border-2 p-2 text-[#365FC9] hover:bg-indigo-50"
                             />
                         </button>
                     </div>
                 </motion.header>
-
+                {/* Sección donde se indican las funcionalidades generales del sistema */}
                 <WelcomeSection />
             </main>
 

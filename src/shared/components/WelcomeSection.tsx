@@ -51,11 +51,11 @@ const WelcomeSection = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7 }}
                 >
-                    <div className="grid grid-cols-1 gap-1 rounded-2xl bg-transparent text-center shadow-md md:grid-cols-4">
+                    <div className="grid grid-cols-1 gap-4 rounded-2xl bg-transparent text-center md:grid-cols-4">
                         {features.map((f, index) => (
                             <motion.div
                                 key={index}
-                                className="flex flex-col items-center rounded-2xl bg-transparent p-6 text-center transition-shadow hover:bg-white hover:shadow-lg"
+                                className="flex flex-col items-center rounded-2xl bg-transparent p-6 text-center shadow transition-shadow hover:bg-blue-50/30 hover:shadow-lg"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{

@@ -88,15 +88,15 @@ const UserMenu = ({
     };
 
     const classLi = clsx(
-        'flex items-center px-4 py-2',
+        'flex items-center px-4 py-[0.7rem]',
         isNotPermitted()
             ? 'pointer-events-none opacity-50'
-            : 'cursor-pointer text-gray-700 hover:bg-gray-100 hover:text-blue-700'
+            : 'cursor-pointer text-gray-700 hover:bg-gray-50 hover:text-blue-700'
     );
 
     return (
         <div className="absolute right-0 z-50 mt-2 w-full min-w-[200px] rounded-xl bg-white shadow-lg">
-            <ul>
+            <ul className="">
                 <li className="grid items-center justify-items-center rounded-t-xl border-b-[0.04rem] border-b-gray-300 bg-gray-100 py-4 shadow-2xs shadow-gray-200">
                     {renderProfilePhoto()}
                     <div className="mt-2 grid cursor-pointer items-center justify-items-center">
@@ -134,27 +134,31 @@ const UserMenu = ({
                             </svg>
                         </div>
                     )}
+
                     {/** Item: perfil */}
-                    <Link href={isNotPermitted() ? '#' : '/user/profile'}>
+                    <Link
+                        href={isNotPermitted() ? '#' : '/user/profile'}
+                        className=""
+                    >
                         <li className={classLi} onClick={handleClickProfile}>
                             <Text
-                                sizeOffset={3}
+                                sizeOffset={5}
                                 className="font-[470]"
                                 text={
                                     <span
-                                        className={`flex items-center gap-x-1 ${isNotPermitted() ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                                        className={`flex items-center gap-[0.3rem] ${isNotPermitted() ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                                     >
                                         {clickProfile ? (
                                             <RingLoader
                                                 color="#365FC9"
-                                                size={20}
-                                                speedMultiplier={1.8}
+                                                size={16}
+                                                speedMultiplier={2.5}
                                             />
                                         ) : (
                                             // Ícono original
                                             <CircleUser
-                                                size={20}
-                                                strokeWidth={1.8}
+                                                size={18}
+                                                strokeWidth={2.5}
                                             />
                                         )}
                                         {UserMessages.header.userMenu.profile}
@@ -163,7 +167,7 @@ const UserMenu = ({
                             />
                         </li>
                     </Link>
-
+                    <li className="mx-2 border-[0.01rem] border-gray-200/70"></li>
                     {/** Item: ajustes */}
                     <Link href={isNotPermitted() ? '#' : '/user/settings'}>
                         <li className={classLi} onClick={handleClickSettings}>
@@ -172,16 +176,16 @@ const UserMenu = ({
                                 className="font-[470]"
                                 text={
                                     <span
-                                        className={`flex items-center gap-x-1 ${isNotPermitted() ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                                        className={`flex items-center gap-[0.3rem] ${isNotPermitted() ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                                     >
                                         {clickSettings ? (
                                             <RingLoader
                                                 color="#365FC9"
-                                                size={20}
-                                                speedMultiplier={1.8}
+                                                size={18}
+                                                speedMultiplier={2.5}
                                             />
                                         ) : (
-                                            <Cog size={20} strokeWidth={1.8} />
+                                            <Cog size={18} strokeWidth={2.5} />
                                         )}
                                         {UserMessages.header.userMenu.config}
                                     </span>
@@ -192,26 +196,24 @@ const UserMenu = ({
                 </div>
                 {/** Item: cierre de sesión */}
                 <li
-                    className="relative flex cursor-pointer items-center rounded-b-xl px-4 py-3 hover:bg-gray-50"
+                    className="relative flex cursor-pointer items-center rounded-b-xl px-4 py-[0.7rem] hover:bg-gray-50"
                     onClick={handleLogout}
                 >
-                    <span className="absolute top-0 left-1/2 w-[93%] -translate-x-1/2 border-t border-gray-300 shadow-[0_2px_2px_-2px_rgba(0,0,0,0.2)]" />
+                    <span className="absolute top-0 left-1/2 w-[93%] -translate-x-1/2 border-t border-gray-300 shadow-[0_2px_2px_-2px_rgba(0,0,0,0.3)]" />
 
                     <Text
                         sizeOffset={3}
-                        className="text-[#DA3125] hover:text-[#DA3125]/80"
+                        className="text-[#DA3125]"
                         text={
-                            <span
-                                className={`$ flex cursor-pointer items-center gap-x-1`}
-                            >
+                            <span className="flex cursor-pointer items-center gap-[0.3rem]">
                                 {isLoading ? (
                                     <RingLoader
                                         color="#E1564C"
-                                        size={20}
-                                        speedMultiplier={1.8}
+                                        size={18}
+                                        speedMultiplier={2.5}
                                     />
                                 ) : (
-                                    <CircleX size={20} strokeWidth={1.8} />
+                                    <CircleX size={18} strokeWidth={2.5} />
                                 )}
                                 {UserMessages.header.userMenu.logout}
                             </span>

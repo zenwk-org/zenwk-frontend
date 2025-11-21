@@ -21,7 +21,7 @@ interface Props {
  */
 const Header = ({ content, bgColor }: Props) => {
     const styleHeader = clsx(
-        'flex h-11 w-full items-center justify-between px-4 text-white',
+        'flex h-12 w-full items-center justify-between px-4 text-white',
         bgColor
     );
 

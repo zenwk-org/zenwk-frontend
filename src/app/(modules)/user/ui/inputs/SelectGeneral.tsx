@@ -349,6 +349,7 @@ const SelectGeneral: React.FC<Props> = ({
             )}
             <Select<Option, false, GroupedOption>
                 classNamePrefix="react-select"
+                isSearchable={false}
                 options={groupedOptions}
                 menuPortalTarget={document.body}
                 formatGroupLabel={(data) => formatGroupLabel(data, isError)}
@@ -360,7 +361,6 @@ const SelectGeneral: React.FC<Props> = ({
                     sizeTextInput
                 )}
                 isClearable
-                isSearchable
                 placeholder={placeholder}
                 value={selectedOption}
                 onChange={onChange}
