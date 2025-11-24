@@ -13,5 +13,5 @@ jobs:
     with:
       projectKey: zenwk-org_zenwk-frontend
       organization: zenwk
-      microserviceDir: ./zenwk-frontend
+      projectDir: ./zenwk-frontend
     secrets: inherit
