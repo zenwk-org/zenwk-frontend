@@ -1,17 +1,17 @@
 name: SonarCloud
 
 on:
-  workflow_dispatch:
-  push:
-    branches: [main]
-  pull_request:
-    types: [opened, synchronize, reopened]
+    workflow_dispatch:
+    push:
+        branches: [main, develop]
+    pull_request:
+        types: [opened, synchronize, reopened]
 
 jobs:
-  sonar:
-    uses: zenwk-org/zenwk-workflows/.github/workflows/sonar-web-nextjs.yml@main
-    with:
-      projectKey: zenwk-org_zenwk-frontend
-      organization: zenwk-org
-      projectDir: .
-    secrets: inherit
+    sonar:
+        uses: zenwk-org/zenwk-workflows/.github/workflows/sonar-web-nextjs.yml@main
+        with:
+            projectKey: zenwk-org_zenwk-frontend
+            organization: zenwk-org
+            projectDir: .
+        secrets: inherit

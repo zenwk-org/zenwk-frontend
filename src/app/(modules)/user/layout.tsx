@@ -12,13 +12,10 @@ import { useLoadUser } from '@app/shared/hooks/useLoadUser';
 
 export default function UserLayout({
     children,
-    alignTop,
-}: {
+}: Readonly<{
     children: React.ReactNode;
     isSidebarExpanded: boolean;
-    alignTop?: boolean;
-}) {
-    // const { sidebarWidth } = useSidebarContext();
+}>) {
     const [visible, setVisible] = useState(false);
     const { authorized } = useLoadUser();
 
