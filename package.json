@@ -40,7 +40,6 @@
         "prettier-plugin-tailwindcss": "^0.6.14",
         "tailwindcss": "^4",
         "ts-jest": "^29.4.5",
-        "typescript": "^5",
-        "sonar-scanner": "^5.0.1"
+        "typescript": "^5"
     }
 }
