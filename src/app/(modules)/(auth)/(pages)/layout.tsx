@@ -10,9 +10,9 @@ import { useState, useEffect } from 'react';
  */
 export default function AuthLayout({
     children,
-}: {
+}: Readonly<{
     children: React.ReactNode;
-}) {
+}>) {
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
