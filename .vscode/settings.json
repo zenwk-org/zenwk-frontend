@@ -1,1 +1,16 @@
-{}
+{
+    "sonarqube.connectedMode": {
+        "connections": [
+            {
+                "id": "zenwk-org",
+                "url": "https://sonarcloud.io",
+                "organization": "zenwk-org",
+                "token": "SONAR_TOKEN"
+            }
+        ],
+        "project": {
+            "connectionId": "zenwk-org",
+            "projectKey": "zenwk-org_zenwk-frontend"
+        }
+    }
+}
