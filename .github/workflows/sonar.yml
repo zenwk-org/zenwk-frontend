@@ -12,6 +12,6 @@ jobs:
     uses: zenwk-org/zenwk-workflows/.github/workflows/sonar-web-nextjs.yml@main
     with:
       projectKey: zenwk-org_zenwk-frontend
-      organization: zenwk
+      organization: zenwk-org
       projectDir: .
     secrets: inherit
