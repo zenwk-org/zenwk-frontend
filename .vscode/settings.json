@@ -12,5 +12,9 @@
             "connectionId": "zenwk-org",
             "projectKey": "zenwk-org_zenwk-frontend"
         }
+    },
+    "sonarlint.connectedMode.project": {
+        "connectionId": "zenwk-org",
+        "projectKey": "zenwk-org_zenwk-frontend"
     }
 }
