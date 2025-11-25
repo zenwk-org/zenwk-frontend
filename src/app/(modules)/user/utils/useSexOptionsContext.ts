@@ -1,5 +1,5 @@
 import { SexOptionsContext } from "@user/context/SexOptionsContext";
-import { useSafeConext } from "@app/shared/utils/useContextUtils";
+import { useSafeConext } from "@app/shared/utils/UseContextUtils";
 
 /**
  * Exporta el contexto para RegisterFlowContext.

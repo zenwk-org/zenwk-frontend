@@ -5,8 +5,8 @@ import Link from 'next/link';
 import UserProfilePhoto from '@user/components/general/UserProfilePhoto';
 import LogoZenwk from '@user/components/header/LogoZenwk';
 import ProfileMenu from '@user/components/header/ProfileMenu';
-import { usePersonContext } from '@user/utils/usePersonContext';
-import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
+import { usePersonContext } from '@user/utils/UsePersonContext';
+import { useUserContext } from '@app/app/(modules)/user/utils/UseUserContext';
 
 const userMenuItems = [
     { label: 'Dashboard', href: '#' },

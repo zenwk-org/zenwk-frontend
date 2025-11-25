@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useMemo } from 'react';
 import { UserMessages } from '@user/constants/user-messages';
 import { useSidebarContext } from '@user/utils/UseWidthSidebarContext';
 import { UserStateEnum } from '@user/types/user-dto';
-import { useBackgroundThemeContext } from '@user/utils/useBackgroundTheme';
+import { useBackgroundThemeContext } from '@app/app/(modules)/user/utils/UseBackgroundTheme';
 import { useUserContext } from '@user/utils/UseUserContext';
 
 import Text from '@user/ui/user-feed/Text';

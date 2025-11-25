@@ -1,5 +1,5 @@
 import { UserContext } from "@user/context/UserContext";
-import { useSafeConext } from "@app/shared/utils/useContextUtils";
+import { useSafeConext } from "@app/shared/utils/UseContextUtils";
 
 /**
  * @returns RegisterFlowContext

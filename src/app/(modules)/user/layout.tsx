@@ -14,7 +14,7 @@ export default function UserLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
-    isSidebarExpanded: boolean;
+    isSidebarExpanded?: boolean;
 }>) {
     const [visible, setVisible] = useState(false);
     const { authorized } = useLoadUser();

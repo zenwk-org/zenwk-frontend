@@ -1,5 +1,5 @@
 import { WidthSidebarContext } from "@user/context/WidthSidebarContext";
-import { useSafeConext } from "@app/shared/utils/useContextUtils";
+import { useSafeConext } from "@app/shared/utils/UseContextUtils";
 
 /**
  * Exporta el contexto  del el ancho del sidebar para
