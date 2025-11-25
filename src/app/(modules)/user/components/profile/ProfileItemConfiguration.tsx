@@ -1,8 +1,9 @@
 import { useState, ReactNode } from 'react';
+import { CheckCircle2, AlertTriangle, Info } from 'lucide-react';
+import { ConfigButton } from '../../ui/Buttons/ConfigButton';
 
 import Text from '@user/ui/user-feed/Text';
 import ChevronDownIcon from '@user/components/icons/ChevronDownIcon';
-import { CheckCircle2, AlertTriangle, Info } from 'lucide-react';
 import Title from '@user/ui/user-feed/Title';
 
 type StatusType = 'success' | 'warning' | 'info' | null;
@@ -46,7 +47,6 @@ const ProfileItemConfiguration = ({
 
     return (
         <>
-            {/* <div className="rounded-lg px-3 py-3 text-left hover:bg-[#F0F8FE]"> */}
             <div className="mb-2 px-3 py-3 text-left">
                 <li>
                     <button
@@ -75,6 +75,11 @@ const ProfileItemConfiguration = ({
                             />
                         </div>
                     </button>
+                    <ConfigButton
+                        text={text}
+                        isActive={isActive}
+                        onClick={setClickOption}
+                    />
                 </li>
                 <div
                     className={`flex items-center gap-2 rounded-md text-xs transition-all duration-500 ${
