@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import Text from '@app/app/(modules)/user/ui/user-feed/Text';
-import LotusIcon from '@app/app/(modules)/user/components/icons/LotusIcon';
 import { UserMessages } from '@app/app/(modules)/user/constants/user-messages';
 import Link from 'next/link';
 

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
  * @param offset Ajuste adicional en rem.
  * @returns Objeto con tamaños de fuente responsivos.
  */
-export const useResponsiveFontSizes = (offset: number = 0) => {
+export const getResponsiveFontSizes = (offset: number = 0) => {
     const calc = (base: number) => `${(base + offset).toFixed(2)}rem`;
     return {
         base: calc(0.75),
@@ -23,7 +23,7 @@ export const useResponsiveFont = (offset: number = 0): string => {
     const [fontSize, setFontSize] = useState("0.85rem");
 
     useEffect(() => {
-        const sizes = useResponsiveFontSizes(offset);
+        const sizes = getResponsiveFontSizes(offset);
         const handleResize = () => {
             const w = window.innerWidth;
             if (w >= 1280) setFontSize(sizes.xl);
@@ -54,7 +54,7 @@ export const useResponsiveDimensions = (minWidth: number = 120) => {
     useEffect(() => {
         const update = () => {
             const w = window.innerWidth;
-            let height = "30px";
+            let height = "";
 
             if (w >= 1280) height = "35px";
             else if (w >= 1024) height = "34px";

@@ -33,6 +33,29 @@ const ButtonOpen = ({ href, text, typeStyle = 'default' }: Props) => {
         [loginOpt]: typeStyle === 'loginOpt',
     });
 
+    // Sonar. Obtiene el estilo.
+    const getTyeStyle = () => {
+        if (typeStyle === 'profileConfiguration') {
+            return (
+                <Text
+                    text={text}
+                    sizeOffset={-2}
+                    className="cursor-pointer font-[430] hover:text-emerald-900"
+                />
+            );
+        }
+        if (typeStyle === 'loginOpt') {
+            return (
+                <Text
+                    text={text}
+                    sizeOffset={-5}
+                    className="cursor-pointer font-[400]"
+                />
+            );
+        } else {
+            return text;
+        }
+    };
     return (
         <Link
             href={href}
@@ -41,21 +64,7 @@ const ButtonOpen = ({ href, text, typeStyle = 'default' }: Props) => {
             className={styleClasses}
         >
             {/* Texto del botón */}
-            {typeStyle === 'profileConfiguration' ? (
-                <Text
-                    text={text}
-                    sizeOffset={-2}
-                    className="cursor-pointer font-[430] hover:text-emerald-900"
-                />
-            ) : typeStyle === 'loginOpt' ? (
-                <Text
-                    text={text}
-                    sizeOffset={-5}
-                    className="cursor-pointer font-[400]"
-                />
-            ) : (
-                text
-            )}
+            {getTyeStyle()}
 
             {/* Ícono que indica que el enlace se abre en una nueva pestaña */}
             <ExternalLink strokeWidth={2.5} width={15} />

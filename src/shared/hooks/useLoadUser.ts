@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { fetchJwtBaseApi } from "@app/helpers/fetch-api";
 import { getPerson } from "@user/utils/personUtils";
-import { usePersonContext } from "@user/utils/usePersonContext";
-import { useUserContext } from "@app/app/(modules)/user/utils/useUserContext";
+import { usePersonContext } from "@user/utils/UsePersonContext";
+import { useUserContext } from "@app/app/(modules)/user/utils/UseUserContext";
 
 export const useLoadUser = () => {
     const router = useRouter();
@@ -31,7 +31,7 @@ export const useLoadUser = () => {
                 }
 
                 setAuthorized(true);
-            } catch (error) {
+            } catch {
                 router.push("/");
                 setUserDTO(undefined);
                 setAuthorized(false);

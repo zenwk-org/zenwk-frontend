@@ -1,5 +1,3 @@
-import LablePageInfo from '@auth/ui/LablePageInfo';
-import CenteredHeaderWithBack from '@app/app/(modules)/(auth)/components/CenteredHeaderWithBack';
 import OpenMailbox from '@auth/components/OpenMailbox';
 import Tooltip from '@app/shared/ui/Tooltip';
 import Text from '@user/ui/user-feed/Text';
@@ -12,7 +10,6 @@ interface Props {
     keyWord: string;
     icon?: React.ReactNode;
     onBack?: () => void;
-    children?: React.ReactNode;
 }
 
 /**
@@ -33,7 +30,7 @@ const GeneralPageInfo = ({
         <div className="flex min-h-screen items-center justify-center px-4 pt-12">
             <div className="mx-auto w-full max-w-[250px] place-items-center py-5 sm:max-w-[450px]">
                 <div className="flex w-full cursor-pointer items-center justify-center gap-4">
-                    <div
+                    <button
                         className="group relative rounded-lg bg-gray-200 px-2 py-1 hover:bg-gray-300"
                         onClick={onBack}
                     >
@@ -41,7 +38,7 @@ const GeneralPageInfo = ({
                         <Tooltip position="top" hiddenArrow={true}>
                             {UserMessages.messageToolTip.back}
                         </Tooltip>
-                    </div>
+                    </button>
                     <Text
                         text={title}
                         className="my-2 text-center text-black"
@@ -68,7 +65,7 @@ const GeneralPageInfo = ({
                 </div>
 
                 <div className="grid justify-center">
-                    <OpenMailbox isSuccessResend={false} typeStyle="loginOpt" />
+                    <OpenMailbox typeStyle="loginOpt" />
                 </div>
             </div>
         </div>

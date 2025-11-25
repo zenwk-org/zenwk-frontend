@@ -12,14 +12,6 @@ option {
     padding: 0.5rem; /* ayuda en navegadores compatibles */
 }
 
-/* .fullscreen-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100dvh;
-    overflow: hidden;
-} */
-
 /* global CSS */
 html,
 body,

@@ -1,5 +1,3 @@
-import { error } from "console";
-
 /**
  * Errores y mensajes comunes reutilizables en toda la aplicación.
  */

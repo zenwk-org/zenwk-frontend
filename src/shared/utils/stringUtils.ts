@@ -25,7 +25,7 @@ export const safeValue = (value?: string) => {
 export function getInitials(firstName: string, lastName: string) {
     // Validamos que sean strings y no estén vacíos
     if (typeof firstName !== "string" || typeof lastName !== "string") {
-        throw new Error("Los parámetros deben ser cadenas de texto");
+        throw new TypeError("Los parámetros deben ser cadenas de texto");
     }
 
     const cleanFirst = firstName.trim();

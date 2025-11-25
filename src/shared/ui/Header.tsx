@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import clsx from 'clsx';
 import LogoZenwk from '@user/components/header/LogoZenwk';
 
@@ -26,16 +25,14 @@ const Header = ({ content, bgColor }: Props) => {
     );
 
     return (
-        <>
-            <div className={styleHeader}>
-                <div className="text-2xl font-semibold tracking-wide text-cyan-900">
-                    {/* Logo on acceso directo a inicio */}
-                    <LogoZenwk isToolTip={true} viewText={false} />
-                </div>
-
-                {content}
+        <div className={styleHeader}>
+            <div className="text-2xl font-semibold tracking-wide text-cyan-900">
+                {/* Logo on acceso directo a inicio */}
+                <LogoZenwk isToolTip={true} viewText={false} />
             </div>
-        </>
+
+            {content}
+        </div>
     );
 };
 
