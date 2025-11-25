@@ -1,5 +1,3 @@
-import { TEXT_VIOLET_REDDISH_HOVER } from '@app/styles/constans-color';
-
 const CloseSidebarIcon = ({
     className = ` hover:text-[#5280DA] text-[#135CDC] cursor-pointer`,
     sizeStroke = 2,

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Messages } from '@app/shared/constants/messages';
 
 import ButtonOpen from '@app/shared/ui/ButtonOpen';
@@ -16,16 +15,6 @@ const OpenMailbox = ({
     typeStyle?: 'profileConfiguration' | 'default' | 'loginOpt' | 'other';
     className?: string;
 }) => {
-    const [_visible, setVisible] = useState(true);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setVisible(false);
-        }, 10000);
-
-        return () => clearTimeout(timer);
-    }, []);
-
     return (
         <div className={className}>
             <ul className="flex items-center space-x-2">

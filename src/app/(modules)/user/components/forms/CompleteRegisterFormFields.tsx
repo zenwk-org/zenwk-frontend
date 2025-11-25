@@ -4,17 +4,12 @@ import { ageGenerator } from '@app/shared/utils/userUtils';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { formValidateUser } from '@user/utils/formValidateUser';
 import SelectGeneral, { Option } from '@user/ui/inputs/SelectGeneral';
-
 import InputText from '@user/ui/inputs/InputText';
 import FormErrorUser from '@user/ui/forms/FormErrorUser';
-
 import ProfileButtomForm from '@user/components/profile/ProfileButtomForm';
 import LoadButton from '@auth/components/LoadButton';
 import clsx from 'clsx';
 
-/**
- * Interrace que representa los valores del formulario.
- */
 export interface FormValues {
     firstName: string;
     middleName: string;
@@ -33,14 +28,75 @@ interface Props {
     editDataBasic?: boolean;
     setEditDataBasic?: Dispatch<SetStateAction<boolean>>;
     loadingLineClick?: () => Promise<void>;
-    btnUpdate?: boolean;
 }
 
-/**
- * Componente que representa el formulario de persona.
- * @param param0
- * @returns
- */
+// --- Componentes auxiliares ---
+const InputTextWithError = ({
+    label,
+    placeholder,
+    registerProps,
+    error,
+    classField,
+    editDataBasic,
+}: {
+    label: string;
+    placeholder: string;
+    registerProps: any;
+    error?: string;
+    classField: string;
+    editDataBasic?: boolean;
+}) => (
+    <InputText
+        text={label}
+        placeholder={placeholder}
+        {...registerProps}
+        isError={Boolean(error)}
+        sizeTextInput={editDataBasic ? -0.1 : 0}
+        sizeText={editDataBasic ? 2 : 5}
+        inputClass={classField}
+        fullWidth
+        variant={editDataBasic ? 'editPerson' : 'default'}
+    >
+        <FormErrorUser sizeOffset={-15} error={error ?? ''} />
+    </InputText>
+);
+
+const SelectWithError = ({
+    control,
+    name,
+    rules,
+    variant,
+    sizeTextInput,
+    paramHeigth,
+    text,
+    data,
+    placeholder,
+    optionsLabel,
+    error,
+}: any) => (
+    <Controller
+        control={control}
+        name={name}
+        rules={rules}
+        render={({ field }) => (
+            <SelectGeneral
+                {...field}
+                variant={variant}
+                sizeTextInput={sizeTextInput}
+                paramHeigth={paramHeigth}
+                text={text}
+                data={data}
+                placeholder={placeholder}
+                optionsLabel={optionsLabel}
+                isError={Boolean(error)}
+            >
+                <FormErrorUser sizeOffset={-15} error={error ?? ''} />
+            </SelectGeneral>
+        )}
+    />
+);
+
+// --- Componente principal ---
 const CompleteRegisterFormFields = ({
     form,
     optionsSex,
@@ -50,7 +106,6 @@ const CompleteRegisterFormFields = ({
     editDataBasic,
     setEditDataBasic,
     loadingLineClick,
-    btnUpdate,
 }: Props) => {
     const {
         watch,
@@ -58,8 +113,10 @@ const CompleteRegisterFormFields = ({
         register,
         formState: { errors },
     } = form;
+
     const [btnDisabled, setBtnDisabled] = useState(true);
-    const defaultValues = form.control._defaultValues; // Valores por defecto del form
+    const defaultValues = form.control._defaultValues;
+
     const {
         requiredLastName,
         requiredAge,
@@ -71,10 +128,6 @@ const CompleteRegisterFormFields = ({
         validateTrim,
     } = formValidateUser();
 
-    /**
-     * Detecta si algún campo del formulario se edito y
-     * habilita el botón guardar (solo en modo edición)
-     */
     useEffect(() => {
         const subscription = watch((values) => {
             const hasChanges = Object.keys(defaultValues).some(
@@ -93,175 +146,112 @@ const CompleteRegisterFormFields = ({
             : 'h-full w-full rounded-lg border-[0.14rem] px-4 py-[0.4rem] focus:outline-none'
     );
 
-    /**
-     * 50ms permite que el evento se complete
-     */
-    const handleDisabledButton = () => {
+    const handleDisabledButton = () =>
         setTimeout(() => setBtnDisabled(true), 50);
-    };
 
     return (
-        <form onSubmit={onSubmit} className="">
+        <form onSubmit={onSubmit}>
+            {/* Nombres */}
             <div
                 className={`grid grid-cols-1 gap-5 sm:grid-cols-2 ${editDataBasic ? 'text-black' : 'text-gray-500'}`}
             >
-                <InputText
-                    text="Primer nombre"
+                <InputTextWithError
+                    label="Primer nombre"
                     placeholder={
                         UserMessages.formComplete.placeholder.firstName
                     }
-                    {...register('firstName', {
+                    registerProps={register('firstName', {
                         required: requiredFirstName,
                         pattern: patternName,
                         minLength: minLengthName,
                         maxLength: maxLengthName,
                         validate: validateTrim,
                     })}
-                    isError={Boolean(errors.firstName || errors.root)}
-                    sizeTextInput={editDataBasic ? -0.1 : 0}
-                    sizeText={editDataBasic ? 2 : 5}
-                    inputClass={classField}
-                    fullWidth={true}
-                    variant={editDataBasic ? 'editPerson' : 'default'}
-                >
-                    <FormErrorUser
-                        sizeOffset={-15}
-                        error={errors.firstName?.message ?? ''}
-                    />
-                </InputText>
-
-                <InputText
-                    text={UserMessages.formComplete.labels.middleName}
+                    error={errors.firstName?.message ?? errors.root?.message}
+                    classField={classField}
+                    editDataBasic={editDataBasic}
+                />
+                <InputTextWithError
+                    label={UserMessages.formComplete.labels.middleName}
                     placeholder={
                         UserMessages.formComplete.placeholder.middleName
                     }
-                    {...register('middleName', {
+                    registerProps={register('middleName', {
                         pattern: patternName,
                         minLength: minLengthName,
                         maxLength: maxLengthName,
                     })}
-                    isError={Boolean(errors.middleName || errors.root)}
-                    sizeTextInput={editDataBasic ? -0.1 : 0}
-                    sizeText={editDataBasic ? 2 : 5}
-                    inputClass={classField}
-                    fullWidth={true}
-                    variant={editDataBasic ? 'editPerson' : 'default'}
-                >
-                    <FormErrorUser
-                        sizeOffset={-15}
-                        error={errors.middleName?.message ?? ''}
-                    />
-                </InputText>
+                    error={errors.middleName?.message ?? errors.root?.message}
+                    classField={classField}
+                    editDataBasic={editDataBasic}
+                />
             </div>
 
             {/* Apellidos */}
             <div
                 className={`grid grid-cols-1 gap-5 sm:grid-cols-2 ${editDataBasic ? 'text-black' : 'text-gray-500'}`}
             >
-                <InputText
-                    text={UserMessages.formComplete.labels.lastName}
+                <InputTextWithError
+                    label={UserMessages.formComplete.labels.lastName}
                     placeholder={UserMessages.formComplete.placeholder.lastName}
-                    {...register('lastName', {
+                    registerProps={register('lastName', {
                         required: requiredLastName,
                         pattern: patternName,
                         minLength: minLengthName,
                         maxLength: maxLengthName,
                         validate: validateTrim,
                     })}
-                    isError={Boolean(errors.lastName || errors.root)}
-                    sizeTextInput={editDataBasic ? -0.1 : 0}
-                    sizeText={editDataBasic ? 2 : 5}
-                    inputClass={classField}
-                    fullWidth={true}
-                    variant={editDataBasic ? 'editPerson' : 'default'}
-                >
-                    <FormErrorUser
-                        sizeOffset={-15}
-                        error={errors.lastName?.message ?? ''}
-                    />
-                </InputText>
-                <InputText
-                    text={UserMessages.formComplete.labels.middleLastName}
+                    error={errors.lastName?.message ?? errors.root?.message}
+                    classField={classField}
+                    editDataBasic={editDataBasic}
+                />
+                <InputTextWithError
+                    label={UserMessages.formComplete.labels.middleLastName}
                     placeholder={
                         UserMessages.formComplete.placeholder.middleLastName
                     }
-                    {...register('middleLastName', {
+                    registerProps={register('middleLastName', {
+                        pattern: patternName,
                         minLength: minLengthName,
                         maxLength: maxLengthName,
-                        pattern: patternName,
                     })}
-                    isError={Boolean(errors.middleLastName || errors.root)}
-                    sizeTextInput={editDataBasic ? -0.1 : 0}
-                    sizeText={editDataBasic ? 2 : 5}
-                    inputClass={classField}
-                    fullWidth={true}
-                    variant={editDataBasic ? 'editPerson' : 'default'}
-                >
-                    <FormErrorUser
-                        sizeOffset={-15}
-                        error={errors.middleLastName?.message ?? ''}
-                    />
-                </InputText>
+                    error={
+                        errors.middleLastName?.message ?? errors.root?.message
+                    }
+                    classField={classField}
+                    editDataBasic={editDataBasic}
+                />
             </div>
 
-            {/* Sexo y edad */}
+            {/* Sexo y Edad */}
             <div
                 className={`grid grid-cols-1 gap-5 sm:grid-cols-2 ${!editDataBasic && 'mb-6'}`}
             >
-                <Controller
+                <SelectWithError
                     control={control}
                     name="sex"
                     rules={{ required: requiredSex }}
-                    render={({ field }) => (
-                        <SelectGeneral
-                            variant={editDataBasic ? 'editPerson' : 'newUser'}
-                            sizeTextInput={editDataBasic ? -0.1 : 0}
-                            paramHeigth={editDataBasic ? -4 : 0}
-                            text={UserMessages.formComplete.labels.sex}
-                            data={optionsSex}
-                            placeholder={
-                                UserMessages.formComplete.sex.placeholder
-                            }
-                            optionsLabel={
-                                UserMessages.formComplete.sex.labelOption
-                            }
-                            isError={Boolean(errors.sex || errors.root)}
-                            {...field}
-                        >
-                            <FormErrorUser
-                                sizeOffset={-15}
-                                error={errors.sex?.message ?? ''}
-                            />
-                        </SelectGeneral>
-                    )}
+                    variant={editDataBasic ? 'editPerson' : 'newUser'}
+                    sizeTextInput={editDataBasic ? -0.1 : 0}
+                    paramHeigth={editDataBasic ? -4 : 0}
+                    text={UserMessages.formComplete.labels.sex}
+                    data={optionsSex}
+                    placeholder={UserMessages.formComplete.sex.placeholder}
+                    optionsLabel={UserMessages.formComplete.sex.labelOption}
+                    error={errors.sex?.message ?? errors.root?.message}
                 />
-
-                <Controller
+                <SelectWithError
                     control={control}
                     name="age"
                     rules={{ required: requiredAge }}
-                    render={({ field }) => (
-                        <SelectGeneral
-                            variant={editDataBasic ? 'editPerson' : 'newUser'}
-                            sizeTextInput={editDataBasic ? -0.1 : 0}
-                            paramHeigth={editDataBasic ? -4 : 0}
-                            text={UserMessages.formComplete.labels.age}
-                            data={ageGenerator}
-                            placeholder={
-                                UserMessages.formComplete.age.placeholder
-                            }
-                            optionsLabel={
-                                UserMessages.formComplete.age.labelOption
-                            }
-                            isError={Boolean(errors.age || errors.root)}
-                            {...field}
-                        >
-                            <FormErrorUser
-                                sizeOffset={-15}
-                                error={errors.age?.message ?? ''}
-                            />
-                        </SelectGeneral>
-                    )}
+                    variant={editDataBasic ? 'editPerson' : 'newUser'}
+                    sizeTextInput={editDataBasic ? -0.1 : 0}
+                    paramHeigth={editDataBasic ? -4 : 0}
+                    text={UserMessages.formComplete.labels.age}
+                    data={ageGenerator}
+                    placeholder={UserMessages.formComplete.age.placeholder}
+                    optionsLabel={UserMessages.formComplete.age.labelOption}
+                    error={errors.age?.message ?? errors.root?.message}
                 />
             </div>
 
@@ -279,48 +269,45 @@ const CompleteRegisterFormFields = ({
                 </div>
             )}
 
-            {/** Botón crear o editar*/}
+            {/* Botones */}
             {editDataBasic ? (
-                <div className="mt-5">
-                    <div className="flex gap-5">
-                        <button
-                            className="flex w-full"
-                            type="button"
-                            onClick={async () => {
-                                if (setEditDataBasic) {
-                                    await loadingLineClick?.();
-                                    setEditDataBasic((prev) => !prev);
-                                }
-                            }}
-                        >
-                            <ProfileButtomForm
-                                icon={null}
-                                shape="square"
-                                nameButtom="Cancelar"
-                            />
-                        </button>
-                        <button
-                            type="submit"
-                            className="flex w-full"
+                <div className="mt-5 flex gap-5">
+                    <button
+                        type="button"
+                        className="flex w-full"
+                        onClick={async () => {
+                            if (setEditDataBasic) {
+                                await loadingLineClick?.();
+                                setEditDataBasic((prev) => !prev);
+                            }
+                        }}
+                    >
+                        <ProfileButtomForm
+                            icon={null}
+                            shape="square"
+                            nameButtom="Cancelar"
+                        />
+                    </button>
+                    <button
+                        type="submit"
+                        className="flex w-full"
+                        disabled={btnDisabled}
+                        onClick={handleDisabledButton}
+                    >
+                        <ProfileButtomForm
                             disabled={btnDisabled}
-                            onClick={handleDisabledButton}
-                        >
-                            <ProfileButtomForm
-                                disabled={btnDisabled}
-                                classColor="yellow"
-                                icon={null}
-                                shape="square"
-                                nameButtom={UserMessages.buttons.save}
-                                lineLoading={isBtnLoading}
-                                buttonLoading={isBtnLoading}
-                            />
-                        </button>
-                    </div>
+                            classColor="yellow"
+                            icon={null}
+                            shape="square"
+                            nameButtom={UserMessages.buttons.save}
+                            lineLoading={isBtnLoading}
+                            buttonLoading={isBtnLoading}
+                        />
+                    </button>
                 </div>
             ) : (
                 <LoadButton
                     loading={isBtnLoading}
-                    // error global
                     isError={Object.keys(errors).length > 0}
                     textButton={UserMessages.buttons.welcome.buttonSave}
                 />

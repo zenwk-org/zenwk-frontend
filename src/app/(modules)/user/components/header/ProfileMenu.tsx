@@ -1,10 +1,8 @@
 'use client';
 import FlyoutMenu from '@user/components/general/FlyoutMenu';
 import UserMenu from '@user/components/general/UserMenu';
-import { mergeRefs } from '@user/utils/utilsRef';
 import { UserDTO } from '@app/app/(modules)/user/types/user-dto';
-import { useRouter } from 'next/navigation';
-import { ChevronDown } from 'lucide-react';
+import ProfileMenuTrigger from './ProfileMenuTrigger';
 
 interface Props {
     isPhotoProfile: () => React.ReactNode;
@@ -28,51 +26,25 @@ const ProfileMenu = ({
     profilePicture,
     isFromHome = false,
 }: Props) => {
-    const router = useRouter();
+    // Función separada fuera del JSX
+    const renderTrigger = (props: {
+        onClick: () => void;
+        ref: React.Ref<HTMLButtonElement>;
+    }) => {
+        return (
+            <ProfileMenuTrigger
+                {...props}
+                isPhotoProfile={isPhotoProfile}
+                avatarBtnRef={avatarBtnRef}
+                userDTO={userDTO}
+                isFromHome={isFromHome}
+                handleChevronClick={handleChevronClick}
+            />
+        );
+    };
+
     return (
-        <FlyoutMenu
-            trigger={({ onClick, ref }) => (
-                <div className="flex gap-1">
-                    {/* Icono > para desplegar menu de opciones de usuario */}
-                    {!isFromHome ? (
-                        <button
-                            type="button"
-                            tabIndex={0}
-                            ref={mergeRefs(ref, avatarBtnRef)}
-                            className="flex cursor-pointer rounded-full bg-gradient-to-r from-gray-100 to-gray-200 transition-shadow duration-300 hover:ring-4 hover:ring-[#C7D3F0] focus:ring-4 focus:ring-[#C7D3F0] focus:outline-none"
-                            onClick={onClick}
-                        >
-                            {isPhotoProfile()}
-                        </button>
-                    ) : (
-                        <button
-                            type="button"
-                            tabIndex={0}
-                            className="flex cursor-pointer rounded-full bg-gradient-to-r from-gray-100 to-gray-200 transition-shadow duration-300 hover:ring-4 hover:ring-[#C7D3F0] focus:ring-4 focus:ring-[#C7D3F0] focus:outline-none"
-                            onClick={() =>
-                                userDTO
-                                    ? router.push('/user')
-                                    : router.push('/login')
-                            }
-                        >
-                            {isPhotoProfile()}
-                        </button>
-                    )}
-                    {userDTO && (
-                        <button
-                            className={`cursor-pointer text-black transition-transform duration-300 hover:scale-130`}
-                            onClick={() => {
-                                handleChevronClick();
-                                onClick();
-                            }}
-                        >
-                            <ChevronDown size={15} strokeWidth={1.8} />
-                        </button>
-                    )}
-                </div>
-            )}
-            position="right"
-        >
+        <FlyoutMenu trigger={renderTrigger} position="right">
             <UserMenu profilePicture={profilePicture} userDTO={userDTO} />
         </FlyoutMenu>
     );

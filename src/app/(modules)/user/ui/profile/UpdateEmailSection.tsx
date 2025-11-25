@@ -3,16 +3,15 @@ import { UserDTO } from '@app/app/(modules)/user/types/user-dto';
 import { Messages } from '@app/shared/constants/messages';
 import { formValidate } from '@app/shared/utils/formValidate';
 import { useForm, useWatch } from 'react-hook-form';
-import { RefreshCcw, MailCheck } from 'lucide-react';
+import { UserMessages } from '@user/constants/user-messages';
+
 import { clsx } from 'clsx';
 
 import ProfileButtomForm from '@user/components/profile/ProfileButtomForm';
-import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
 import InputText from '@user/ui/inputs/InputText';
 import FormErrorUser from '@user/ui/forms/FormErrorUser';
 import Text from '@user/ui/user-feed/Text';
 import OpenMailbox from '@auth/components/OpenMailbox';
-import { UserMessages } from '@user/constants/user-messages';
 import NotificationModal from '@app/shared/components/NotificationModal';
 import AlertInfo from '@app/shared/components/AlertInfo';
 
@@ -34,8 +33,7 @@ const UpdateEmailSection = ({
     const [lineLoading, setLineLoading] = useState(false);
     const [loadBtnUpdateEmail, setLoadBtnUpdateEmail] = useState(false);
     const { requiredEmail, patternEmail, validateEquals } = formValidate();
-
-    const [isApprove, setApprove] = useState(false);
+    const [isApprove, setIsApprove] = useState(false);
 
     const {
         clearErrors,
@@ -105,8 +103,6 @@ const UpdateEmailSection = ({
             setValue('email', '');
             setValue('reemail', '');
             await new Promise((resolve) => setTimeout(resolve, 2000));
-            //setEmailChangeSucceeded(false);
-            //setApprove(true);
             setLineLoadingFather(false);
         }
     });
@@ -125,7 +121,7 @@ const UpdateEmailSection = ({
             await new Promise((resolve) => setTimeout(resolve, 1000));
             setLineLoading(false);
             setLoadBtnUpdateEmail(false);
-            setApprove(false);
+            setIsApprove(false);
             setIsNewEmail(true);
             setLineLoadingFather(true);
             setLineLoadingFather(false);
@@ -162,7 +158,7 @@ const UpdateEmailSection = ({
             {/*  Si el usuario abre el corero de verificación... */}
             {isApprove ? (
                 <div className="rounded-2xl bg-blue-50 p-5">
-                    <div
+                    <button
                         className="mx-auto flex w-full max-w-[260px] flex-col items-center rounded-2xl bg-blue-50/30 px-6"
                         onClick={handleClikApprove}
                     >
@@ -176,7 +172,7 @@ const UpdateEmailSection = ({
                                     .updateEmail.confirmButton
                             }
                         />
-                    </div>
+                    </button>
                 </div>
             ) : (
                 <div className="grid items-center justify-items-center rounded-2xl bg-blue-50/70 py-5">
@@ -199,10 +195,7 @@ const UpdateEmailSection = ({
                                             sizeOffset={10}
                                         />
 
-                                        <OpenMailbox
-                                            isSuccessResend={false}
-                                            typeStyle="profileConfiguration"
-                                        />
+                                        <OpenMailbox typeStyle="profileConfiguration" />
                                     </div>
                                 }
                             />

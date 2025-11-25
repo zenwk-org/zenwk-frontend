@@ -1,5 +1,3 @@
-import { TEXT_VIOLET_REDDISH_HOVER } from '@app/styles/constans-color';
-
 const ChevronDownIcon = ({
     className = '',
     sizeStroke = 2,

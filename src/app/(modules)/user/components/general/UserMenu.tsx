@@ -1,23 +1,18 @@
 'use client';
 
-import { CircleUser, Cog, LoaderCircle, CircleX } from 'lucide-react';
+import { CircleUser, Cog, CircleX } from 'lucide-react';
 import { UserMessages } from '@user/constants/user-messages';
-import { TEXT_ROSA_COLOR, TEXT_BLUE_COLOR } from '@app/styles/constans-color';
 import { RingLoader } from 'react-spinners';
-import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
-
-import { useRouter } from 'next/navigation';
+import { useLogout } from '@app/shared/hooks/useLogout';
 import { UserDTO } from '@app/app/(modules)/user/types/user-dto';
+import { UserStateEnum } from '@user/types/user-dto';
 import React, { useState } from 'react';
-import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
-import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
 
 import Text from '@user/ui/user-feed/Text';
 import UserProfilePhoto from '@user/components/general/UserProfilePhoto';
 import Link from 'next/link';
-import { UserStateEnum } from '@user/types/user-dto';
+
 import clsx from 'clsx';
-import { useLogout } from '@app/shared/hooks/useLogout';
 
 /**
  * Interface que representa los props usados por el componente.
@@ -140,85 +135,97 @@ const UserMenu = ({
                         href={isNotPermitted() ? '#' : '/user/profile'}
                         className=""
                     >
-                        <li className={classLi} onClick={handleClickProfile}>
-                            <Text
-                                sizeOffset={5}
-                                className="font-[470]"
-                                text={
-                                    <span
-                                        className={`flex items-center gap-[0.3rem] ${isNotPermitted() ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-                                    >
-                                        {clickProfile ? (
-                                            <RingLoader
-                                                color="#365FC9"
-                                                size={16}
-                                                speedMultiplier={2.5}
-                                            />
-                                        ) : (
-                                            // Ícono original
-                                            <CircleUser
-                                                size={18}
-                                                strokeWidth={2.5}
-                                            />
-                                        )}
-                                        {UserMessages.header.userMenu.profile}
-                                    </span>
-                                }
-                            />
+                        <li className={classLi}>
+                            <button onClick={handleClickProfile}>
+                                <Text
+                                    sizeOffset={5}
+                                    className="font-[470]"
+                                    text={
+                                        <span
+                                            className={`flex items-center gap-[0.3rem] ${isNotPermitted() ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                                        >
+                                            {clickProfile ? (
+                                                <RingLoader
+                                                    color="#365FC9"
+                                                    size={16}
+                                                    speedMultiplier={2.5}
+                                                />
+                                            ) : (
+                                                // Ícono original
+                                                <CircleUser
+                                                    size={18}
+                                                    strokeWidth={2.5}
+                                                />
+                                            )}
+                                            {
+                                                UserMessages.header.userMenu
+                                                    .profile
+                                            }
+                                        </span>
+                                    }
+                                />
+                            </button>
                         </li>
                     </Link>
                     <li className="mx-2 border-[0.01rem] border-gray-200/70"></li>
                     {/** Item: ajustes */}
                     <Link href={isNotPermitted() ? '#' : '/user/settings'}>
-                        <li className={classLi} onClick={handleClickSettings}>
-                            <Text
-                                sizeOffset={3}
-                                className="font-[470]"
-                                text={
-                                    <span
-                                        className={`flex items-center gap-[0.3rem] ${isNotPermitted() ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-                                    >
-                                        {clickSettings ? (
-                                            <RingLoader
-                                                color="#365FC9"
-                                                size={18}
-                                                speedMultiplier={2.5}
-                                            />
-                                        ) : (
-                                            <Cog size={18} strokeWidth={2.5} />
-                                        )}
-                                        {UserMessages.header.userMenu.config}
-                                    </span>
-                                }
-                            />
+                        <li className={classLi}>
+                            <button onClick={handleClickSettings}>
+                                <Text
+                                    sizeOffset={3}
+                                    className="font-[470]"
+                                    text={
+                                        <span
+                                            className={`flex items-center gap-[0.3rem] ${isNotPermitted() ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                                        >
+                                            {clickSettings ? (
+                                                <RingLoader
+                                                    color="#365FC9"
+                                                    size={18}
+                                                    speedMultiplier={2.5}
+                                                />
+                                            ) : (
+                                                <Cog
+                                                    size={18}
+                                                    strokeWidth={2.5}
+                                                />
+                                            )}
+                                            {
+                                                UserMessages.header.userMenu
+                                                    .config
+                                            }
+                                        </span>
+                                    }
+                                />
+                            </button>
                         </li>
                     </Link>
                 </div>
                 {/** Item: cierre de sesión */}
-                <li
-                    className="relative flex cursor-pointer items-center rounded-b-xl px-4 py-[0.7rem] hover:bg-gray-50"
-                    onClick={handleLogout}
-                >
-                    <span className="absolute top-0 left-1/2 w-[93%] -translate-x-1/2 border-t border-gray-300 shadow-[0_2px_2px_-2px_rgba(0,0,0,0.3)]" />
+                <li className="relative flex cursor-pointer items-center rounded-b-xl px-4 py-[0.7rem] hover:bg-gray-50">
+                    <button onClick={handleLogout}>
+                        <span className="absolute top-0 left-1/2 w-[93%] -translate-x-1/2 border-t border-gray-300 shadow-[0_2px_2px_-2px_rgba(0,0,0,0.3)]" />
 
-                    <Text
-                        sizeOffset={3}
-                        className="text-[#DA3125]"
-                        text={
-                            <span className="flex cursor-pointer items-center gap-[0.3rem]">
-                                {isLoading ? (
-                                    <RingLoader
-                                        color="#E1564C"
-                                        size={18}
-                                        speedMultiplier={2.5}
-                                    />
-                                ) : (
-                                    <CircleX size={18} strokeWidth={2.5} />
-                                )}
-                                {UserMessages.header.userMenu.logout}
-                            </span>
-                        }
-                    />
+                        <Text
+                            sizeOffset={3}
+                            className="text-[#DA3125]"
+                            text={
+                                <span className="flex cursor-pointer items-center gap-[0.3rem]">
+                                    {isLoading ? (
+                                        <RingLoader
+                                            color="#E1564C"
+                                            size={18}
+                                            speedMultiplier={2.5}
+                                        />
+                                    ) : (
+                                        <CircleX size={18} strokeWidth={2.5} />
+                                    )}
+                                    {UserMessages.header.userMenu.logout}
+                                </span>
+                            }
+                        />
+                    </button>
                 </li>
             </ul>
         </div>

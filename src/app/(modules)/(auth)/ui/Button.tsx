@@ -1,5 +1,3 @@
-import clsx from 'clsx';
-
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     text: string;
     isError?: boolean;

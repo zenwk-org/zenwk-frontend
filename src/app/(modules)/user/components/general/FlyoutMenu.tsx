@@ -95,22 +95,27 @@ const FlyoutMenu = ({
             })}
             {/* SIEMPRE montado para animar entrada/salida */}
             <div
+                role="menu"
+                tabIndex={0}
                 aria-hidden={!isOpen}
                 className={[
                     'absolute z-50 mt-2 max-w-[500px] rounded-xl border border-gray-200 bg-white',
                     'shadow-xl shadow-gray-300',
-                    // origen de la animación en la esquina del trigger
                     position === 'right'
                         ? 'right-0 origin-top-right'
                         : 'left-0 origin-top-left',
-                    // transición suave
                     'transform-gpu transition-transform duration-300',
-                    // estados
                     isOpen
                         ? 'pointer-events-auto translate-y-0 scale-100 opacity-100'
                         : 'pointer-events-none -translate-y-1 scale-95 opacity-0',
                 ].join(' ')}
                 onClick={handleItemClick}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        handleItemClick();
+                        e.preventDefault();
+                    }
+                }}
             >
                 {children}
             </div>

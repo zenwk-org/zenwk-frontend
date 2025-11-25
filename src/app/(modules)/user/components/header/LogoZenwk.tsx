@@ -1,11 +1,5 @@
 import { UserMessages } from '@user/constants/user-messages';
-import {
-    TEXT_CYAN_CUSTOM,
-    TEXT_VIOLET_REDDISH,
-    TEXT_ROYAL_BLUE,
-} from '@app/styles/constans-color';
 
-import Title from '@user/ui/user-feed/Title';
 import LotusIcon from '@user/components/icons/LotusIcon';
 import Tooltip from '@app/shared/ui/Tooltip';
 import Link from 'next/link';

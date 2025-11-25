@@ -1,8 +1,3 @@
-import {
-    CYAN_CUSTOM_COLOR,
-    VIOLET_REDDISH_COLOR,
-} from '@app/styles/constans-color';
-
 const LotusIcon = ({
     className = '',
     sizeStroke = 5,
