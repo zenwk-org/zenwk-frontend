@@ -48,7 +48,7 @@ const HeaderAction: React.FC<HeaderActionProps> = ({
             <div className="flex w-full items-center justify-center gap-6">
                 {/* Si el icono se envía se muestra con su tooltip */}
                 {icon && (
-                    <div
+                    <button
                         onClick={onAction}
                         className={clsx(
                             'group relative cursor-pointer rounded-lg px-2 py-1 transition-all duration-200',
@@ -59,7 +59,7 @@ const HeaderAction: React.FC<HeaderActionProps> = ({
                         <Tooltip position="top" hiddenArrow>
                             {tooltipText}
                         </Tooltip>
-                    </div>
+                    </button>
                 )}
                 {/* Titulo del paso en el flujo */}
                 <Text

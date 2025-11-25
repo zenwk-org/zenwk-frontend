@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactNode, useEffect, useState } from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 import Select, {
     StylesConfig,
     components,
@@ -12,7 +12,6 @@ import {
 } from '@app/styles/constans-color';
 import Text from '../user-feed/Text';
 import { useResponsiveStyle } from '@app/shared/hooks/useResponsiveTextAndDimensions';
-import { verify } from 'crypto';
 
 export const COLOR_EDIT_PERSON = '#F3D068';
 export const COLOR_FOCUS_EDIT_PERSON = '#A6B3FD';
@@ -45,8 +44,6 @@ interface Props {
     children?: ReactNode;
     text?: string;
     variant?: 'newUser' | 'editPerson';
-    fullWidth?: boolean;
-    minWidth?: number;
     sizeTextInput?: number;
     paramHeigth?: number;
 }

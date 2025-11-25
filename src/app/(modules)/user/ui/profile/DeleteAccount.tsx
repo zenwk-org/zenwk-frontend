@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
-import { UserX } from 'lucide-react';
-
-import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
 import ProfileButtomForm from '@user/components/profile/ProfileButtomForm';
 import ConfirmModalDelete from '@app/shared/components/ConfirmModalDelete';
 import { UserMessages } from '@user/constants/user-messages';
 
 const DeleteAccount = () => {
-    const [lineLoading, setLineLoading] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const [launchModal, setLaunchModal] = useState(false);
 
@@ -35,7 +31,6 @@ const DeleteAccount = () => {
             <button onClick={() => setLaunchModal((prev) => !prev)}>
                 <ProfileButtomForm
                     classColor="yellow"
-                    lineLoading={lineLoading}
                     icon={null}
                     shape="square"
                     nameButtom={

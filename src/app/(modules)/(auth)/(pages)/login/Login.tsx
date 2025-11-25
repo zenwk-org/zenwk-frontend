@@ -336,7 +336,7 @@ const Login = () => {
                                     : AuthMessages.buttons.login
                             }
                         />
-                        {!existEmail && !emailParam && (
+                        {existEmail == null && emailParam == null && (
                             <div className="mt-7 text-center">
                                 <Paragraph
                                     text={

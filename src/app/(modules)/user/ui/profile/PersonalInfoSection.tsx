@@ -5,13 +5,13 @@ import { useState, Dispatch, SetStateAction } from 'react';
 import { useSexOptionsContext } from '@user/utils/useSexOptionsContext';
 import { getLabelById } from '@app/shared/utils/optionsSexUtils';
 import { NotebookPen } from 'lucide-react';
-import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
+import { usePersonContext } from '@user/utils/UsePersonContext';
+import { UserMessages } from '@user/constants/user-messages';
 
 import Text from '@user/ui/user-feed/Text';
 import CompleteRegisterForm from '@user/ui/forms/CompleteRegisterForm';
 import ProfileBotonForm from '@app/app/(modules)/user/components/profile/ProfileButtomForm';
 import Spinner from '@app/shared/ui/Spinner';
-import { UserMessages } from '@user/constants/user-messages';
 
 interface FormValues {
     firstName: string;
@@ -34,9 +34,7 @@ const PersonalInfoSection = ({
 }) => {
     const { optionsSex } = useSexOptionsContext();
     const [editDataBasic, setEditDataBasic] = useState(false);
-    //const [lineLoading, setLineLoading] = useState(false);
     const { person } = usePersonContext();
-    // console.log(person);
 
     /**
      * Cargador hasta que la persona sea definida.
@@ -152,10 +150,9 @@ const PersonalInfoSection = ({
                                 <Text
                                     sizeOffset={10}
                                     text={
-                                        dateOfBirth
-                                            ? dateOfBirth
-                                            : UserMessages.formComplete
-                                                  .placeholder.dateOfBirth
+                                        dateOfBirth ||
+                                        UserMessages.formComplete.placeholder
+                                            .dateOfBirth
                                     }
                                     className="text-gray-500"
                                 />

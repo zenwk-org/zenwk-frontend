@@ -7,6 +7,7 @@ import {
     useState,
     SetStateAction,
     Dispatch,
+    useMemo,
 } from 'react';
 
 interface UserContextType {
@@ -26,11 +27,10 @@ export const UserContext = createContext<UserContextType | undefined>(
  */
 const UserContextProvider = ({ children }: { children: ReactNode }) => {
     const [userDTO, setUserDTO] = useState<UserDTO>();
-
+    // Memoriza el objeto de contexto para evitar re-renderes innecesarios
+    const value = useMemo(() => ({ userDTO, setUserDTO }), [userDTO]);
     return (
-        <UserContext.Provider value={{ userDTO, setUserDTO }}>
-            {children}
-        </UserContext.Provider>
+        <UserContext.Provider value={value}>{children}</UserContext.Provider>
     );
 };
 

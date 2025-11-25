@@ -65,7 +65,7 @@ const Home = () => {
                 <Header
                     content={
                         <div className="group relative flex items-center gap-1">
-                            {!userDTO && showGuestProfile ? (
+                            {userDTO == null && showGuestProfile ? (
                                 <div className="flex items-center md:order-2 rtl:space-x-reverse">
                                     <ProfileMenu
                                         avatarBtnRef={avatarBtnRef}

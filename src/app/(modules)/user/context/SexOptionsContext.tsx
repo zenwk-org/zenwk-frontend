@@ -5,6 +5,7 @@ import {
     SetStateAction,
     Dispatch,
     useEffect,
+    useMemo,
 } from 'react';
 import { Option } from '@user/ui/inputs/SelectGeneral';
 import { loadSexLabels } from '@app/shared/utils/optionsSexUtils';
@@ -26,6 +27,8 @@ export const SexOptionsContext = createContext<
  */
 const SexOptionsContextProvider = ({ children }: { children: ReactNode }) => {
     const [optionsSex, setOptionsSex] = useState<Option[]>([]);
+    // Memoriza el objeto de contexto para evitar re-renderes innecesarios
+    const value = useMemo(() => ({ optionsSex, setOptionsSex }), [optionsSex]);
 
     useEffect(() => {
         const fetchOptions = async () => {
@@ -41,14 +44,14 @@ const SexOptionsContextProvider = ({ children }: { children: ReactNode }) => {
                     );
                     setOptionsSex(options);
                 }
-            } catch (error) {}
+            } catch {}
         };
 
         fetchOptions();
     }, []);
 
     return (
-        <SexOptionsContext.Provider value={{ optionsSex, setOptionsSex }}>
+        <SexOptionsContext.Provider value={value}>
             {children}
         </SexOptionsContext.Provider>
     );

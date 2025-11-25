@@ -4,18 +4,11 @@ import { useForm, useWatch } from 'react-hook-form';
 import { SetPassword, ClientErrorMessage } from '@app/shared/interfaces/auth';
 import { formValidate } from '@app/shared/utils/formValidate';
 import { AuthMessages } from '@auth/constants/auth-messages';
-import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-
 import React, { useEffect, useState } from 'react';
 
-import FormInput from '@app/app/(modules)/(auth)/ui/FormInput';
 import FormError from '@app/shared/ui/FormError';
-import HeaderText from '@app/app/(modules)/(auth)/ui/HeaderText';
 import InputDisabled from '@app/app/(modules)/(auth)/ui/InputDisabled';
-import CenteredHeaderWithBack from '@auth/components/CenteredHeaderWithBack';
-import Title from '@app/app/(modules)/(auth)/ui/Title';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import useRedirectRegister from '@auth/hooks/useRedirectRegister';
 import LoadButton from '@auth/components/LoadButton';
 import Spinner from '@app/shared/ui/Spinner';
@@ -56,9 +49,7 @@ const SetPasswordUser = React.memo(
         const uuid = searchParams.get('uuid') ?? '';
         const tokenCode = searchParams.get('code') ?? '';
         const [loading, setLoading] = useState(true);
-        const [isBtnLoading, setBtnLoading] = useState(false);
-        const router = useRouter();
-        const [errorPassword, setErrorPassword] = useState(false);
+        const [btnLoading, setBtnLoading] = useState(false);
 
         const { requiredPassword, patternPassword, validateEquals } =
             formValidate();
@@ -99,10 +90,6 @@ const SetPasswordUser = React.memo(
             return <Spinner />;
         }
 
-        const handleIcon = () =>
-            errorPassword && (
-                <ArrowBackIcon className="mb-2 inline cursor-pointer text-red-300 hover:text-red-400" />
-            );
         /**
          * Procesa el formulario de set-password. Consume el API de crear usuario.
          * @oaram data
@@ -115,7 +102,6 @@ const SetPasswordUser = React.memo(
                 const errors = error as ClientErrorMessage;
                 setError('repassword', { message: errors.message });
                 setError('password', { message: '' });
-                setErrorPassword(true);
             } finally {
                 setBtnLoading(false);
             }
@@ -187,7 +173,7 @@ const SetPasswordUser = React.memo(
                         </InputText>
 
                         <LoadButton
-                            loading={isBtnLoading}
+                            loading={btnLoading}
                             isError={Boolean(
                                 errors.password ||
                                     errors.root ||

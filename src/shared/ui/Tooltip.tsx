@@ -40,7 +40,7 @@ const Tooltip = ({
                 {children}
             </div>
             {/** Si se muestra a la derecha o izquierda se quita la flecha */}
-            {!hiddenArrow && (
+            {hiddenArrow === false && (
                 <div
                     className={`h-2 w-2 bg-black ${arrowPosition[position]}`}
                 ></div>

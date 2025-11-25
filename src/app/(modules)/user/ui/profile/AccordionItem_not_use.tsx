@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from 'react';
+import React, { useState } from 'react';
 import { ChevronDown, CheckCircle2, AlertTriangle, Info } from 'lucide-react';
 import { UserMessages } from '@user/constants/user-messages';
 

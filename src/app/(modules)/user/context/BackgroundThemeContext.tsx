@@ -6,6 +6,7 @@ import {
     useState,
     SetStateAction,
     Dispatch,
+    useMemo,
 } from 'react';
 
 /**
@@ -35,11 +36,14 @@ export const BackgroundThemeContextProvider = ({
     children: ReactNode;
 }) => {
     const [backgroundTheme, setBackgroundTheme] = useState<string>();
+    // Memoriza el objeto de contexto para evitar re-renderes innecesarios
+    const value = useMemo(
+        () => ({ backgroundTheme, setBackgroundTheme }),
+        [backgroundTheme]
+    );
 
     return (
-        <BackgroundThemeContext.Provider
-            value={{ backgroundTheme, setBackgroundTheme }}
-        >
+        <BackgroundThemeContext.Provider value={value}>
             {children}
         </BackgroundThemeContext.Provider>
     );

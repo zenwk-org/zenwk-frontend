@@ -56,7 +56,7 @@ const Register = () => {
         setLoading(true);
         try {
             const validateEmail = await fetchValidateRegisterEmail(data.email);
-            if (!validateEmail) {
+            if (validateEmail === false) {
                 const result = await fetchTokenApi(data.email);
                 if (result) {
                     setLoading(false);
@@ -109,7 +109,7 @@ const Register = () => {
             <div className="mx-auto w-full max-w-[250px] place-items-center py-5 select-none sm:max-w-[420px]">
                 <HeaderAction
                     title={
-                        !email
+                        email == null
                             ? AuthMessages.register.title
                             : AuthMessages.register.subtitle
                     }

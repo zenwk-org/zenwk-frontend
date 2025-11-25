@@ -145,7 +145,7 @@ const ForgotPassword = () => {
         <AnimatedPage>
             {/*  */}
             <>
-                {!sendEmail ? (
+                {sendEmail === false ? (
                     <div className="mx-auto w-full max-w-[250px] place-items-center py-5 sm:max-w-[420px]">
                         <HeaderAction
                             title={AuthMessages.forgotPassword.title}

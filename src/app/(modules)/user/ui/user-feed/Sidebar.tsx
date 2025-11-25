@@ -1,13 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import {
-    TEXT_VIOLET_REDDISH_BOLD_HOVER,
-    TEXT_CYAN_COLOR,
-    TEXT_VIOLET_REDDISH_BOLD,
-} from '@app/styles/constans-color';
 import { UserMessages } from '@user/constants/user-messages';
-import { useSidebarContext } from '@user/utils/useWidthSidebarContext';
+import { useSidebarContext } from '@user/utils/UseWidthSidebarContext';
 import { UserStateEnum } from '@user/types/user-dto';
 
 import Text from '@user/ui/user-feed/Text';
@@ -23,8 +18,7 @@ import ChevronRightIcon from '@user/components/icons/ChevronRightIcon';
 import BrainIcon from '@user/components/icons/BrainIcon'; // nuevo icono IA (debes tenerlo o crearlo)
 import clsx from 'clsx';
 import { useBackgroundThemeContext } from '@user/utils/useBackgroundTheme';
-import { useUserContext } from '@user/utils/useUserContext';
-import { STATE_USER_INCOMPLETE_PERFIL } from '@app/shared/constants/common-constants';
+import { useUserContext } from '@user/utils/UseUserContext';
 
 /**
  * Secciones del sidebar con acciones IA.
@@ -70,7 +64,6 @@ const Sidebar = () => {
     // Se debe cargar desde el contexto
     const { backgroundTheme } = useBackgroundThemeContext();
     const { userDTO } = useUserContext();
-    // console.log('entro ------', userDTO);
 
     // useEffect para obtener el ancho dinámico del sidebar.
     useEffect(() => {
@@ -211,7 +204,7 @@ const Sidebar = () => {
                                             : 'text-gray-600'
                                     } hover:text-[#5280DA]`}
                                     text={
-                                        <div
+                                        <button
                                             onClick={() => toggleSection(idx)}
                                             className={`flex w-full cursor-pointer items-center px-4 py-3 hover:bg-gray-100 ${
                                                 isOpen && 'bg-gray-100'
@@ -236,7 +229,7 @@ const Sidebar = () => {
                                                     sizeStroke={2}
                                                 />
                                             )}
-                                        </div>
+                                        </button>
                                     }
                                 />
 

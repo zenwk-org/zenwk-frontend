@@ -7,6 +7,7 @@ import {
     useState,
     SetStateAction,
     Dispatch,
+    useMemo,
 } from 'react';
 
 interface PersonContextType {
@@ -26,8 +27,11 @@ export const PersonContext = createContext<PersonContextType | undefined>(
  */
 const PersonContextProvider = ({ children }: { children: ReactNode }) => {
     const [person, setPerson] = useState<PersonDTO>();
+
+    // Memoriza el objeto de contexto para evitar re-renderes innecesarios
+    const value = useMemo(() => ({ person, setPerson }), [person]);
     return (
-        <PersonContext.Provider value={{ person, setPerson }}>
+        <PersonContext.Provider value={value}>
             {children}
         </PersonContext.Provider>
     );

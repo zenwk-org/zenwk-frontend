@@ -11,7 +11,7 @@ interface AnimatedPageProps {
 export default function AnimatedPage({
     children,
     align = 'center',
-}: AnimatedPageProps) {
+}: Readonly<AnimatedPageProps>) {
     let alignClass = 'items-center';
 
     if (align === 'start') {

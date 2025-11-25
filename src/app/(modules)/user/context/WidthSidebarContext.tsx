@@ -6,6 +6,7 @@ import {
     useState,
     SetStateAction,
     Dispatch,
+    useMemo,
 } from 'react';
 
 interface WidthSidebarContextType {
@@ -25,9 +26,14 @@ export const WidthSidebarContext = createContext<
  */
 const WidthSidebarContextProvider = ({ children }: { children: ReactNode }) => {
     const [sidebarWidth, setSidebarWidth] = useState<number>(0);
+    // Memoriza el objeto de contexto para evitar re-renderes innecesarios
+    const value = useMemo(
+        () => ({ sidebarWidth, setSidebarWidth }),
+        [sidebarWidth]
+    );
 
     return (
-        <WidthSidebarContext.Provider value={{ sidebarWidth, setSidebarWidth }}>
+        <WidthSidebarContext.Provider value={value}>
             {children}
         </WidthSidebarContext.Provider>
     );

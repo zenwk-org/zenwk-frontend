@@ -81,7 +81,7 @@ const NotificationModal = ({
         >
             <div
                 className={`relative max-h-full w-full max-w-md transform p-4 transition-all duration-400 ease-in-out ${
-                    isClosing || !isVisible
+                    isClosing || isVisible === false
                         ? 'scale-95 opacity-0'
                         : 'scale-100 opacity-100'
                 }`}

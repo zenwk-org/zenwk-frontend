@@ -18,7 +18,7 @@ interface Props {
 const LoadButton = React.memo(
     ({ textButton, textLoading, loading, isError }: Props) => {
         return loading ? (
-            <ButtonLoading text={textLoading ? textLoading : textButton} />
+            <ButtonLoading text={textLoading || textButton} />
         ) : (
             <Button isError={isError} type="submit" text={textButton} />
         );

@@ -12,11 +12,10 @@ import { getInitials } from '@app/shared/utils/stringUtils';
 import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
 import { compressImage } from '@user/utils/ImageConvertUtils';
 import { updateOrCreatePerson } from '@user/utils/personUtils';
-import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
+import { usePersonContext } from '@user/utils/UsePersonContext';
 import { UserMessages } from '@user/constants/user-messages';
 
 import Text from '@user/ui/user-feed/Text';
-import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
 import ProfileBotonForm from '@user/components/profile/ProfileButtomForm';
 import Spinner from '@app/shared/ui/Spinner';
 
@@ -39,7 +38,6 @@ const ProfilePhotoSection = ({
 }: {
     setLineLoadingFather?: Dispatch<SetStateAction<boolean>>;
 }) => {
-    //const ProfilePhotoSection = () => {
     const refLoadPhotoInput = useRef<HTMLInputElement | null>(null);
     const [lineLoading, setLineLoading] = useState(false);
     const [loadPhotoLoading, setLoadPhotoLoading] = useState(false);
@@ -80,17 +78,7 @@ const ProfilePhotoSection = ({
         return <Spinner />;
     }
 
-    const {
-        firstName,
-        middleName,
-        lastName,
-        middleLastName,
-        dateOfBirth,
-        address,
-        age,
-        idSex,
-        profilePicture,
-    } = person;
+    const { firstName, lastName, profilePicture } = person;
 
     /**
      * Animación (spinner)  para avento clic, boton editar y cancelar.
@@ -111,8 +99,7 @@ const ProfilePhotoSection = ({
             }
 
             await new Promise((resolve) => setTimeout(resolve, 400));
-        } catch (error) {
-            throw error;
+        } catch {
         } finally {
             setLineLoading(false);
             setLineLoadingFather(false);
@@ -188,7 +175,7 @@ const ProfilePhotoSection = ({
                 const formData = new FormData();
                 formData.append('file', photoProfile);
 
-                const res = await fetchJwtBaseApi(
+                await fetchJwtBaseApi(
                     path,
                     undefined,
                     undefined,
@@ -200,7 +187,7 @@ const ProfilePhotoSection = ({
                 const newPhotoProfile = await getBytesFromPreview();
                 await new Promise((resolve) => setTimeout(resolve, 300));
                 setPerson((prev) => {
-                    if (!prev) {
+                    if (prev == null) {
                         return prev;
                     }
                     const updated = {
@@ -212,10 +199,7 @@ const ProfilePhotoSection = ({
                     return updated;
                 });
             }
-        } catch (error) {
-            // console.log('error');
-            throw error;
-        }
+        } catch {}
     };
 
     /**
@@ -235,19 +219,16 @@ const ProfilePhotoSection = ({
 
             // Actualizo el contexto y se aprovecha valor actualizado para consumo de api
             setPerson((prev) => {
-                if (!prev) {
+                if (prev == null) {
                     return prev;
                 }
                 const dataUpdate = { ...prev, profilePicture: undefined };
                 updateOrCreatePerson(dataUpdate, undefined, true, person.id);
                 return dataUpdate;
             });
-        } catch (error) {
-            throw error;
-        }
+        } catch {}
     };
 
-    // console.log('viewDataBasicProfile -- PersonDTO:', person);
     return (
         <>
             {/** Encabezado de la sección */}
@@ -268,14 +249,14 @@ const ProfilePhotoSection = ({
                             className={`${photoProfile || profilePicture ? 'overflow-hidden' : 'grid items-center justify-items-center'} relative h-25 w-25 rounded-full border-[0.1rem] border-black bg-gray-300`}
                         >
                             {/* Texto por defecto */}
-                            {!profilePicture && !preview ? (
+                            {!profilePicture && preview == null ? (
                                 <Text
                                     text={getInitials(firstName, lastName)}
                                     sizeOffset={20}
                                     className="text-black"
                                 />
                             ) : (
-                                !preview && (
+                                preview == null && (
                                     <img
                                         src={`data:image/jpeg;base64,${profilePicture}`}
                                         alt="Preview"

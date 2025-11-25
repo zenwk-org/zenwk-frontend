@@ -184,7 +184,7 @@ const Opt = () => {
                             />
                         )}
                     />
-                    {errorBack && !codeError && (
+                    {errorBack && codeError == null && (
                         <div className="mt-2 text-center">
                             <FormError error={errorBack} />
                         </div>
