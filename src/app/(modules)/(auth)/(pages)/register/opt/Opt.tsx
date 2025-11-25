@@ -236,12 +236,7 @@ const Opt = () => {
                     </div>
                 </div>
                 <div className="flex items-center justify-center">
-                    <OpenMailbox
-                        isSuccessResend={successResend}
-                        typeStyle="loginOpt"
-                        className="flex w-auto"
-                        //className="mx-10 my-5 rounded-lg bg-[#EBF9F0] p-1 text-emerald-700"
-                    />
+                    <OpenMailbox typeStyle="loginOpt" className="flex w-auto" />
                 </div>
             </div>
         </AnimatedPage>
