@@ -1,6 +1,7 @@
 import { fetchJwtBaseApi } from "@app/helpers/fetch-api";
 import { PersonDTO } from "@app/app/(modules)/user/types/person-dto";
 import { safeValue } from "@app/shared/utils/stringUtils";
+import { UserDTO } from "../types/user-dto";
 
 /**
  * Extrae el ID del header "Location" de una respuesta HTTP.
@@ -40,10 +41,6 @@ interface PersonData {
     [key: string]: unknown;
 }
 
-// Sonar. Posibles interfaces mínimas (ajusta según tu modelo real)
-interface UserData {
-    [key: string]: unknown;
-}
 /**
  * Crea o actualiza la persona.
  * @param jwt
@@ -51,7 +48,7 @@ interface UserData {
  */
 export const updateOrCreatePerson = async (
     dataPerson: PersonData | undefined,
-    user: UserData | undefined,
+    user: UserDTO | undefined,
     editDataBasic: boolean | undefined,
     idPerson?: number
 ): Promise<Response> => {

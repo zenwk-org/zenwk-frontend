@@ -1,4 +1,4 @@
-import { Ref, RefObject } from "react";
+import { Ref } from "react";
 
 /**
  * La función mergeRefs combina múltiples referencias (refs) de React en una sola. Esto permite
