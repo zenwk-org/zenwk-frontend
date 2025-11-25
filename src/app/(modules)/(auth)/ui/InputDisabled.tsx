@@ -1,4 +1,3 @@
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { MailCheck } from 'lucide-react';
 import Text from '@user/ui/user-feed/Text';
 

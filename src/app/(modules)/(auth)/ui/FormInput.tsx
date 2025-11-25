@@ -2,9 +2,7 @@ import { forwardRef } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { usePasswordToggle } from '@app/shared/hooks/usePasswordToggle';
-import clsx from 'clsx';
 
-import Label from './Label';
 import Tooltip from '@app/shared/ui/Tooltip';
 import Text from '@user/ui/user-feed/Text';
 

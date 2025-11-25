@@ -21,7 +21,6 @@ const ButtonLoading = ({ text }: { text: string }) => {
                 <div className="absolute top-1/2 right-4 -translate-y-1/2">
                     <svg
                         aria-hidden="true"
-                        role="status"
                         className="h-4 w-4 animate-spin text-white"
                         viewBox="0 0 100 101"
                         fill="none"

@@ -23,11 +23,6 @@ const useRedirectRegister = (
      */
     useEffect(() => {
         const validateToken = async () => {
-            // // borrar
-            // setLoading(false);
-            // return true;
-            // // borrar
-
             /**
              * Función para validar el flujo del registro.
              */
@@ -36,12 +31,12 @@ const useRedirectRegister = (
                     const res = await fetchValidateTokenApi('', email, uuid);
 
                     if (!res) {
-                        throw '';
+                        throw new Error('Invalid token response');
                     }
                 } else {
-                    throw '';
+                    throw new Error('Missing email or uuid');
                 }
-            } catch (error) {
+            } catch {
                 if (isResetPassword) {
                     return router.push(`/login/forgot-password?email=${email}`);
                 } else {

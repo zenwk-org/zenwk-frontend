@@ -12,12 +12,13 @@ export default function AnimatedPage({
     children,
     align = 'center',
 }: AnimatedPageProps) {
-    const alignClass =
-        align === 'start'
-            ? 'items-start'
-            : align === 'end'
-              ? 'items-end'
-              : 'items-center';
+    let alignClass = 'items-center';
+
+    if (align === 'start') {
+        alignClass = 'items-start';
+    } else if (align === 'end') {
+        alignClass = 'items-end';
+    }
 
     return (
         <motion.div

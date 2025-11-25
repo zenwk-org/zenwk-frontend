@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useState, useEffect } from 'react';
-import { useSidebarContext } from '@user/utils/useWidthSidebarContext';
 import { UserX, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { createPortal } from 'react-dom';
@@ -23,10 +22,9 @@ const ConfirmModalDelete = ({
     btConfirmText: string;
 }) => {
     const router = useRouter();
-    const { sidebarWidth } = useSidebarContext();
     const [isClosing, setIsClosing] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
-    const [isDelete, setDelete] = useState(false);
+    const [isDelete, setIsDelete] = useState(false);
     const [countdown, setCountdown] = useState(10);
     const [mounted, setMounted] = useState(false);
 
@@ -51,7 +49,7 @@ const ConfirmModalDelete = ({
      * Acción eliminar
      */
     const handleDelete = () => {
-        setDelete(true);
+        setIsDelete(true);
         setConfirm(true);
 
         let seconds = 10;
