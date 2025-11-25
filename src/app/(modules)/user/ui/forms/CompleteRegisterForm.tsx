@@ -8,7 +8,7 @@ import {
     getPathId,
 } from '@user/utils/personUtils';
 import { safeValue } from '@app/shared/utils/stringUtils';
-import { useSexOptionsContext } from '@user/utils/useSexOptionsContext';
+import { useSexOptionsContext } from '@app/app/(modules)/user/utils/UseSexOptionsContext';
 import { handleApiErrors } from '@app/shared/utils/formValidate';
 import { usePersonContext } from '@app/app/(modules)/user/utils/UsePersonContext';
 import { useUserContext } from '@app/app/(modules)/user/utils/UseUserContext';

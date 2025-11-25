@@ -1,4 +1,4 @@
-import { useSafeConext } from "@app/shared/utils/useContextUtils";
+import { useSafeConext } from "@app/shared/utils/UseContextUtils";
 import { BackgroundThemeContext } from "../context/BackgroundThemeContext";
 
 /**

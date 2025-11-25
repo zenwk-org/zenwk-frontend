@@ -53,7 +53,9 @@ function isBackendErrorResponse(error: unknown): error is BackendErrorResponse {
 }
 
 // Validador específico para ClientError
-function isClientErrorMessage(error: unknown): error is ClientErrorMessage {
+export function isClientErrorMessage(
+    error: unknown
+): error is ClientErrorMessage {
     return (
         isObject(error) &&
         "title" in error &&

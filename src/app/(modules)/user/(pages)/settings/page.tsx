@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { UserMessages } from '@user/constants/user-messages';
 import { useUserContext } from '@user/utils/UseUserContext';
-import { useBackgroundThemeContext } from '@user/utils/useBackgroundTheme';
+import { useBackgroundThemeContext } from '@app/app/(modules)/user/utils/UseBackgroundTheme';
 
 import Spinner from '@app/shared/ui/Spinner';
 import Title from '@user/ui/user-feed/Title';
