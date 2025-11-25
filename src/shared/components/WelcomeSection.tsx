@@ -11,36 +11,43 @@ import Text from '@user/ui/user-feed/Text';
 const WelcomeSection = () => {
     const themeIndex = clsx('text-black');
 
-    const features = [
-        {
-            icon: <CalendarDays className={themeIndex} size={30} />,
-            title: 'Planifica sin esfuerzo',
-            description:
-                'Organiza tus actividades diarias y mantén control total de tus metas en un solo lugar.',
-            color: 'bg-sky-50',
-        },
-        {
-            icon: <Users className={themeIndex} size={30} />,
-            title: 'Colabora con tu equipo',
-            description:
-                'Comparte tareas y proyectos en tiempo real con tus compañeros, manteniendo todo sincronizado.',
-            color: 'bg-emerald-50',
-        },
-        {
-            icon: <BarChart3 className={themeIndex} size={30} />,
-            title: 'Mide tu progreso',
-            description:
-                'Visualiza reportes y métricas de rendimiento para tomar decisiones informadas.',
-            color: 'bg-purple-50',
-        },
-        {
-            icon: <Sparkles className={themeIndex} size={30} />,
-            title: 'Automatiza tus flujos',
-            description:
-                'Deja que Zenwk haga el trabajo pesado y enfócate en lo que realmente importa.',
-            color: 'bg-yellow-50',
-        },
-    ];
+    const features = React.useMemo(
+        () => [
+            {
+                id: crypto.randomUUID(),
+                icon: <CalendarDays className={themeIndex} size={30} />,
+                title: 'Planifica sin esfuerzo',
+                description:
+                    'Organiza tus actividades diarias y mantén control total de tus metas en un solo lugar.',
+                color: 'bg-sky-50',
+            },
+            {
+                id: crypto.randomUUID(),
+                icon: <Users className={themeIndex} size={30} />,
+                title: 'Colabora con tu equipo',
+                description:
+                    'Comparte tareas y proyectos en tiempo real con tus compañeros, manteniendo todo sincronizado.',
+                color: 'bg-emerald-50',
+            },
+            {
+                id: crypto.randomUUID(),
+                icon: <BarChart3 className={themeIndex} size={30} />,
+                title: 'Mide tu progreso',
+                description:
+                    'Visualiza reportes y métricas de rendimiento para tomar decisiones informadas.',
+                color: 'bg-purple-50',
+            },
+            {
+                id: crypto.randomUUID(),
+                icon: <Sparkles className={themeIndex} size={30} />,
+                title: 'Automatiza tus flujos',
+                description:
+                    'Deja que Zenwk haga el trabajo pesado y enfócate en lo que realmente importa.',
+                color: 'bg-yellow-50',
+            },
+        ],
+        [] //  Se ejecuta SOLO una vez
+    );
 
     return (
         <section className="flex w-full flex-col items-center justify-center px-4">
@@ -54,7 +61,7 @@ const WelcomeSection = () => {
                     <div className="grid grid-cols-1 gap-4 rounded-2xl bg-transparent text-center md:grid-cols-4">
                         {features.map((f, index) => (
                             <motion.div
-                                key={index}
+                                key={f.id}
                                 className="flex flex-col items-center rounded-2xl bg-transparent p-6 text-center shadow transition-shadow hover:bg-blue-50/30 hover:shadow-lg"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}

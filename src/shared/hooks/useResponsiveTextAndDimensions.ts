@@ -12,7 +12,7 @@ export const getResponsiveFontSizes = (offset: number = 0) => {
         sm: calc(0.8),
         md: calc(0.85),
         lg: calc(0.9),
-        xl: calc(1.0),
+        xl: calc(1),
     };
 };
 

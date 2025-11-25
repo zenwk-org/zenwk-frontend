@@ -1,15 +1,13 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { formValidate } from '@app/shared/utils/formValidate';
-import { RefreshCcw } from 'lucide-react';
+import { UserMessages } from '@user/constants/user-messages';
 import { clsx } from 'clsx';
 
-import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
 import InputText from '@user/ui/inputs/InputText';
 import FormErrorUser from '@user/ui/forms/FormErrorUser';
 import ProfileButtomForm from '@app/app/(modules)/user/components/profile/ProfileButtomForm';
 import Text from '@user/ui/user-feed/Text';
-import { UserMessages } from '@user/constants/user-messages';
 import AlertInfo from '@app/shared/components/AlertInfo';
 
 const UpdatePasswordSection = ({

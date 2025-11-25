@@ -411,7 +411,7 @@ const SelectGeneral: React.FC<Props> = ({
     paramHeigth = 0,
 }) => {
     const { fontSize, height } = useResponsiveStyle();
-    const numeric = parseFloat(height);
+    const numeric = Number.parseFloat(height);
     const result = numeric + paramHeigth;
     const heightCalc = `${result}px`;
 

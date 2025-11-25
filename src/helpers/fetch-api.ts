@@ -37,37 +37,28 @@ export const isApiFieldErrorArray = (
         )
     );
 };
-/**
- * Verifica si el objeto de error corresponde a un error del backend.
- *
- * @param error - Objeto a validar.
- * @returns `true` si el error es del tipo `BackendErrorResponse`.
- */
-export function isBackendErrorResponse(
-    error: unknown
-): error is BackendErrorResponse {
+
+// Sonar. Validación genérica
+const isObject = (value: unknown): value is Record<string, unknown> =>
+    typeof value === "object" && value !== null;
+
+// Validador específico para Backend
+function isBackendErrorResponse(error: unknown): error is BackendErrorResponse {
     return (
-        typeof error === "object" &&
-        error !== null &&
+        isObject(error) &&
         "code" in error &&
-        "message" in error
+        "message" in error &&
+        typeof error.message === "string"
     );
 }
 
-/**
- * Verifica si el objeto de error ya tiene la conversión a ClientErrorMessage.
- *
- * @param error - Objeto a validar.
- * @returns `true` si el error es del tipo `BackendErrorResponse`.
- */
-export function isClientErrorMessage(
-    error: unknown
-): error is ClientErrorMessage {
+// Validador específico para ClientError
+function isClientErrorMessage(error: unknown): error is ClientErrorMessage {
     return (
-        typeof error === "object" &&
-        error !== null &&
-        "code" in error &&
-        "message" in error
+        isObject(error) &&
+        "title" in error &&
+        "message" in error &&
+        typeof error.message === "string"
     );
 }
 
@@ -126,7 +117,10 @@ export const getMergedOptions = (
  */
 function getCookieValue(name: string): string | null {
     if (typeof document === "undefined") return null; // no hay cookies en SSR
-    const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+
+    const regex = new RegExp(`(^| )${name}=([^;]+)`);
+    const match = regex.exec(document.cookie);
+
     return match ? decodeURIComponent(match[2]) : null;
 }
 
@@ -138,7 +132,12 @@ function getCookieValue(name: string): string | null {
  * @returns URL relativa combinada.
  */
 export const getUrl = (queryString: string, path: string) => {
-    return `/api${path}${queryString ? `?${queryString}` : ""}`;
+    let url = "/api" + path;
+
+    if (queryString) {
+        url += "?" + queryString;
+    }
+    return url;
 };
 
 /**
@@ -164,37 +163,39 @@ export const getFetch = async (
 ) => {
     try {
         const res = await fetch(requestUrl, mergedOptions);
+
         switch (res.status) {
             case 201:
-                // Se retorna el response para aceder al location
-                return res;
+                return res; // acceso a location
+
             case 204:
                 return true;
 
             case 400: {
                 const response = await res.json();
                 if (isApiFieldErrorArray(response)) {
-                    throw response;
+                    throw response; // ya es un objeto
                 }
-                throw "400 (Bad request)";
+                throw new Error("400 (Bad request)");
             }
 
             case 403:
             case 404:
             case 500: {
                 const response = await res.json();
-                throw {
-                    code: response.code,
-                    message: response.error,
-                };
+                throw new Error(
+                    JSON.stringify({
+                        code: response.code,
+                        message: response.error,
+                    })
+                );
             }
 
             default:
                 return await res.json();
         }
     } catch (error: unknown) {
-        // console.log("getFetch.....", error);
-        throw error;
+        throw error; // aquí es correcto no modificar el error capturado
     }
 };
 /**
@@ -206,7 +207,7 @@ export const getFetch = async (
 export const fetchTokenApi = async (correo: string) => {
     const path = "/verification/token/send";
     try {
-        const queryString = getQueryString(undefined);
+        const queryString = getQueryString();
         const mergedOptions = getMergedOptions("POST", undefined, {
             email: correo,
         });
@@ -239,12 +240,12 @@ export const fetchValidateTokenApi = async (
             email,
             uuid,
         });
-        const queryString = getQueryString(undefined);
+        const queryString = getQueryString();
         const requestUrl = `${getTokenUrl(getUrl(queryString, path))}`;
         const data = await getFetch(requestUrl, mergedOptions);
         return data;
     } catch (error: unknown) {
-        throw error as BackendErrorResponse;
+        throw new Error(JSON.stringify(error));
     }
 };
 
@@ -272,8 +273,7 @@ export const fetchJwtBaseApi = async (
         const data = await getFetch(requestUrl, mergedOptions);
         return data;
     } catch (error: unknown) {
-        // console.log("error fetchJwtBaseApi...... ", error);
-        throw error as BackendErrorResponse;
+        throw new Error(JSON.stringify(error));
     }
 };
 
@@ -300,7 +300,7 @@ export const fetchVerifcation = async (
         const data = await getFetch(requestUrl, mergedOptions);
         return data;
     } catch (error: unknown) {
-        throw error as BackendErrorResponse;
+        throw new Error(JSON.stringify(error));
     }
 };
 
@@ -324,7 +324,6 @@ export const fetchValidateRegisterEmail = async (email: string) => {
         if (isBackendErrorResponse(error)) {
             return true;
         }
-        //  console.log("Error no registrado por el backend: ", error);
     }
 };
 
@@ -353,7 +352,7 @@ export const fetchTokenCrsfApi = async (correo: string) => {
     const path = "/verification/csrf/token";
 
     try {
-        const queryString = getQueryString(undefined);
+        const queryString = getQueryString();
         const mergedOptions = getMergedOptions("POST", undefined, {
             email: correo,
         });
@@ -381,7 +380,7 @@ export const fetchValidateTokenCrsfApi = async (
 ) => {
     const path = "/verification/csrf/token/validate";
     try {
-        const queryString = getQueryString(undefined);
+        const queryString = getQueryString();
         const mergedOptions = getMergedOptions("POST", undefined, {
             email: correo,
             code: codeToken,

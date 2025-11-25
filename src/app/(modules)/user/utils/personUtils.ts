@@ -12,7 +12,6 @@ import { safeValue } from "@app/shared/utils/stringUtils";
  */
 export const getPathId = (response: Response): string | null => {
     const location = response.headers.get("Location");
-
     if (!location) {
         return null;
     }
@@ -20,9 +19,12 @@ export const getPathId = (response: Response): string | null => {
     try {
         const url = new URL(location, window.location.origin);
         const pathSegments = url.pathname.split("/").filter(Boolean);
-        const id = pathSegments[pathSegments.length - 1];
+
+        // `.at(-1)` obtiene el último elemento del array
+        const id = pathSegments.at(-1);
+
         return id ?? null;
-    } catch (error) {
+    } catch {
         return null;
     }
 };
@@ -33,19 +35,8 @@ export const getPathId = (response: Response): string | null => {
  * @param jwt
  */
 export const getPerson = async (idPerson: number): Promise<PersonDTO> => {
-    try {
-        const path = "/persons/" + idPerson;
-        const res = await fetchJwtBaseApi(
-            path,
-            undefined,
-            undefined,
-            undefined,
-            "GET"
-        );
-        return res;
-    } catch (error) {
-        throw error;
-    }
+    const path = "/persons/" + idPerson;
+    return await fetchJwtBaseApi(path, undefined, undefined, undefined, "GET");
 };
 
 /**
@@ -59,7 +50,6 @@ export const updateOrCreatePerson = async (
     editDataBasic: boolean | undefined,
     idPerson?: number | undefined
 ) => {
-    // console.log(dataPerson);
     const path = buildPersonPath(idPerson, editDataBasic);
     const personJson = buildPersonPayload(
         undefined,
@@ -109,7 +99,6 @@ export const getPayload = (data: any) => {
     if (safeValue(data.middleLastName)) {
         payload.middleLastName = data.middleLastName;
     }
-    // sconsole.log(payload);
     return payload;
 };
 

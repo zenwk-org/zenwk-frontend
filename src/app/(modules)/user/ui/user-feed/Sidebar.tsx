@@ -1,9 +1,11 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { UserMessages } from '@user/constants/user-messages';
 import { useSidebarContext } from '@user/utils/UseWidthSidebarContext';
 import { UserStateEnum } from '@user/types/user-dto';
+import { useBackgroundThemeContext } from '@user/utils/useBackgroundTheme';
+import { useUserContext } from '@user/utils/UseUserContext';
 
 import Text from '@user/ui/user-feed/Text';
 import SidebarIcon from '@user/components/icons/SidebarIcon';
@@ -17,46 +19,77 @@ import Link from 'next/link';
 import ChevronRightIcon from '@user/components/icons/ChevronRightIcon';
 import BrainIcon from '@user/components/icons/BrainIcon'; // nuevo icono IA (debes tenerlo o crearlo)
 import clsx from 'clsx';
-import { useBackgroundThemeContext } from '@user/utils/useBackgroundTheme';
-import { useUserContext } from '@user/utils/UseUserContext';
-
-/**
- * Secciones del sidebar con acciones IA.
- **/
-export const sections = [
-    {
-        title: UserMessages.sidebar.options.myTime,
-        icon: <AlarmClockIcon sizeStroke={1.8} size={20} className="" />,
-        links: [
-            { href: '/', label: 'Iniciar registro' },
-            { href: '/', label: 'Iniciar registro 2' },
-        ],
-        aiAction: 'Analizar y optimizar mi tiempo',
-    },
-    {
-        title: UserMessages.sidebar.options.tasks,
-        icon: <CalendarCheckIcon sizeStroke={1.8} size={20} className="" />,
-        links: [],
-        aiAction: 'Priorizar mis tareas con IA',
-    },
-    {
-        title: UserMessages.sidebar.options.proyects,
-        icon: <FolderRootIcon sizeStroke={1.8} size={20} className="" />,
-        links: [],
-        aiAction: 'Detectar riesgos del proyecto',
-    },
-    {
-        title: UserMessages.sidebar.options.reports,
-        icon: <CurveIcon sizeStroke={1.8} size={20} className="" />,
-        links: [
-            { href: '/', label: 'Iniciar registro' },
-            { href: '/', label: 'Iniciar registro 2' },
-        ],
-        aiAction: 'Generar análisis inteligente',
-    },
-];
 
 const Sidebar = () => {
+    /**
+     * Secciones del sidebar con acciones IA.
+     *
+     */
+    const sections = useMemo(
+        () => [
+            {
+                id: crypto.randomUUID(),
+                title: UserMessages.sidebar.options.myTime,
+                icon: (
+                    <AlarmClockIcon sizeStroke={1.8} size={20} className="" />
+                ),
+                links: [
+                    {
+                        id: crypto.randomUUID(),
+                        href: '/',
+                        label: 'Iniciar registro',
+                    },
+                    {
+                        id: crypto.randomUUID(),
+                        href: '/',
+                        label: 'Iniciar registro 2',
+                    },
+                ],
+                aiAction: 'Analizar y optimizar mi tiempo',
+            },
+            {
+                id: crypto.randomUUID(),
+                title: UserMessages.sidebar.options.tasks,
+                icon: (
+                    <CalendarCheckIcon
+                        sizeStroke={1.8}
+                        size={20}
+                        className=""
+                    />
+                ),
+                links: [],
+                aiAction: 'Priorizar mis tareas con IA',
+            },
+            {
+                id: crypto.randomUUID(),
+                title: UserMessages.sidebar.options.proyects,
+                icon: (
+                    <FolderRootIcon sizeStroke={1.8} size={20} className="" />
+                ),
+                links: [],
+                aiAction: 'Detectar riesgos del proyecto',
+            },
+            {
+                id: crypto.randomUUID(),
+                title: UserMessages.sidebar.options.reports,
+                icon: <CurveIcon sizeStroke={1.8} size={20} className="" />,
+                links: [
+                    {
+                        id: crypto.randomUUID(),
+                        href: '/',
+                        label: 'Iniciar registro',
+                    },
+                    {
+                        id: crypto.randomUUID(),
+                        href: '/',
+                        label: 'Iniciar registro 2',
+                    },
+                ],
+                aiAction: 'Generar análisis inteligente',
+            },
+        ],
+        []
+    );
     const sidebarRef = useRef(null);
     // Contexto del width sidebar
     const { setSidebarWidth } = useSidebarContext();
@@ -173,7 +206,10 @@ const Sidebar = () => {
                         const isOpen = openSections.includes(idx);
 
                         return (
-                            <div key={idx} className="w-full max-w-[250px]">
+                            <div
+                                key={section.id}
+                                className="w-full max-w-[250px]"
+                            >
                                 {/* Icono de candado cuando se tienen los permisos.
                                 Pendiente: componentizar, creadr hoook */}
                                 {isNotPermitted() && (
@@ -243,7 +279,10 @@ const Sidebar = () => {
                                         }`}
                                     >
                                         {section.links.map((link, i) => (
-                                            <li key={i} className="w-full">
+                                            <li
+                                                key={link.id}
+                                                className="w-full"
+                                            >
                                                 {/* Aplicar si se quita botón de I.A ${idx === sections.length - 1 && i === section.links.length - 1 && "hover:rounded-b-lg"} */}
                                                 <Link
                                                     href={link.href}

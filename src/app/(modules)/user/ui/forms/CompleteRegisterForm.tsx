@@ -23,7 +23,7 @@ type FormValues = {
     middleLastName: string;
     sex: any;
     age: any;
-    profilePicture?: string | boolean | undefined;
+    profilePicture?: string | boolean;
 };
 
 /**
@@ -58,12 +58,11 @@ const CompleteRegisterForm = ({
      * Formulario principal
      */
     const form = useForm<FormValues>({
-        // Se inicializan valores por defecto
         defaultValues: {
-            firstName: personDTO && personDTO.firstName,
-            middleName: personDTO && personDTO.middleName,
-            lastName: personDTO && personDTO.lastName,
-            middleLastName: personDTO && personDTO.middleLastName,
+            firstName: personDTO?.firstName,
+            middleName: personDTO?.middleName,
+            lastName: personDTO?.lastName,
+            middleLastName: personDTO?.middleLastName,
             sex: personDTO && {
                 label: getLabelById(optionsSex, personDTO.idSex),
                 value: personDTO.idSex,
@@ -102,8 +101,7 @@ const CompleteRegisterForm = ({
                     const response = await updateOrCreatePerson(
                         data,
                         userDTO,
-                        editDataBasic,
-                        undefined
+                        editDataBasic
                     );
                     // Actualización de rol
                     await fetchJwtBaseApi(

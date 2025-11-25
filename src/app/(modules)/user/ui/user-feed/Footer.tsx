@@ -1,9 +1,3 @@
-import {
-    TEXT_VIOLET_REDDISH,
-    TEXT_CYAN_CUSTOM,
-    TEXT_VIOLET_REDDISH_HOVER,
-    TEXT_CYAN_COLOR,
-} from '@app/styles/constans-color';
 import { UserMessages } from '@user/constants/user-messages';
 
 import Link from 'next/link';

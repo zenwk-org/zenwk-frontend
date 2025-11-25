@@ -163,9 +163,8 @@ const PersonalInfoSection = ({
                             type="button"
                             onClick={() => {
                                 setEditDataBasic((prev) => !prev);
-                                loadingLineClick && loadingLineClick();
+                                loadingLineClick?.();
                             }}
-                            //className="mt-2 w-full px-2 py-2"
                         >
                             <ProfileBotonForm
                                 icon={

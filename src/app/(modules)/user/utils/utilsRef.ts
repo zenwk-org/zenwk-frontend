@@ -1,4 +1,4 @@
-import { Ref, MutableRefObject } from "react";
+import { Ref, RefObject } from "react";
 
 /**
  * La función mergeRefs combina múltiples referencias (refs) de React en una sola. Esto permite
@@ -14,10 +14,11 @@ export const mergeRefs = <T>(...refs: (Ref<T> | undefined)[]) => {
     return (element: T) => {
         refs.forEach((ref) => {
             if (!ref) return;
+
             if (typeof ref === "function") {
                 ref(element);
             } else {
-                (ref as MutableRefObject<T | null>).current = element;
+                (ref as RefObject<T | null>).current = element;
             }
         });
     };

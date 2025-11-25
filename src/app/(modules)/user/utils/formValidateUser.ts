@@ -26,14 +26,15 @@ export const formValidateUser = () => {
 
     // Validación para edad (solo números y rango válido)
     const patternAge: RegisterOptions["pattern"] = {
-        value: /^[0-9]+$/,
+        value: /^\d+$/, // SonarQube: uso de \d en lugar de [0-9]
         message: UserMessages.validation.pattern.age,
     };
 
     const validateAge: RegisterOptions["validate"] = {
         range: (v: string) => {
-            const num = parseInt(v, 10);
-            if (isNaN(num)) return UserMessages.validation.validate.ageNaN;
+            const num = Number.parseInt(v, 10);
+            if (Number.isNaN(num))
+                return UserMessages.validation.validate.ageNaN;
             if (num < 0) return UserMessages.validation.validate.ageNegative;
             if (num > 120) return UserMessages.validation.validate.ageMax;
             return true;
