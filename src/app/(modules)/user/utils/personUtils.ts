@@ -17,13 +17,9 @@ export const getPathId = (response: Response): string | null => {
     }
 
     try {
-        const url = new URL(location, window.location.origin);
+        const url = new URL(location, globalThis.location.origin); // Sonar: uso de globalThis
         const pathSegments = url.pathname.split("/").filter(Boolean);
-
-        // `.at(-1)` obtiene el último elemento del array
-        const id = pathSegments.at(-1);
-
-        return id ?? null;
+        return pathSegments.at(-1) ?? null;
     } catch {
         return null;
     }
@@ -39,17 +35,26 @@ export const getPerson = async (idPerson: number): Promise<PersonDTO> => {
     return await fetchJwtBaseApi(path, undefined, undefined, undefined, "GET");
 };
 
+// Sonar. Posibles interfaces mínimas (ajusta según tu modelo real)
+interface PersonData {
+    [key: string]: unknown;
+}
+
+// Sonar. Posibles interfaces mínimas (ajusta según tu modelo real)
+interface UserData {
+    [key: string]: unknown;
+}
 /**
  * Crea o actualiza la persona.
  * @param jwt
  * @param personDTO
  */
 export const updateOrCreatePerson = async (
-    dataPerson: any | undefined,
-    user: any | undefined,
+    dataPerson: PersonData | undefined,
+    user: UserData | undefined,
     editDataBasic: boolean | undefined,
-    idPerson?: number | undefined
-) => {
+    idPerson?: number
+): Promise<Response> => {
     const path = buildPersonPath(idPerson, editDataBasic);
     const personJson = buildPersonPayload(
         undefined,
@@ -57,7 +62,6 @@ export const updateOrCreatePerson = async (
         user,
         editDataBasic
     );
-
     const res = await fetchJwtBaseApi(
         path,
         undefined,
@@ -65,6 +69,7 @@ export const updateOrCreatePerson = async (
         personJson,
         editDataBasic ? "PUT" : "POST"
     );
+
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     return res;

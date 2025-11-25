@@ -11,14 +11,17 @@ import { Ref, RefObject } from "react";
  * @returns
  */
 export const mergeRefs = <T>(...refs: (Ref<T> | undefined)[]) => {
-    return (element: T) => {
+    return (element: T | null) => {
         refs.forEach((ref) => {
             if (!ref) return;
 
+            // Si la ref es una función, se llama directamente
             if (typeof ref === "function") {
                 ref(element);
-            } else {
-                (ref as RefObject<T | null>).current = element;
+            }
+            // Si es un objeto Ref, asignamos al current
+            else if ("current" in ref) {
+                ref.current = element;
             }
         });
     };

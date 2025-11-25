@@ -334,13 +334,11 @@ export const fetchValidateRegisterEmail = async (email: string) => {
  * @returns URL base del sitio (ej. https://zenwk.com).
  */
 export const getUrlServer = (): string => {
-    if (typeof window !== "undefined") {
-        return `${window.location.protocol}//${window.location.host}`;
+    if (typeof globalThis !== "undefined" && globalThis.location) {
+        return `${globalThis.location.protocol}//${globalThis.location.host}`;
     }
-
     return process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 };
-
 /**
  * Genera un token crsf asociado al email del usuario.
  * Hasta ahora no se usa. Solo  nivel interno del backen httponly
