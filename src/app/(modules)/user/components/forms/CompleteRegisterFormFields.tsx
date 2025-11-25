@@ -30,7 +30,11 @@ interface Props {
     loadingLineClick?: () => Promise<void>;
 }
 
-// --- Componentes auxiliares ---
+/**
+ * Sonar. Componentes auxiliares
+ * @param param0
+ * @returns
+ */
 const InputTextWithError = ({
     label,
     placeholder,
@@ -54,13 +58,19 @@ const InputTextWithError = ({
         sizeTextInput={editDataBasic ? -0.1 : 0}
         sizeText={editDataBasic ? 2 : 5}
         inputClass={classField}
-        fullWidth
         variant={editDataBasic ? 'editPerson' : 'default'}
     >
-        <FormErrorUser sizeOffset={-15} error={error ?? ''} />
+        <div className="max-w-[180px] overflow-hidden py-1">
+            <FormErrorUser sizeOffset={-15} error={error ?? ''} />
+        </div>
     </InputText>
 );
 
+/**
+ * Sonar. Componentes auxiliares
+ * @param param0
+ * @returns
+ */
 const SelectWithError = ({
     control,
     name,
@@ -96,7 +106,11 @@ const SelectWithError = ({
     />
 );
 
-// --- Componente principal ---
+/**
+ * Componente principal
+ * @param param0
+ * @returns
+ */
 const CompleteRegisterFormFields = ({
     form,
     optionsSex,

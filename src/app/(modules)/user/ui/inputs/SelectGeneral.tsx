@@ -10,8 +10,9 @@ import {
     BASE_TEXT_COLOR,
     BOLD_ERROR_COLOR,
 } from '@app/styles/constans-color';
-import Text from '../user-feed/Text';
 import { useResponsiveStyle } from '@app/shared/hooks/useResponsiveTextAndDimensions';
+import clsx from 'clsx';
+import Text from '../user-feed/Text';
 
 export const COLOR_EDIT_PERSON = '#F3D068';
 export const COLOR_FOCUS_EDIT_PERSON = '#A6B3FD';
@@ -31,7 +32,7 @@ interface GroupedOption {
     options: Option[];
 }
 
-/** Props principales del componente */
+/* Props principales del componente */
 interface Props {
     data: Option[];
     placeholder: string;
@@ -59,7 +60,97 @@ const groupStyles = (isError?: boolean): CSSProperties => ({
     color: isError ? BOLD_ERROR_COLOR : '#494F5A',
 });
 
-/* Estilos personalizados react-select */
+//Sonar. Color del borde
+const getBorderColor = (
+    isError: boolean | undefined,
+    isFocused: boolean,
+    variant?: 'newUser' | 'editPerson'
+): string => {
+    if (isError) return ERROR_COLOR;
+    if (isFocused)
+        return variant === 'editPerson' ? COLOR_FOCUS_EDIT_PERSON : '#B7C1C9';
+    return variant === 'editPerson' ? COLOR_EDIT_PERSON : '#CBD5E1';
+};
+
+// Sonar. Box shadow del select
+const getBoxShadow = (
+    isError: boolean | undefined,
+    isFocused: boolean
+): string => {
+    if (isFocused) {
+        if (!isError) return '0px 0px 2px 2px rgba(219,234,254,0.4)';
+        return '0px 0px 1px 1px rgba(231,123,115,0.4)';
+    }
+    return 'none';
+};
+
+// Sonar. Estilo focus del select
+const getTextColor = (
+    isFocused: boolean,
+    variant?: 'newUser' | 'editPerson'
+): string => {
+    if (!isFocused) return BASE_TEXT_COLOR;
+    return variant === 'editPerson' ? COLOR_FOCUS_EDIT_PERSON : BASE_TEXT_COLOR;
+};
+
+// Sonar. Determina color del separador
+const getSeparatorColor = (
+    isError?: boolean,
+    isFocused?: boolean,
+    variant?: 'newUser' | 'editPerson'
+): string => {
+    if (isError) return ERROR_COLOR;
+    if (isFocused)
+        return variant === 'editPerson' ? COLOR_FOCUS_EDIT_PERSON : '#B7C1C9';
+    return variant === 'editPerson' ? COLOR_EDIT_PERSON : '#B7C1C9';
+};
+
+// Sonar. Determina color de fondo del option
+const getOptionBackgroundColor = (
+    isSelected: boolean,
+    isFocused: boolean,
+    variant?: 'newUser' | 'editPerson'
+): string => {
+    if (isSelected)
+        return variant === 'editPerson' ? COLOR_FOCUS_EDIT_PERSON : '#9EB8EA';
+    if (isFocused) return '#E6E8ED';
+    return 'transparent';
+};
+
+// Sonar. Determina color de texto del option
+const getOptionTextColor = (isSelected: boolean, isError?: boolean): string => {
+    if (isSelected) return '#fff';
+    return isError ? ERROR_COLOR : BASE_TEXT_COLOR;
+};
+
+// Sonar. Determina active style
+const getOptionActiveBackground = (
+    variant?: 'newUser' | 'editPerson'
+): string => {
+    return variant === 'editPerson' ? COLOR_FOCUS_EDIT_PERSON : '#9EB8EA';
+};
+
+// Sonar. Calcula el color del stroke según estado
+const getStrokeColor = (
+    isError?: boolean,
+    isFocused?: boolean,
+    variant?: 'newUser' | 'editPerson'
+): string => {
+    if (isError) return '#E1564C';
+    if (isFocused)
+        return variant === 'editPerson' ? COLOR_FOCUS_EDIT_PERSON : '#B7C1C9';
+    return variant === 'editPerson' ? COLOR_EDIT_PERSON : '#B7C1C9';
+};
+
+/**
+ * Estilos personalizados react-select
+ * @param fontSize
+ * @param height
+ * @param isError
+ * @param variant
+ * @param sizeTextInput
+ * @returns
+ */
 const customStyles = (
     fontSize: string,
     height: string,
@@ -69,37 +160,19 @@ const customStyles = (
 ): StylesConfig<Option, false, GroupedOption> => ({
     control: (provided, state) => ({
         ...provided,
-        //maxWidth: variant === 'editPerson' ? '200px' : undefined,
         minWidth: '120px',
         minHeight: '25px',
         height,
         width: 'auto',
         borderRadius: '0.5em',
         borderWidth: variant == 'newUser' ? '0.14rem' : '0.13rem',
-        borderColor: isError
-            ? ERROR_COLOR
-            : state.isFocused
-              ? variant == 'editPerson'
-                  ? COLOR_FOCUS_EDIT_PERSON
-                  : '#B7C1C9'
-              : variant === 'editPerson'
-                ? COLOR_EDIT_PERSON
-                : '#CBD5E1',
-        boxShadow: state.isFocused
-            ? !isError
-                ? '0px 0px 2px 2px rgba(219,234,254,0.4)'
-                : '0px 0px 1px 1px rgba(231,123,115,0.4)'
-            : 'none',
+        borderColor: getBorderColor(isError, state.isFocused, variant),
+        boxShadow: getBoxShadow(isError, state.isFocused),
         '&:hover': { borderColor: isError ? ERROR_COLOR : '' },
         backgroundColor: 'transparent',
-
-        //  Aquí se aplica estilo al texto dentro del select cuando hay focus
+        // Aquí se aplica estilo al texto dentro del select cuando hay focus
         '& .react-select__single-value': {
-            color: state.isFocused
-                ? variant === 'editPerson'
-                    ? COLOR_FOCUS_EDIT_PERSON
-                    : BASE_TEXT_COLOR
-                : BASE_TEXT_COLOR,
+            color: getTextColor(state.isFocused, variant),
             transition: 'color 0.2s ease-in-out',
         },
     }),
@@ -115,13 +188,13 @@ const customStyles = (
         fontSize: `calc(${fontSize} + ${sizeTextInput}rem)`,
 
         textAlign: variant === 'newUser' ? 'left' : undefined,
-        padding: variant === 'newUser' ? '0 6px' : '0 6px',
+        padding: '0 6px',
     }),
 
     input: (p) => ({
         ...p,
         margin: 0,
-        padding: variant === 'newUser' ? '0 7px' : '0 7px',
+        padding: '0 7px',
         color: BASE_TEXT_COLOR,
         fontSize: `calc(${fontSize} + ${sizeTextInput}rem)`,
     }),
@@ -146,15 +219,7 @@ const customStyles = (
         alignItems: 'center',
         height: '60%',
         alignSelf: 'center',
-        backgroundColor: isError
-            ? ERROR_COLOR
-            : state.isFocused
-              ? variant === 'editPerson'
-                  ? COLOR_FOCUS_EDIT_PERSON
-                  : '#B7C1C9'
-              : variant === 'editPerson'
-                ? COLOR_EDIT_PERSON
-                : '#B7C1C9',
+        backgroundColor: getSeparatorColor(isError, state.isFocused, variant),
     }),
     option: (p, state) => ({
         ...p,
@@ -162,23 +227,15 @@ const customStyles = (
         padding: '5px 12px',
         textAlign: 'center',
         // Opciópn seleccionada: color fondo
-        backgroundColor: state.isSelected
-            ? variant === 'editPerson'
-                ? COLOR_FOCUS_EDIT_PERSON
-                : '#9EB8EA'
-            : state.isFocused
-              ? '#E6E8ED'
-              : 'transparent',
-
-        // Opciópn seleccionada: color letra
-        color: state.isSelected
-            ? '#fff'
-            : isError
-              ? ERROR_COLOR
-              : BASE_TEXT_COLOR,
+        backgroundColor: getOptionBackgroundColor(
+            state.isSelected,
+            state.isFocused,
+            variant
+        ),
+        // Opción seleccionada: color letra
+        color: getOptionTextColor(state.isSelected, isError),
         ':active': {
-            backgroundColor:
-                variant === 'editPerson' ? COLOR_FOCUS_EDIT_PERSON : '#9EB8EA',
+            backgroundColor: getOptionActiveBackground(variant),
             color: '#fff',
         },
         boder: '0',
@@ -188,7 +245,7 @@ const customStyles = (
         fontSize: `calc(${fontSize} + ${sizeTextInput}rem)`,
         color: isError ? ERROR_COLOR : BASE_TEXT_COLOR,
         textAlign: 'left',
-        padding: variant === 'newUser' ? '0 6px' : '0 6px',
+        padding: '0 6px',
         margin: 0,
     }),
     menu: (p) => ({
@@ -227,6 +284,11 @@ const customStyles = (
     }),
 });
 
+/**
+ * CustomClearIndicator
+ * @param param0
+ * @returns
+ */
 const CustomClearIndicator = ({
     isError = false,
     variant,
@@ -239,17 +301,7 @@ const CustomClearIndicator = ({
             height="15"
             viewBox="0 0 24 24"
             fill="none"
-            stroke={
-                isError
-                    ? '#E1564C'
-                    : props.isFocused
-                      ? variant === 'editPerson'
-                          ? COLOR_FOCUS_EDIT_PERSON
-                          : '#B7C1C9'
-                      : variant === 'editPerson'
-                        ? COLOR_EDIT_PERSON
-                        : '#B7C1C9'
-            }
+            stroke={getStrokeColor(isError, props.isFocused, variant)}
             strokeWidth={2.7}
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -261,6 +313,11 @@ const CustomClearIndicator = ({
     </components.ClearIndicator>
 );
 
+/**
+ * CustomDropdownIndicator
+ * @param param0
+ * @returns
+ */
 const CustomDropdownIndicator = ({
     isError = false,
     variant,
@@ -274,17 +331,7 @@ const CustomDropdownIndicator = ({
             height="14"
             viewBox="0 0 24 24"
             fill="none"
-            stroke={
-                isError
-                    ? '#E1564C'
-                    : props.isFocused
-                      ? variant === 'editPerson'
-                          ? COLOR_FOCUS_EDIT_PERSON
-                          : '#B7C1C9'
-                      : variant === 'editPerson'
-                        ? COLOR_EDIT_PERSON
-                        : '#B7C1C9'
-            }
+            stroke={getStrokeColor(isError, props.isFocused, variant)}
             strokeWidth={2.7}
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -296,7 +343,12 @@ const CustomDropdownIndicator = ({
     </components.DropdownIndicator>
 );
 
-/* Formato del encabezado de grupo */
+/**
+ * Formato del encabezado de grupo
+ * @param data
+ * @param isError
+ * @returns
+ */
 const formatGroupLabel = (
     data: GroupedOption,
     isError?: boolean
@@ -306,7 +358,43 @@ const formatGroupLabel = (
     </div>
 );
 
-/* Componente principal */
+// Sonar. Wrapper para el ícono del dropdown
+function createDropdownIndicator(
+    isError: boolean | undefined,
+    variant: string | undefined
+) {
+    return function DropdownIndicatorWrapper(props: any) {
+        return (
+            <CustomDropdownIndicator
+                {...props}
+                isError={isError}
+                variant={variant}
+            />
+        );
+    };
+}
+
+// Sonar. Wrapper para el ícono de limpieza (clear)
+function createClearIndicator(
+    isError: boolean | undefined,
+    variant: string | undefined
+) {
+    return function ClearIndicatorWrapper(props: any) {
+        return (
+            <CustomClearIndicator
+                {...props}
+                isError={isError}
+                variant={variant}
+            />
+        );
+    };
+}
+
+/**
+ * Componente TSX principal
+ * @param param0
+ * @returns
+ */
 const SelectGeneral: React.FC<Props> = ({
     data,
     optionsLabel,
@@ -335,13 +423,26 @@ const SelectGeneral: React.FC<Props> = ({
         ? { label: value.label, value: value.value }
         : null;
 
+    // Sonar. Color de texto
+    const classTextColor = clsx(
+        'mx-1 py-2',
+        isError && 'text-[#E1564C]',
+        !isError && variant === 'editPerson' && 'text-black',
+        !isError && variant !== 'editPerson' && 'text-black'
+    );
+
+    // Sonar. Aplicando wrappers
+    const components = {
+        DropdownIndicator: createDropdownIndicator(isError, variant),
+        ClearIndicator: createClearIndicator(isError, variant),
+    };
     return (
         <div>
             {text && (
                 <Text
                     text={text}
                     sizeOffset={variant === 'newUser' ? 5 : 2}
-                    className={`${isError ? 'text-[#E1564C]' : variant === 'editPerson' ? 'text-black' : 'text-gray-500'} mx-1 py-2`}
+                    className={classTextColor}
                 />
             )}
             <Select<Option, false, GroupedOption>
@@ -363,22 +464,7 @@ const SelectGeneral: React.FC<Props> = ({
                 onChange={onChange}
                 onBlur={onBlur}
                 name={name}
-                components={{
-                    DropdownIndicator: (props) => (
-                        <CustomDropdownIndicator
-                            {...props}
-                            isError={isError}
-                            variant={variant}
-                        />
-                    ),
-                    ClearIndicator: (props) => (
-                        <CustomClearIndicator
-                            {...props}
-                            isError={isError}
-                            variant={variant}
-                        />
-                    ),
-                }}
+                components={components}
             />
             {children && <div className="mt-1">{children}</div>}
         </div>

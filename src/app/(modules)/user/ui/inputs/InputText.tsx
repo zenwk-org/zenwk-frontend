@@ -1,12 +1,7 @@
 import clsx from 'clsx';
 
 import React, { forwardRef } from 'react';
-import {
-    ERROR_COLOR,
-    BASE_TEXT_COLOR,
-    BORDER_COLOR,
-    TEXT_ROSA_COLOR,
-} from '@app/styles/constans-color';
+import { TEXT_ROSA_COLOR } from '@app/styles/constans-color';
 import { Eye, EyeOff } from 'lucide-react';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { usePasswordToggle } from '@app/shared/hooks/usePasswordToggle';
@@ -14,7 +9,6 @@ import { useResponsiveStyle } from '@app/shared/hooks/useResponsiveTextAndDimens
 
 import Text from '../user-feed/Text';
 import Tooltip from '@app/shared/ui/Tooltip';
-
 export const COLOR_EDIT_PERSON = '#F3D068';
 export const COLOR_FOCUS_EDIT_PERSON = '#A6B3FD';
 
@@ -60,26 +54,34 @@ const InputText = forwardRef<HTMLInputElement, Props>(
         } = usePasswordToggle(type);
         const { fontSize } = useResponsiveStyle();
 
+        // Sonar. Extraemos la lógica del ternario:
+        const classFocus = clsx(
+            isError &&
+                'has-[input:focus-within]:ring-red-300 has-[input:focus-within]:outline-[#E1564C]',
+            !isError &&
+                variant === 'verified' &&
+                'has-[input:focus-within]:ring-indigo-200 has-[input:focus-within]:outline-indigo-400',
+            !isError &&
+                variant === 'editPerson' &&
+                'has-[input:focus-within]:ring-[#A6B3FD] has-[input:focus-within]:outline-[#A6B3FD]',
+            !isError &&
+                variant !== 'verified' &&
+                variant !== 'editPerson' &&
+                'has-[input:focus-within]:ring-blue-100 has-[input:focus-within]:outline-[#9FB0BC]'
+        );
+
         const containerClass = clsx(
             'relative',
             'rounded-lg',
             'has-[input:focus-within]:shadow',
-            //'has-[input:focus-within]:ring-1',
-            //'has-[input:focus-within]:outline-1',
             'has-[input:focus-within]:-outline-offset-1',
-            isError
-                ? 'has-[input:focus-within]:ring-red-300 has-[input:focus-within]:outline-[#E1564C]'
-                : variant === 'verified'
-                  ? 'has-[input:focus-within]:ring-indigo-200 has-[input:focus-within]:outline-indigo-400'
-                  : variant === 'editPerson'
-                    ? 'has-[input:focus-within]:ring-[#A6B3FD] has-[input:focus-within]:outline-[#A6B3FD]'
-                    : 'has-[input:focus-within]:ring-blue-100 has-[input:focus-within]:outline-[#9FB0BC]'
+            classFocus
         );
 
         const inputClassLocal = clsx(
             inputClass,
             'block w-full focus:outline-none',
-            fullWidth ? 'w-full' : `w-fit min-w-[${minWidth}px]`,
+            fullWidth ? 'w-full' : `min-w-[${minWidth}px]`,
             isError
                 ? 'border-[#E77B73] text-[#E77B73] shadow placeholder:text-[#E77B73] focus:border-[#E77B73] focus:ring-[0.03rem] focus:ring-[#E77B73]/80'
                 : 'text-[#747B8B] placeholder:text-[#A2A8B4]',
@@ -94,19 +96,13 @@ const InputText = forwardRef<HTMLInputElement, Props>(
                 'border-[#d1d5dc] transition-colors focus:border-[#B7C1C9]'
         );
 
-        const borderColor = isError
-            ? ERROR_COLOR
-            : variant === 'verified'
-              ? '#818CF8'
-              : variant === 'editPerson'
-                ? '#F3D068'
-                : BORDER_COLOR;
-
-        const textColor = isError
-            ? ERROR_COLOR
-            : variant === 'verified'
-              ? '#3730A3'
-              : BASE_TEXT_COLOR;
+        // Sonar. Función reutilizable para el color del ícono
+        const colorClass = clsx(
+            'text-[#E77B73]',
+            variant === 'verified'
+                ? 'text-indigo-500'
+                : 'text-gray-500 hover:text-gray-700'
+        );
 
         return (
             <div>
@@ -148,27 +144,9 @@ const InputText = forwardRef<HTMLInputElement, Props>(
                         >
                             <div className="group relative">
                                 {showPassword ? (
-                                    <EyeOff
-                                        className={` ${
-                                            isError
-                                                ? 'text-[#E77B73]'
-                                                : variant === 'verified'
-                                                  ? 'text-indigo-500'
-                                                  : 'text-gray-500 hover:text-gray-700'
-                                        } `}
-                                        size={15}
-                                    />
+                                    <EyeOff className={colorClass} size={15} />
                                 ) : (
-                                    <Eye
-                                        className={` ${
-                                            isError
-                                                ? 'text-[#E77B73]'
-                                                : variant === 'verified'
-                                                  ? 'text-indigo-500'
-                                                  : 'text-gray-500 hover:text-gray-700'
-                                        } `}
-                                        size={15}
-                                    />
+                                    <Eye className={colorClass} size={15} />
                                 )}
                                 <Tooltip>
                                     {showPassword

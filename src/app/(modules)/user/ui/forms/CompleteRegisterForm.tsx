@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { useState, Dispatch, SetStateAction } from 'react';
-import { formValidateUser } from '@user/utils/formValidateUser';
 import { PersonDTO } from '@app/app/(modules)/user/types/person-dto';
 import { getLabelById } from '@app/shared/utils/optionsSexUtils';
 import {
@@ -11,8 +10,8 @@ import {
 import { safeValue } from '@app/shared/utils/stringUtils';
 import { useSexOptionsContext } from '@user/utils/useSexOptionsContext';
 import { handleApiErrors } from '@app/shared/utils/formValidate';
-import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
-import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
+import { usePersonContext } from '@app/app/(modules)/user/utils/UsePersonContext';
+import { useUserContext } from '@app/app/(modules)/user/utils/UseUserContext';
 import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
 
 import CompleteRegisterFormFields from '@user/components/forms/CompleteRegisterFormFields';
@@ -51,7 +50,7 @@ const CompleteRegisterForm = ({
 }) => {
     const { optionsSex } = useSexOptionsContext();
     const [errorBack, setErrorBack] = useState('');
-    const [isBtnLoading, setBtnLoading] = useState(false);
+    const [isBtnLoading, setIsBtnLoading] = useState(false);
     const { person, setPerson } = usePersonContext();
     const { userDTO, setUserDTO } = useUserContext();
 
@@ -76,15 +75,6 @@ const CompleteRegisterForm = ({
             profilePicture: personDTO?.profilePicture,
         },
     });
-    const {
-        requiredLastName,
-        requiredAge,
-        requiredSex,
-        minLengthName,
-        maxLengthName,
-        patternName,
-        validateTrim,
-    } = formValidateUser();
 
     /**
      * manejador envio de formulario.
@@ -93,14 +83,14 @@ const CompleteRegisterForm = ({
      * de toca la aplicación.
      */
     const onSubmit = form.handleSubmit(async (data) => {
-        setBtnLoading(true);
+        setIsBtnLoading(true);
         setLineLoading?.(true);
         setBtnUpdate?.(true);
 
         try {
             if (userDTO) {
                 if (editDataBasic && person) {
-                    const response = await updateOrCreatePerson(
+                    await updateOrCreatePerson(
                         data,
                         undefined,
                         editDataBasic,
@@ -116,7 +106,7 @@ const CompleteRegisterForm = ({
                         undefined
                     );
                     // Actualización de rol
-                    const res = await fetchJwtBaseApi(
+                    await fetchJwtBaseApi(
                         '/auth/refresh-jwt',
                         undefined,
                         undefined,
@@ -142,7 +132,7 @@ const CompleteRegisterForm = ({
         } catch (error) {
             handleApiErrors(error, setErrorBack, safeValue);
         } finally {
-            setBtnLoading(false);
+            setIsBtnLoading(false);
             setLineLoading?.(false);
             setBtnUpdate?.(false);
         }

@@ -48,8 +48,11 @@ const ProfileItemConfiguration = ({
         <>
             {/* <div className="rounded-lg px-3 py-3 text-left hover:bg-[#F0F8FE]"> */}
             <div className="mb-2 px-3 py-3 text-left">
-                <li className="group flex cursor-pointer items-center gap-3">
-                    <button onClick={setClickOption}>
+                <li>
+                    <button
+                        className="group flex cursor-pointer items-center gap-3"
+                        onClick={setClickOption}
+                    >
                         <Title
                             sizeOffset={10}
                             text={text}
