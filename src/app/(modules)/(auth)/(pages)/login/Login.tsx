@@ -8,13 +8,12 @@ import {
     fetchTokenCrsfApi,
 } from '@app/helpers/fetch-api';
 import { ClientErrorMessage, LoginForm } from '@app/shared/interfaces/auth';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation.js';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { AuthErrors } from '@auth/constants/auth-errors';
 import { Messages } from '@app/shared/constants/messages';
 import { loginApi } from '@auth/utils/authUtils';
-import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
+import { useUserContext } from '@user/utils/UseUserContext';
 import { UserMessages } from '@user/constants/user-messages';
 
 import FormError from '@app/shared/ui/FormError';
@@ -40,8 +39,8 @@ const Login = () => {
     const [emailParam, setEmailParam] = useState('');
     const { requiredEmail, requiredPassword, patternEmail, minLength } =
         formValidate();
-    const [isRegisteredUser, setRegisteredUser] = useState(false);
-    const [isBtnLoading, setBtnLoading] = useState(false);
+    const [registeredUser, setRegisteredUser] = useState(false);
+    const [btnLoading, setBtnLoading] = useState(false);
     const [suppressBlurValidation, setSuppressBlurValidation] = useState(false);
 
     const {
@@ -160,10 +159,7 @@ const Login = () => {
                         router
                     );
                 }
-            } catch (error) {
-                // console.log(error);
-            } finally {
-            }
+            } catch {}
         }
     };
 
@@ -178,12 +174,11 @@ const Login = () => {
                 // Paso 1:  cookie httpOnly para CSRF token
                 await fetchTokenCrsfApi(data.email);
                 // Paso 2:  cookie httpOnly para jwt token
-                const res = await loginApi(data.email, data.password);
+                await loginApi(data.email, data.password);
                 // Pausa para mejorar la interacción con el usuario
                 // await new Promise((resolve) => setTimeout(resolve, 500));
                 router.push('/user');
             } catch (error: unknown) {
-                // console.log(error);
                 setBtnLoading(false);
                 const errors = error as ClientErrorMessage;
                 switch (errors.code) {
@@ -205,8 +200,6 @@ const Login = () => {
                             message: (error as Error).message,
                         });
                 }
-            } finally {
-                // setBtnLoading(false);
             }
         },
         (clientErrors) => {
@@ -271,7 +264,7 @@ const Login = () => {
                                 handleEmailBlur();
                             }}
                             onChange={() => {
-                                if (isRegisteredUser) {
+                                if (registeredUser) {
                                     setRegisteredUser(false);
                                 }
                             }}
@@ -296,7 +289,7 @@ const Login = () => {
                             isError={Boolean(errors.password || errors.root)}
                         >
                             <FormError error={errors.password?.message ?? ''} />
-                            {(isRegisteredUser || emailParam) && (
+                            {(registeredUser || emailParam) && (
                                 <div className="text-center">
                                     <Paragraph
                                         text={
@@ -333,7 +326,7 @@ const Login = () => {
                         </InputText>
 
                         <LoadButton
-                            loading={isBtnLoading}
+                            loading={btnLoading}
                             isError={Boolean(
                                 errors.email || errors.root || errors.password
                             )}

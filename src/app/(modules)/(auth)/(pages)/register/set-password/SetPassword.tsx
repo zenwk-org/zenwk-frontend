@@ -47,9 +47,7 @@ const SetPasswordRegister = () => {
                     router.push('/user');
                 }
             }
-        } catch (error) {
-            throw error;
-        }
+        } catch {}
     };
     /** Componente JSX con el formulario para el reingreso de contraseña. */
     return (

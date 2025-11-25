@@ -10,8 +10,8 @@ import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
 import AnimatedPage from '@auth/components/AnimatedPage';
 
 import { UserMessages } from '@user/constants/user-messages';
-import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
-import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
+import { useUserContext } from '@user/utils/UseUserContext';
+import { usePersonContext } from '@user/utils/UsePersonContext';
 import { useBackgroundThemeContext } from '@user/utils/useBackgroundTheme';
 
 /**
@@ -47,8 +47,7 @@ const ProfileConfiguration = () => {
         try {
             setLineLoading(true);
             await new Promise((resolve) => setTimeout(resolve, 200));
-        } catch (error) {
-            throw error;
+        } catch {
         } finally {
             setLineLoading(false);
         }

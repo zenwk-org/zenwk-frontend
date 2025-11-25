@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { fetchJwtBaseApi } from "@app/helpers/fetch-api";
-import { useUserContext } from "@app/app/(modules)/user/utils/useUserContext";
-import { usePersonContext } from "@app/app/(modules)/user/utils/usePersonContext";
+import { useUserContext } from "@user/utils/UseUserContext";
+import { usePersonContext } from "@user/utils/UsePersonContext";
 
 /**
  * Hook que encapsula la lógica de cierre de sesión del usuario.
@@ -43,7 +43,6 @@ export const useLogout = () => {
             // Limpieza de contexto
             setUserDTO(undefined);
             setPerson(undefined);
-            //router.push("/login");
             router.push("/");
         }
     };

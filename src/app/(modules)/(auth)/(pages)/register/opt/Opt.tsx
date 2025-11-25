@@ -4,31 +4,23 @@ import OtpInput from 'react-otp-input';
 import Link from 'next/link';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Title from '@app/app/(modules)/(auth)/ui/Title';
-import SubTitle from '@app/app/(modules)/(auth)/ui/SubTitle';
 import FormError from '@app/shared/ui/FormError';
-import LabelLink from '@app/app/(modules)/(auth)/ui/LabelLink';
-import useRedirectRegister from '@auth/hooks/useRedirectRegister';
-import Paragraph from '@app/shared/ui/Paragraph';
-import CenteredHeaderWithBack from '@auth/components/CenteredHeaderWithBack';
 
 import { fetchValidateTokenApi, fetchTokenApi } from '@app/helpers/fetch-api';
 import { ClientErrorMessage } from '@app/shared/interfaces/auth';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { AuthErrors } from '@auth/constants/auth-errors';
 import { AuthMessages } from '../../../constants/auth-messages';
 import { Messages } from '@app/shared/constants/messages';
 import OpenMailbox from '@auth/components/OpenMailbox';
-import Spinner from '@app/shared/ui/Spinner';
-import Tooltip from '@app/shared/ui/Tooltip';
+import { LineLoader } from '@user/components/profile/ProfileItemHeader';
+
 import { UserMessages } from '@user/constants/user-messages';
 import Text from '@user/ui/user-feed/Text';
 import HeaderAction from '@auth/components/HeaderAction';
 import AnimatedPage from '@auth/components/AnimatedPage';
 import AlertInfo from '@app/shared/components/AlertInfo';
-import { LineLoader } from '@user/components/profile/ProfileItemHeader';
 
 /**
  * Estilos CSS inline para el código OPT.
@@ -46,28 +38,13 @@ const styleOpt = {
 const Opt = () => {
     const [otp, setOtp] = useState('');
     const [errorBack, setErrorBack] = useState('');
-    const [isSuccessResend, setSuccessResend] = useState(false);
+    const [successResend, setSuccessResend] = useState(false);
     const [codeError, setCodeError] = useState('');
     const searchParams = useSearchParams();
     const router = useRouter();
     const email = searchParams.get('email') as string;
     const uuid = searchParams.get('uuid') as string;
     const [loading, setLoading] = useState(false);
-
-    /**
-     * Redirige si los parámetros no son válidos o no coinciden.
-     */
-    // useRedirectRegister(email, uuid, setLoading);
-
-    /**
-     * Muestra un mensaje mientras se cargan los datos necesarios.
-     */
-    /**
-     * Cargador ...
-     */
-    // if (loading) {
-    //     return <Spinner />;
-    // }
 
     /**
      * Valida el código OTP cuando el usuario completa los 6 dígitos.
@@ -90,15 +67,12 @@ const Opt = () => {
             }
         } catch (error: unknown) {
             const errors = error as ClientErrorMessage;
-            switch (errors.code) {
-                case AuthErrors.funciontal.login.emailNotMatch:
-                    setCodeError(errors.code);
-                    setErrorBack(errors.message);
-                    console.log(codeError);
-                    return;
-                default:
-                    setErrorBack(errors.message);
-                    return;
+
+            if (errors.code === AuthErrors.funciontal.login.emailNotMatch) {
+                setCodeError(errors.code);
+                setErrorBack(errors.message);
+            } else {
+                setErrorBack(errors.message);
             }
         } finally {
             setLoading(false);
@@ -169,7 +143,7 @@ const Opt = () => {
                     }
                 />
                 {/* isSuccessResend isSuccessResend */}
-                {isSuccessResend && (
+                {successResend && (
                     <AlertInfo duration={5}>
                         <Text
                             sizeOffset={15}
@@ -247,12 +221,12 @@ const Opt = () => {
                                 <div className="px-6 leading-normal font-[350] text-gray-500">
                                     {AuthMessages.otp.emailNotFound}
                                     {AuthMessages.otp.checkSpamOrClick}
-                                    <label
+                                    <button
                                         className="cursor-pointer text-[#5280DA] hover:underline"
                                         onClick={handleClick}
                                     >
                                         {Messages.commons.literalTexts.here}
-                                    </label>
+                                    </button>
                                     {AuthMessages.otp.resendCodeLink}
                                 </div>
                             }
@@ -263,7 +237,7 @@ const Opt = () => {
                 </div>
                 <div className="flex items-center justify-center">
                     <OpenMailbox
-                        isSuccessResend={isSuccessResend}
+                        isSuccessResend={successResend}
                         typeStyle="loginOpt"
                         className="flex w-auto"
                         //className="mx-10 my-5 rounded-lg bg-[#EBF9F0] p-1 text-emerald-700"

@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import { UserMessages } from '../constants/user-messages';
 import { UserStateEnum } from '@app/app/(modules)/user/types/user-dto';
-import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
-import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
+import { usePersonContext } from '@user/utils/UsePersonContext';
+import { useUserContext } from '@user/utils/UseUserContext';
 
 import CompleteRegisterForm from '@user/ui/forms/CompleteRegisterForm';
 import Text from '@user/ui/user-feed/Text';

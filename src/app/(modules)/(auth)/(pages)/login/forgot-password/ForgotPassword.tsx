@@ -1,12 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { formValidate } from '@app/shared/utils/formValidate';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { ClientErrorMessage } from '@app/shared/interfaces/auth';
-import { useState } from 'react';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { Messages } from '@app/shared/constants/messages';
 import { CommonsErros } from '@app/shared/constants/commons-erros';
@@ -30,6 +28,19 @@ import HeaderAction from '@auth/components/HeaderAction';
 import AnimatedPage from '@auth/components/AnimatedPage';
 
 /**
+ * Sonar. Manejo de error custom
+ */
+export class AppError extends Error {
+    code: string;
+
+    constructor(code: string, message: string) {
+        super(message);
+        this.code = code;
+        Object.setPrototypeOf(this, AppError.prototype);
+    }
+}
+
+/**
  * Página ForgotPassword: permite ingresar el email para recuperar contraseña.
  */
 const ForgotPassword = () => {
@@ -45,10 +56,10 @@ const ForgotPassword = () => {
     const searchParams = useSearchParams();
     const [email, setEmail] = useState('');
     const { patternEmail, requiredEmail } = formValidate();
-    const [isRegistered, setRegistered] = useState(false);
+    const [registered, setRegistered] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [isSendEmail, setSendEmail] = useState(false);
-    const [isBtnLoading, setBtnLoading] = useState(false);
+    const [sendEmail, setSendEmail] = useState(false);
+    const [btnLoading, setBtnLoading] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -96,12 +107,10 @@ const ForgotPassword = () => {
                 if (resResetPassword) {
                     return setSendEmail(true);
                 } else {
-                    throw {
-                        code: CommonsErros.unknownCode,
-                        message: CommonsErros.unknown(
-                            'ForgotPassword.handleSubmit(...))'
-                        ),
-                    };
+                    throw new AppError(
+                        CommonsErros.unknownCode,
+                        CommonsErros.unknown('ForgotPassword.handleSubmit(...)')
+                    );
                 }
             } else {
                 setRegistered(false);
@@ -136,7 +145,7 @@ const ForgotPassword = () => {
         <AnimatedPage>
             {/*  */}
             <>
-                {!isSendEmail ? (
+                {!sendEmail ? (
                     <div className="mx-auto w-full max-w-[250px] place-items-center py-5 sm:max-w-[420px]">
                         <HeaderAction
                             title={AuthMessages.forgotPassword.title}
@@ -165,7 +174,7 @@ const ForgotPassword = () => {
                                     }
                                     {...registerEmail}
                                     onChange={() => {
-                                        if (!isRegistered) {
+                                        if (!registered) {
                                             setRegistered(true);
                                         }
                                     }}
@@ -180,10 +189,10 @@ const ForgotPassword = () => {
                                     textButton={
                                         AuthMessages.buttons.forgotPassword
                                     }
-                                    loading={isBtnLoading}
+                                    loading={btnLoading}
                                 />
 
-                                {!isRegistered && (
+                                {!registered && (
                                     <Text
                                         className="mt-7 font-[400] text-black"
                                         text={

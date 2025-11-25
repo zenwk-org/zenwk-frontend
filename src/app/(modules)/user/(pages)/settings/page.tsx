@@ -1,8 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { UserMessages } from '@user/constants/user-messages';
-import { useUserContext } from '@app/app/(modules)/user/utils/useUserContext';
-import { usePersonContext } from '@app/app/(modules)/user/utils/usePersonContext';
+import { useUserContext } from '@user/utils/UseUserContext';
 import { useBackgroundThemeContext } from '@user/utils/useBackgroundTheme';
 
 import Spinner from '@app/shared/ui/Spinner';
@@ -29,7 +28,6 @@ const SettingsAccount = () => {
     >(null);
     const [lineLoading, setLineLoading] = useState(false);
     const { userDTO } = useUserContext();
-    const { person } = usePersonContext();
 
     const { setBackgroundTheme } = useBackgroundThemeContext();
 
@@ -40,20 +38,6 @@ const SettingsAccount = () => {
     if (!userDTO) {
         return <Spinner />;
     }
-
-    /**
-     * Animación (spinner)  para evento clic, botón editar y cancelar.
-     */
-    const loadingLineClick = async () => {
-        try {
-            setLineLoading(true);
-            await new Promise((resolve) => setTimeout(resolve, 200));
-        } catch (error) {
-            throw error;
-        } finally {
-            setLineLoading(false);
-        }
-    };
 
     return (
         <AnimatedPage>

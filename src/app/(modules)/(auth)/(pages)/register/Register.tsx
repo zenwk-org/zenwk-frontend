@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { formValidate } from '@app/shared/utils/formValidate';
@@ -58,7 +58,6 @@ const Register = () => {
             const validateEmail = await fetchValidateRegisterEmail(data.email);
             if (!validateEmail) {
                 const result = await fetchTokenApi(data.email);
-                // console.log(result);
                 if (result) {
                     setLoading(false);
                     return router.push(
@@ -89,7 +88,6 @@ const Register = () => {
             // Captura y muestra el error en el campo email
             const errorMessage = error as string;
             setError('email', { message: errorMessage || 'Error unknown...' });
-        } finally {
         }
     });
 
@@ -164,7 +162,7 @@ const Register = () => {
                             {...register('email', {
                                 required: requiredEmail,
                                 pattern: patternEmail,
-                                value: email && email,
+                                value: email || '',
                             })}
                             isError={Boolean(errors.email || errors.root)}
                         >

@@ -9,14 +9,13 @@ import WelcomeSection from '@app/shared/components/WelcomeSection';
 import Text from '@user/ui/user-feed/Text';
 import HeaderAction from '@auth/components/HeaderAction';
 
-import { useUserContext } from '@user/utils/useUserContext';
+import { useUserContext } from '@user/utils/UseUserContext';
 import { useRef, useEffect, useState } from 'react';
 import { useLoadUser } from '@app/shared/hooks/useLoadUser';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
 import LotusIcon from '@user/components/icons/LotusIcon';
-import HomeIcon from '@mui/icons-material/Home';
 
 /**
  * Página de inicio (landing principal de ZenWK)
@@ -58,12 +57,8 @@ const Home = () => {
         );
     };
 
-    const onAction = () => {
-        return router.push('/');
-    };
-
     return (
-        // min-h-screen: ocupa todo el alto de la pantalla
+        // min-h-screen: ocupa el alto de la pantalla
         <div className="flex min-h-screen w-full flex-col bg-transparent">
             {/* HEADER FIJO */}
             <header className="sticky top-0 z-50 h-full bg-transparent shadow-sm backdrop-blur-sm">
