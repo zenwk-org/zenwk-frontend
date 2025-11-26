@@ -17,7 +17,7 @@ const Button = ({ text, isError, ...props }: Props) => {
         : 'block h-9.5 w-full cursor-pointer rounded-lg bg-[#789CE2] px-5 text-center align-middle text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-[#5280DA] focus:outline-none focus:ring-2 focus:ring-[#789CE2] focus:ring-offset-1 sm:w-[400px] dark:bg-[#339989] dark:hover:bg-[#2E887B] dark:focus:ring-[#5CC6B2]';
 
     return (
-        <div className="mt-7">
+        <div className="mt-5">
             <button type="button" {...props} className={buttonClass}>
                 {text}
             </button>

@@ -1,14 +1,13 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { useLoadUser } from '@app/shared/hooks/useLoadUser';
 
 import Footer from '@user/ui/user-feed/Footer';
 import HeaderMenu from '@user/ui/user-feed/HeaderMenu';
 import Sidebar from '@user/ui/user-feed/Sidebar';
 import Spinner from '@app/shared/ui/Spinner';
 import SexOptionsContextProvider from '@user/context/SexOptionsContext';
-
 import BackgroundThemeContextProvider from './context/BackgroundThemeContext';
-import { useLoadUser } from '@app/shared/hooks/useLoadUser';
 
 export default function UserLayout({
     children,
@@ -40,7 +39,7 @@ export default function UserLayout({
         <BackgroundThemeContextProvider>
             <SexOptionsContextProvider>
                 <div className="flex min-h-screen w-full flex-col bg-transparent">
-                    <header className="sticky top-0 z-50 bg-blue-50/60 shadow-sm">
+                    <header className="sticky top-0 z-50 bg-blue-100/60 shadow-sm shadow-blue-100/80">
                         <HeaderMenu />
                     </header>
                     <div className="fixed z-40 w-full pt-13">

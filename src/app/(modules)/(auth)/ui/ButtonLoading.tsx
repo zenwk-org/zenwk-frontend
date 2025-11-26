@@ -11,7 +11,7 @@ const ButtonLoading = ({ text }: { text: string }) => {
     );
 
     return (
-        <div className="mt-7 mb-3">
+        <div className="mt-5 mb-3">
             {/* Botón deshabilitado con estilos de Tailwind CSS para indicar estado de carga */}
             <button disabled type="submit" className={defaultClassName}>
                 {/* Texto centrado */}

@@ -54,7 +54,6 @@ const Login = () => {
         formState: { errors },
     } = useForm<LoginForm>();
     const { userDTO } = useUserContext();
-    const [existEmail, setExistEmail] = useState(false);
     const [countdown, setCountdown] = useState(3);
     const [notExistUser, setNotExistUser] = useState(false);
 
@@ -147,10 +146,8 @@ const Login = () => {
                 if (res) {
                     setEmailParam(emailOnBlur);
                     setRegisteredUser(res);
-                    setExistEmail(true);
                     setBtnLoading(false);
                 } else {
-                    setExistEmail(false);
                     startRedirectCountdown(
                         emailOnBlur,
                         setCountdown,
@@ -289,40 +286,36 @@ const Login = () => {
                             isError={Boolean(errors.password || errors.root)}
                         >
                             <FormError error={errors.password?.message ?? ''} />
-                            {(registeredUser || emailParam) && (
-                                <div className="text-center">
-                                    <Paragraph
-                                        text={
-                                            <Text
-                                                sizeOffset={3}
-                                                text={
-                                                    <>
-                                                        {
-                                                            AuthMessages
-                                                                .forgotPassword
-                                                                .linkText
-                                                        }
-                                                        <Link
-                                                            href={`/login/forgot-password?email=${emailParam}`}
-                                                        >
-                                                            <Text
-                                                                text={
-                                                                    Messages
-                                                                        .commons
-                                                                        .literalTexts
-                                                                        .here
-                                                                }
-                                                                className="mb-2 inline cursor-pointer font-[400] text-[#5280DA] hover:underline"
-                                                            />
-                                                        </Link>
-                                                    </>
-                                                }
-                                                className="font-[360]"
-                                            />
-                                        }
-                                    />
-                                </div>
-                            )}
+                            <div className="mt-5 text-center">
+                                <Paragraph
+                                    text={
+                                        <Text
+                                            text={
+                                                <>
+                                                    {
+                                                        AuthMessages
+                                                            .forgotPassword
+                                                            .linkText
+                                                    }
+                                                    <Link
+                                                        href={`/login/forgot-password?email=${emailParam}`}
+                                                    >
+                                                        <Text
+                                                            text={
+                                                                Messages.commons
+                                                                    .literalTexts
+                                                                    .here
+                                                            }
+                                                            className="mb-2 inline cursor-pointer font-[400] text-[#5280DA] hover:underline"
+                                                        />
+                                                    </Link>
+                                                </>
+                                            }
+                                            className="font-[400]"
+                                        />
+                                    }
+                                />
+                            </div>
                         </InputText>
 
                         <LoadButton
@@ -336,7 +329,8 @@ const Login = () => {
                                     : AuthMessages.buttons.login
                             }
                         />
-                        {existEmail == null && emailParam == null && (
+                        {/* {existEmail == null && emailParam == null && ( */}
+                        {(!registeredUser || !emailParam) && (
                             <div className="mt-7 text-center">
                                 <Paragraph
                                     text={
@@ -378,7 +372,7 @@ const Login = () => {
                                                     </button>
                                                 </>
                                             }
-                                            className="font-[400] text-black"
+                                            className="font-[400] text-gray-500"
                                         />
                                     }
                                 />

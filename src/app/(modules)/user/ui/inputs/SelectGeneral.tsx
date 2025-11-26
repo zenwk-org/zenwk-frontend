@@ -428,7 +428,7 @@ const SelectGeneral: React.FC<Props> = ({
         'mx-1 py-2',
         isError && 'text-[#E1564C]',
         !isError && variant === 'editPerson' && 'text-black',
-        !isError && variant !== 'editPerson' && 'text-black'
+        !isError && variant !== 'editPerson' && 'text-gray-500'
     );
 
     // Sonar. Aplicando wrappers

@@ -11,7 +11,7 @@ interface Props {
  * @returns Elemento JSX estilizado como párrafo.
  */
 const Paragraph = ({ text }: Props) => {
-    return <div className="mb-2 text-gray-500 dark:text-gray-500">{text}</div>;
+    return <div className="text-gray-500 dark:text-gray-500">{text}</div>;
 };
 
 export default Paragraph;

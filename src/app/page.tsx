@@ -1,5 +1,11 @@
 'use client';
 
+import { useUserContext } from '@user/utils/UseUserContext';
+import { useRef, useEffect, useState } from 'react';
+import { useLoadUser } from '@app/shared/hooks/useLoadUser';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+
 import Footer from '@app/shared/ui/Footer';
 import Header from '@app/shared/ui/Header';
 import ProfileMenu from '@user/components/header/ProfileMenu';
@@ -8,13 +14,6 @@ import Tooltip from '@app/shared/ui/Tooltip';
 import WelcomeSection from '@app/shared/components/WelcomeSection';
 import Text from '@user/ui/user-feed/Text';
 import HeaderAction from '@auth/components/HeaderAction';
-
-import { useUserContext } from '@user/utils/UseUserContext';
-import { useRef, useEffect, useState } from 'react';
-import { useLoadUser } from '@app/shared/hooks/useLoadUser';
-import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
-
 import LotusIcon from '@user/components/icons/LotusIcon';
 
 /**
@@ -59,9 +58,9 @@ const Home = () => {
 
     return (
         // min-h-screen: ocupa el alto de la pantalla
-        <div className="flex min-h-screen w-full flex-col bg-transparent">
+        <div className="flex min-h-screen w-full flex-col">
             {/* HEADER FIJO */}
-            <header className="sticky top-0 z-50 h-full bg-transparent shadow-sm backdrop-blur-sm">
+            <header className="sticky top-0 z-50 h-full bg-blue-100/60 shadow-sm shadow-blue-100/80 backdrop-blur-sm">
                 <Header
                     content={
                         <div className="group relative flex items-center gap-1">
@@ -124,7 +123,7 @@ const Home = () => {
                             <Text
                                 text="Inicia sesión"
                                 sizeOffset={50}
-                                className="cursor-pointer rounded-3xl bg-black p-2 text-white hover:bg-black/70"
+                                className="cursor-pointer rounded-3xl border-2 border-blue-800 bg-blue-800/70 p-2 text-white hover:bg-blue-800"
                             />
                         </button>
                         <button
@@ -134,9 +133,9 @@ const Home = () => {
                             }
                         >
                             <Text
-                                text="Únete a Zenwk"
+                                text="Registrate"
                                 sizeOffset={50}
-                                className="boder-[#365FC9] cursor-pointer rounded-3xl border-2 p-2 text-[#365FC9] hover:bg-indigo-50"
+                                className="cursor-pointer rounded-3xl border-2 border-blue-800 bg-indigo-50 p-2 text-blue-800 hover:bg-indigo-100"
                             />
                         </button>
                     </div>
