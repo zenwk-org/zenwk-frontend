@@ -3,8 +3,6 @@ import { CheckCircle2, AlertTriangle, Info } from 'lucide-react';
 import { ConfigButton } from '../../ui/Buttons/ConfigButton';
 
 import Text from '@user/ui/user-feed/Text';
-import ChevronDownIcon from '@user/components/icons/ChevronDownIcon';
-import Title from '@user/ui/user-feed/Title';
 
 type StatusType = 'success' | 'warning' | 'info' | null;
 
@@ -49,32 +47,6 @@ const ProfileItemConfiguration = ({
         <>
             <div className="mb-2 px-3 py-3 text-left">
                 <li>
-                    <button
-                        className="group flex cursor-pointer items-center gap-3"
-                        onClick={setClickOption}
-                    >
-                        <Title
-                            sizeOffset={10}
-                            text={text}
-                            className={`group-hover:text-black hover:cursor-pointer ${
-                                isActive
-                                    ? 'font-[450] text-black'
-                                    : 'text-gray-800'
-                            }`}
-                        />
-
-                        <div className="rounded-lg p-3 hover:bg-gray-100">
-                            <ChevronDownIcon
-                                size={20}
-                                sizeStroke={3}
-                                className={`h-4 w-4 transition-transform duration-300 group-hover:text-black ${
-                                    isActive
-                                        ? 'rotate-180 font-[340] text-black'
-                                        : 'text-black'
-                                }`}
-                            />
-                        </div>
-                    </button>
                     <ConfigButton
                         text={text}
                         isActive={isActive}

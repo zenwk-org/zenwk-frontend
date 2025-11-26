@@ -1,12 +1,13 @@
 'use client';
 import { useRef } from 'react';
+import { usePersonContext } from '@user/utils/UsePersonContext';
+import { useUserContext } from '@app/app/(modules)/user/utils/UseUserContext';
+import { motion } from 'framer-motion';
 
 import Link from 'next/link';
 import UserProfilePhoto from '@user/components/general/UserProfilePhoto';
 import LogoZenwk from '@user/components/header/LogoZenwk';
 import ProfileMenu from '@user/components/header/ProfileMenu';
-import { usePersonContext } from '@user/utils/UsePersonContext';
-import { useUserContext } from '@app/app/(modules)/user/utils/UseUserContext';
 
 const userMenuItems = [
     { label: 'Dashboard', href: '#' },
@@ -57,11 +58,19 @@ const HeaderMenu = () => {
     };
 
     return (
-        <nav className="h-full border-b-gray-300 dark:bg-gray-900">
+        <motion.nav
+            initial={{ scale: 1, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1, ease: 'easeInOut' }}
+            className="h-full border-b-gray-300 dark:bg-gray-900"
+        >
             {/** bkp (anterior limite de la pantalla):  max-w-screen-2xl */}
-            <div className="mx-auto flex flex-wrap items-center justify-between px-4">
+            <div className="flex h-12 w-full items-center justify-between px-4 text-white">
                 {/* Logo on acceso directo a inicio */}
-                <LogoZenwk isToolTip={true} viewText={false} />
+                <div className="text-2xl font-semibold tracking-wide text-cyan-900">
+                    {/* Logo on acceso directo a inicio */}
+                    <LogoZenwk isToolTip={true} viewText={false} />
+                </div>
 
                 {/* User menu & mobile toggle */}
                 <div className="flex items-center space-x-3 py-[0.4rem] md:order-2 md:space-x-1 rtl:space-x-reverse">
@@ -101,7 +110,7 @@ const HeaderMenu = () => {
                     </ul>
                 </div>
             </div>
-        </nav>
+        </motion.nav>
     );
 };
 

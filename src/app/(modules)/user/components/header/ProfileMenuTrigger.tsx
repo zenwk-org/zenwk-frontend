@@ -30,7 +30,7 @@ const ProfileMenuTrigger = ({
                     type="button"
                     tabIndex={0}
                     ref={mergeRefs(ref, avatarBtnRef)}
-                    className="flex cursor-pointer rounded-full bg-gradient-to-r from-gray-100 to-gray-200 transition-shadow duration-300 hover:ring-4 hover:ring-[#C7D3F0] focus:ring-4 focus:ring-[#C7D3F0] focus:outline-none"
+                    className="flex cursor-pointer rounded-full bg-gradient-to-r from-gray-100 to-gray-200 transition-shadow duration-300 hover:ring-4 hover:ring-indigo-300 focus:ring-4 focus:ring-indigo-300 focus:outline-none"
                     onClick={onClick}
                 >
                     {isPhotoProfile()}
@@ -39,7 +39,8 @@ const ProfileMenuTrigger = ({
                 <button
                     type="button"
                     tabIndex={0}
-                    className="flex cursor-pointer rounded-full bg-gradient-to-r from-gray-100 to-gray-200 transition-shadow duration-300 hover:ring-4 hover:ring-[#C7D3F0] focus:ring-4 focus:ring-[#C7D3F0] focus:outline-none"
+                    ref={mergeRefs(ref, avatarBtnRef)}
+                    className="flex cursor-pointer rounded-full bg-gradient-to-r from-gray-100 to-gray-200 transition-shadow duration-300 hover:ring-4 hover:ring-indigo-300 focus:ring-4 focus:ring-indigo-300 focus:outline-none"
                     onClick={() =>
                         userDTO ? router.push('/user') : router.push('/login')
                     }
