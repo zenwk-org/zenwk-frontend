@@ -1,9 +1,18 @@
 import { getTokenUrl, getBaseUrl } from "./api-helper";
-import {
-    BackendErrorResponse,
-    ClientErrorMessage,
-} from "@app/shared/interfaces/auth";
+import { BackendErrorResponse } from "@app/shared/interfaces/auth";
 import qs from "qs";
+
+/**
+ * clase de error personalizada:
+ */
+export class ClientError extends Error {
+    constructor(
+        public code: string,
+        message: string
+    ) {
+        super(message);
+    }
+}
 
 /**
  * Interface que representa el objeto que retorna el back cuando se presenta un error en el DTO el api create person.
@@ -52,14 +61,15 @@ function isBackendErrorResponse(error: unknown): error is BackendErrorResponse {
     );
 }
 
-// Validador específico para ClientError
-export function isClientErrorMessage(
-    error: unknown
-): error is ClientErrorMessage {
+/**
+ * Validador específico para ClientError
+ * @param error
+ * @returns
+ */
+export function isClientErrorMessage(error: unknown): error is ClientError {
     return (
-        isObject(error) &&
-        "title" in error &&
-        "message" in error &&
+        error instanceof ClientError &&
+        typeof error.code === "string" &&
         typeof error.message === "string"
     );
 }
@@ -185,12 +195,7 @@ export const getFetch = async (
             case 404:
             case 500: {
                 const response = await res.json();
-                throw new Error(
-                    JSON.stringify({
-                        code: response.code,
-                        message: response.error,
-                    })
-                );
+                throw new ClientError(response.code, response.error);
             }
 
             default:
@@ -247,7 +252,10 @@ export const fetchValidateTokenApi = async (
         const data = await getFetch(requestUrl, mergedOptions);
         return data;
     } catch (error: unknown) {
-        throw new Error(JSON.stringify(error));
+        if (isClientErrorMessage(error)) {
+            throw error;
+        }
+        throw new Error("Unexpected error occurred");
     }
 };
 
@@ -275,7 +283,7 @@ export const fetchJwtBaseApi = async (
         const data = await getFetch(requestUrl, mergedOptions);
         return data;
     } catch (error: unknown) {
-        throw new Error(JSON.stringify(error));
+        throw error;
     }
 };
 
@@ -302,7 +310,7 @@ export const fetchVerifcation = async (
         const data = await getFetch(requestUrl, mergedOptions);
         return data;
     } catch (error: unknown) {
-        throw new Error(JSON.stringify(error));
+        throw error;
     }
 };
 

@@ -6,8 +6,9 @@ import { formValidate } from '@app/shared/utils/formValidate';
 import {
     fetchValidateRegisterEmail,
     fetchTokenCrsfApi,
+    isClientErrorMessage,
 } from '@app/helpers/fetch-api';
-import { ClientErrorMessage, LoginForm } from '@app/shared/interfaces/auth';
+import { LoginForm } from '@app/shared/interfaces/auth';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { AuthErrors } from '@auth/constants/auth-errors';
@@ -177,25 +178,26 @@ const Login = () => {
                 router.push('/user');
             } catch (error: unknown) {
                 setBtnLoading(false);
-                const errors = error as ClientErrorMessage;
-                switch (errors.code) {
-                    case AuthErrors.funciontal.login.notFoundUsername:
-                        startRedirectCountdown(
-                            data.email,
-                            setCountdown,
-                            setNotExistUser,
-                            setBtnLoading,
-                            router
-                        );
-                        return;
-                    case AuthErrors.funciontal.login.badCredentials:
-                        setError('password', { message: errors.message });
-                        setFocus('password');
-                        return;
-                    default:
-                        return setError('root', {
-                            message: (error as Error).message,
-                        });
+                if (isClientErrorMessage(error)) {
+                    switch (error.code) {
+                        case AuthErrors.funciontal.login.notFoundUsername:
+                            startRedirectCountdown(
+                                data.email,
+                                setCountdown,
+                                setNotExistUser,
+                                setBtnLoading,
+                                router
+                            );
+                            return;
+                        case AuthErrors.funciontal.login.badCredentials:
+                            setError('password', { message: error.message });
+                            setFocus('password');
+                            return;
+                        default:
+                            return setError('root', {
+                                message: error.message,
+                            });
+                    }
                 }
             }
         },

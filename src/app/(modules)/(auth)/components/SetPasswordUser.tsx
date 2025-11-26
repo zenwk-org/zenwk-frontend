@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm, useWatch } from 'react-hook-form';
-import { SetPassword, ClientErrorMessage } from '@app/shared/interfaces/auth';
+import { SetPassword } from '@app/shared/interfaces/auth';
 import { formValidate } from '@app/shared/utils/formValidate';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { useSearchParams } from 'next/navigation';
@@ -14,6 +14,7 @@ import LoadButton from '@auth/components/LoadButton';
 import Spinner from '@app/shared/ui/Spinner';
 import InputText from '@user/ui/inputs/InputText';
 import Text from '@user/ui/user-feed/Text';
+import { isClientErrorMessage } from '@app/helpers/fetch-api';
 
 /**
  * Interface que prepsenta los valores permitidos en la desestructuración.
@@ -98,10 +99,11 @@ const SetPasswordUser = React.memo(
             setBtnLoading(true);
             try {
                 await onSubmitPassword(email, data.password, uuid, tokenCode);
-            } catch (error: unknown) {
-                const errors = error as ClientErrorMessage;
-                setError('repassword', { message: errors.message });
-                setError('password', { message: '' });
+            } catch (error) {
+                if (isClientErrorMessage(error)) {
+                    setError('repassword', { message: error.message });
+                    setError('password', { message: '' });
+                }
             } finally {
                 setBtnLoading(false);
             }

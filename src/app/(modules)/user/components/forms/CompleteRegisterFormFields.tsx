@@ -9,6 +9,7 @@ import FormErrorUser from '@user/ui/forms/FormErrorUser';
 import ProfileButtomForm from '@user/components/profile/ProfileButtomForm';
 import LoadButton from '@auth/components/LoadButton';
 import clsx from 'clsx';
+import Text from '@user/ui/user-feed/Text';
 
 export interface FormValues {
     firstName: string;
@@ -23,7 +24,7 @@ interface Props {
     form: UseFormReturn<FormValues>;
     optionsSex: Option[];
     onSubmit: () => void;
-    errorBack: string;
+    errorBack: { msg: string; at: number } | null;
     isBtnLoading: boolean;
     editDataBasic?: boolean;
     setEditDataBasic?: Dispatch<SetStateAction<boolean>>;
@@ -129,7 +130,9 @@ const CompleteRegisterFormFields = ({
     } = form;
 
     const [btnDisabled, setBtnDisabled] = useState(true);
+    const [error, setError] = useState('');
     const defaultValues = form.control._defaultValues;
+    const [errorCounter, setErrorCounter] = useState(0);
 
     const {
         requiredLastName,
@@ -141,6 +144,9 @@ const CompleteRegisterFormFields = ({
         requiredFirstName,
         validateTrim,
     } = formValidateUser();
+
+    const handleDisabledButton = () =>
+        setTimeout(() => setBtnDisabled(true), 50);
 
     useEffect(() => {
         const subscription = watch((values) => {
@@ -154,14 +160,41 @@ const CompleteRegisterFormFields = ({
         return () => subscription.unsubscribe();
     }, [watch, defaultValues]);
 
+    /**
+     * Escucha los cambios en errorBack provenientes del backend.
+     * Cuando ocurre un nuevo error (detectado por el timestamp at),
+     * se actualiza el estado local error para mostrar el mensaje al usuario.
+     * Además, se incrementa el contador errorCounter para forzar un re-render,incluso si el mensaje es el mismo.
+     */
+    useEffect(() => {
+        if (errorBack) {
+            setError(errorBack.msg);
+            setErrorCounter((prev) => prev + 1);
+        }
+    }, [errorBack?.at]);
+
+    /**
+     * Limpia el mensaje de error local cada vez que el usuario
+     * modifica cualquier campo del formulario (watch).
+     * Esto permite que el backend tenga prioridad en los errores,
+     * pero evita que el mensaje persista cuando el usuario corrige datos.
+     * Se libera la suscripción al desmontar el componente, cumpliendo
+     * con buenas prácticas de limpieza en React.
+     */
+    useEffect(() => {
+        const subscription = watch(() => {
+            if (error) {
+                setError('');
+            }
+        });
+        return () => subscription.unsubscribe();
+    }, [watch, error]);
+
     const classField = clsx(
         editDataBasic
             ? 'h-full max-w-[180px] rounded-lg border-[0.13rem] px-4 py-[0.3rem] focus:border-[#A6B3FD] focus:outline-none'
             : 'h-full w-full rounded-lg border-[0.14rem] px-4 py-[0.4rem] focus:outline-none'
     );
-
-    const handleDisabledButton = () =>
-        setTimeout(() => setBtnDisabled(true), 50);
 
     return (
         <form onSubmit={onSubmit}>
@@ -270,14 +303,19 @@ const CompleteRegisterFormFields = ({
             </div>
 
             {/* Error backend */}
-            {errorBack && (
-                <div className="mb-6">
+            {error && (
+                <div
+                    key={`${error}-${errorCounter}`}
+                    className="mt-3 mb-6 grid justify-items-center"
+                >
                     <FormErrorUser
                         sizeOffset={-10}
                         error={
-                            <label className="text-center whitespace-pre-line">
-                                {errorBack}
-                            </label>
+                            <Text
+                                className="w-fit px-2 whitespace-pre-line"
+                                sizeOffset={3}
+                                text={error}
+                            />
                         }
                     />
                 </div>

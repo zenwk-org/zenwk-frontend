@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { formValidate } from '@app/shared/utils/formValidate';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { ClientErrorMessage } from '@app/shared/interfaces/auth';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { Messages } from '@app/shared/constants/messages';
 import { CommonsErros } from '@app/shared/constants/commons-erros';
@@ -12,6 +11,7 @@ import {
     fetchValidateRegisterEmail,
     getUrlServer,
     fetchVerifcation,
+    isClientErrorMessage,
 } from '@app/helpers/fetch-api';
 import { UserMessages } from '@user/constants/user-messages';
 
@@ -117,8 +117,9 @@ const ForgotPassword = () => {
                 setSendEmail(false);
             }
         } catch (error) {
-            const errorApi = error as ClientErrorMessage;
-            setError('email', { message: errorApi.message });
+            if (isClientErrorMessage(error)) {
+                setError('email', { message: error.message });
+            }
         } finally {
             setLoading(false);
             setBtnLoading(false);
