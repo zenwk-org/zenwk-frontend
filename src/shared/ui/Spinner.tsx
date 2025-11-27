@@ -12,7 +12,7 @@ const Spinner = () => {
         <div className="relative h-screen w-screen">
             <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/80">
                 <PropagateLoader
-                    color="#2c975c"
+                    color="#135CDC"
                     loading
                     size={6}
                     speedMultiplier={1}

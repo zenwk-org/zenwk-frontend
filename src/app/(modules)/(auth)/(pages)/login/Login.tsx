@@ -19,7 +19,6 @@ import { UserMessages } from '@user/constants/user-messages';
 
 import FormError from '@app/shared/ui/FormError';
 import Paragraph from '@app/shared/ui/Paragraph';
-import Link from 'next/link';
 import HomeIcon from '@mui/icons-material/Home';
 import LoadButton from '@auth/components/LoadButton';
 import Text from '@user/ui/user-feed/Text';
@@ -299,8 +298,23 @@ const Login = () => {
                                                             .forgotPassword
                                                             .linkText
                                                     }
-                                                    <Link
-                                                        href={`/login/forgot-password?email=${emailParam}`}
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            router.push(
+                                                                `/login/forgot-password?email=${emailParam}`
+                                                            )
+                                                        }
+                                                        onMouseDown={() =>
+                                                            setSuppressBlurValidation(
+                                                                true
+                                                            )
+                                                        }
+                                                        onMouseUp={() =>
+                                                            setSuppressBlurValidation(
+                                                                false
+                                                            )
+                                                        }
                                                     >
                                                         <Text
                                                             text={
@@ -310,7 +324,7 @@ const Login = () => {
                                                             }
                                                             className="mb-2 inline cursor-pointer font-[400] text-[#5280DA] hover:underline"
                                                         />
-                                                    </Link>
+                                                    </button>
                                                 </>
                                             }
                                             className="font-[400]"

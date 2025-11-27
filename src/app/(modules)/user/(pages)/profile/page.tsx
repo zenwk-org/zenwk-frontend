@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import Spinner from '@app/shared/ui/Spinner';
 import Title from '@user/ui/user-feed/Title';
@@ -14,11 +15,7 @@ import { useUserContext } from '@user/utils/UseUserContext';
 import { usePersonContext } from '@user/utils/UsePersonContext';
 import { useBackgroundThemeContext } from '@app/app/(modules)/user/utils/UseBackgroundTheme';
 
-/**
- * Componente principal para la configuración del perfil
- */
 const ProfileConfiguration = () => {
-    // Controlar secciones abiertas en el acordeón "Configuración de Perfil".
     const [activeSection, setActiveSection] = useState<
         | 'updateInfoBasic'
         | 'updateEmail'
@@ -36,18 +33,12 @@ const ProfileConfiguration = () => {
         setBackgroundTheme('bg-yellow-100');
     }, []);
 
-    if (!userDTO) {
-        return <Spinner />;
-    }
+    if (!userDTO) return <Spinner />;
 
-    /**
-     * Animación (spinner)  para evento clic, botón editar y cancelar.
-     */
     const loadingLineClick = async () => {
         try {
             setLineLoading(true);
             await new Promise((resolve) => setTimeout(resolve, 200));
-        } catch {
         } finally {
             setLineLoading(false);
         }
@@ -55,43 +46,45 @@ const ProfileConfiguration = () => {
 
     return (
         <AnimatedPage>
-            <div className="mx-auto rounded-xl bg-white py-5 sm:px-6 md:px-10">
-                <div className="">
-                    <Title
-                        sizeOffset={25}
-                        text={UserMessages.profileConfiguration.header.title}
-                        // className="mt-5 font-[380] text-[#333333]"
-                        className={`rounded-x w-full rounded-2xl bg-yellow-50 p-5 text-center text-black`}
-                    />
-                    {/** Linea de carga en el encabezado de la sección */}
-                    <ProfileItemHeader lineLoading={lineLoading} />
+            <motion.div
+                layout
+                transition={{
+                    layout: { duration: 0.1, ease: 'easeInOut' },
+                }}
+                className="mx-auto rounded-xl bg-white py-5 sm:px-6 md:px-10"
+            >
+                <Title
+                    sizeOffset={25}
+                    text={UserMessages.profileConfiguration.header.title}
+                    className="rounded-x w-full rounded-2xl bg-yellow-50 p-5 text-center text-black"
+                />
+                <ProfileItemHeader lineLoading={lineLoading} />
 
-                    <div className="w-fit py-5 text-justify">
-                        <ul>
-                            {/** Sección: imagen */}
-                            <ProfileItemConfiguration
-                                text={
-                                    UserMessages.profileConfiguration.sections
-                                        .updatePhotoProfile.title
-                                }
-                                description={
-                                    UserMessages.profileConfiguration.sections
-                                        .updatePhotoProfile.description
-                                }
-                                isActive={
+                <div className="w-fit py-5 text-justify">
+                    <ul>
+                        {/* Sección: imagen */}
+                        <ProfileItemConfiguration
+                            text={
+                                UserMessages.profileConfiguration.sections
+                                    .updatePhotoProfile.title
+                            }
+                            description={
+                                UserMessages.profileConfiguration.sections
+                                    .updatePhotoProfile.description
+                            }
+                            isActive={activeSection === 'updatePhotoProfile'}
+                            setClickOption={() =>
+                                setActiveSection(
                                     activeSection === 'updatePhotoProfile'
-                                }
-                                setClickOption={() =>
-                                    setActiveSection(
-                                        activeSection === 'updatePhotoProfile'
-                                            ? null
-                                            : 'updatePhotoProfile'
-                                    )
-                                }
-                            >
+                                        ? null
+                                        : 'updatePhotoProfile'
+                                )
+                            }
+                        >
+                            <AnimatePresence initial={false}>
                                 {activeSection === 'updatePhotoProfile' &&
                                     person && (
-                                        <div className="rounded-2xl bg-yellow-50">
+                                        <div className="overflow-hidden rounded-2xl bg-yellow-50">
                                             <ProfilePhotoSection
                                                 setLineLoadingFather={
                                                     setLineLoading
@@ -99,30 +92,32 @@ const ProfileConfiguration = () => {
                                             />
                                         </div>
                                     )}
-                            </ProfileItemConfiguration>
+                            </AnimatePresence>
+                        </ProfileItemConfiguration>
 
-                            {/** Sección: información personal */}
-                            <ProfileItemConfiguration
-                                text={
-                                    UserMessages.profileConfiguration.sections
-                                        .personalInfo.title
-                                }
-                                description={
-                                    UserMessages.profileConfiguration.sections
-                                        .personalInfo.description
-                                }
-                                isActive={activeSection === 'updateInfoBasic'}
-                                setClickOption={() =>
-                                    setActiveSection(
-                                        activeSection === 'updateInfoBasic'
-                                            ? null
-                                            : 'updateInfoBasic'
-                                    )
-                                }
-                            >
+                        {/* Sección: información personal */}
+                        <ProfileItemConfiguration
+                            text={
+                                UserMessages.profileConfiguration.sections
+                                    .personalInfo.title
+                            }
+                            description={
+                                UserMessages.profileConfiguration.sections
+                                    .personalInfo.description
+                            }
+                            isActive={activeSection === 'updateInfoBasic'}
+                            setClickOption={() =>
+                                setActiveSection(
+                                    activeSection === 'updateInfoBasic'
+                                        ? null
+                                        : 'updateInfoBasic'
+                                )
+                            }
+                        >
+                            <AnimatePresence initial={false}>
                                 {activeSection === 'updateInfoBasic' &&
                                     person && (
-                                        <div>
+                                        <div className="overflow-hidden">
                                             <PersonalInfoSection
                                                 loadingLineClick={
                                                     loadingLineClick
@@ -131,11 +126,11 @@ const ProfileConfiguration = () => {
                                             />
                                         </div>
                                     )}
-                            </ProfileItemConfiguration>
-                        </ul>
-                    </div>
+                            </AnimatePresence>
+                        </ProfileItemConfiguration>
+                    </ul>
                 </div>
-            </div>
+            </motion.div>
         </AnimatedPage>
     );
 };

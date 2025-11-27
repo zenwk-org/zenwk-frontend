@@ -23,8 +23,8 @@ export const formValidate = () => {
     };
 
     const minLength: RegisterOptions["minLength"] = {
-        value: 6,
-        message: "Mínimo 6 carácteres.",
+        value: 8,
+        message: "Mínimo 8 carácteres.",
     };
 
     const validateTrim: RegisterOptions["validate"] = {
