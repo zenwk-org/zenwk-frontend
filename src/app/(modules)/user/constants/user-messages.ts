@@ -40,7 +40,7 @@ export const UserMessages = {
         },
         save: "Guardar",
         back: "Atrás",
-        updatePersonalInfo: "Actualizar información personal",
+        updatePersonalInfo: "Actualizar",
         deleteAccount: "Eliminar cuenta ",
     },
     messageToolTip: {

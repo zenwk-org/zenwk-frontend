@@ -12,7 +12,9 @@ interface Props {
  */
 const FormError = ({ error }: Props) => {
     return (
-        <div className="mt-2 mb-2 w-full px-2 text-sm text-[#E1564C] sm:w-[400px] dark:text-[#E1564C]">
+        <div
+            className={`mt-2 mb-2 w-full px-2 text-sm sm:w-[400px] ${error == 'INVALID_PASSWORD' ? 'text-emerald-700' : 'text-justify tracking-[-0.015em] text-[#E1564C] dark:text-[#E1564C]'}`}
+        >
             {error == 'INVALID_PASSWORD' ? (
                 <ul className="list-inside list-disc text-sm">
                     {politiciesPassword.map((rule) => (

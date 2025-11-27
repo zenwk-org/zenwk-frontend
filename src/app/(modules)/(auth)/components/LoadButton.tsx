@@ -20,7 +20,12 @@ const LoadButton = React.memo(
         return loading ? (
             <ButtonLoading text={textLoading || textButton} />
         ) : (
-            <Button isError={isError} type="submit" text={textButton} />
+            <Button
+                disabled={isError}
+                isError={isError}
+                type="submit"
+                text={textButton}
+            />
         );
     }
 );
