@@ -69,7 +69,7 @@ export const AuthMessages = {
     buttons: {
         forgotPassword: "Sí, olvidé mi contraseña",
         login: "Inicio de sesión",
-        registerWithEmail: "Continuar con email",
+        registerWithEmail: "Continuar con el correo",
         saveContinue: "Guardar y seguir",
         redirectLogin: "Redirigiendo a inicio de sesión ",
     },

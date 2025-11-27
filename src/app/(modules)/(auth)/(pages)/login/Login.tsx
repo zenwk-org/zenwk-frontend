@@ -345,11 +345,17 @@ const Login = () => {
                                                     }
                                                     <button
                                                         type="button"
-                                                        onClick={() =>
-                                                            router.push(
-                                                                '/register'
-                                                            )
-                                                        }
+                                                        onClick={() => {
+                                                            if (emailParam) {
+                                                                router.push(
+                                                                    `/register?email=${emailParam}`
+                                                                );
+                                                            } else {
+                                                                router.push(
+                                                                    '/register'
+                                                                );
+                                                            }
+                                                        }}
                                                         // antes del blur
                                                         onMouseDown={() =>
                                                             setSuppressBlurValidation(
