@@ -19,8 +19,7 @@ export const formValidate = () => {
 
     const patternPassword: RegisterOptions["pattern"] = {
         value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+={}[\]:;"'<>,.?/~\\|]).{8,}$/,
-        message:
-            "La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.",
+        message: "INVALID_PASSWORD",
     };
 
     const minLength: RegisterOptions["minLength"] = {

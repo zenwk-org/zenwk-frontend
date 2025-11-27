@@ -31,3 +31,14 @@ export const refreshAuthJwt = async (jwt: string): Promise<string> => {
         "GET"
     );
 };
+
+/**
+ * Politicas de contraseñas
+ */
+export const politiciesPassword = [
+    { id: "min_length", rule: "Mínimo 8 caracteres" },
+    { id: "uppercase", rule: "Una mayúscula" },
+    { id: "lowercase", rule: "Una minúscula" },
+    { id: "number", rule: "Un número" },
+    { id: "special_char", rule: "Un carácter especial" },
+];

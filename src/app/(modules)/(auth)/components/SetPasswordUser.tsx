@@ -5,6 +5,7 @@ import { SetPassword } from '@app/shared/interfaces/auth';
 import { formValidate } from '@app/shared/utils/formValidate';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { useSearchParams } from 'next/navigation';
+import { isClientErrorMessage } from '@app/helpers/fetch-api';
 import React, { useEffect, useState } from 'react';
 
 import FormError from '@app/shared/ui/FormError';
@@ -14,8 +15,8 @@ import LoadButton from '@auth/components/LoadButton';
 import Spinner from '@app/shared/ui/Spinner';
 import InputText from '@user/ui/inputs/InputText';
 import Text from '@user/ui/user-feed/Text';
-import { isClientErrorMessage } from '@app/helpers/fetch-api';
-import { error } from 'console';
+
+import HeaderAction from './HeaderAction';
 
 /**
  * Interface que prepsenta los valores permitidos en la desestructuración.
@@ -116,13 +117,12 @@ const SetPasswordUser = React.memo(
         /** Componente JSX con el formulario para el reingreso de contraseña. */
         return (
             <div className="mx-auto w-full max-w-[250px] place-items-center py-5 sm:max-w-[420px]">
-                <Text
-                    text={title}
-                    className="my-2 text-center text-black"
-                    sizeOffset={80}
+                <HeaderAction
+                    title={title}
+                    message="Verificación completada. Ingresa tu nueva contraseña."
                 />
 
-                <div className="mt-7 grid justify-items-center text-gray-500 sm:max-w-[420px]">
+                <div className="grid justify-items-center text-gray-500 sm:max-w-[420px]">
                     <form onSubmit={onSubmit}>
                         {!isResetPassword && <InputDisabled text={email} />}
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { politiciesPassword } from '@auth/utils/authUtils';
 
 interface Props {
     error?: React.ReactNode;
@@ -11,8 +12,16 @@ interface Props {
  */
 const FormError = ({ error }: Props) => {
     return (
-        <div className="mt-1 mb-2 w-full px-2 text-sm text-[#E1564C] sm:w-[400px] dark:text-[#E1564C]">
-            <span className="font-stretch-normal">{error}</span>
+        <div className="mt-2 mb-2 w-full px-2 text-sm text-[#E1564C] sm:w-[400px] dark:text-[#E1564C]">
+            {error == 'INVALID_PASSWORD' ? (
+                <ul className="list-inside list-disc text-sm">
+                    {politiciesPassword.map((rule) => (
+                        <li key={rule.id}>{rule.rule}</li>
+                    ))}
+                </ul>
+            ) : (
+                <span className="font-stretch-normal">{error}</span>
+            )}
         </div>
     );
 };
