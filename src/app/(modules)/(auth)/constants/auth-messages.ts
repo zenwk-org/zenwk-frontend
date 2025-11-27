@@ -37,7 +37,7 @@ export const AuthMessages = {
     forgotPassword: {
         title: "¿Olvidaste tu contraseña?",
         subtitle: "A todos nos pasa. Ingresa tu correo y te ayudamos.",
-        linkText: "¿Olvidaste tu contraseña? Restablécela",
+        linkText: "¿Olvidaste tu contraseña? Restablécela ",
         // SPA. Envío exitoso de correo
         sendEmail: {
             title: "¡Todo listo!",
@@ -69,7 +69,7 @@ export const AuthMessages = {
     buttons: {
         forgotPassword: "Sí, olvidé mi contraseña",
         login: "Inicio de sesión",
-        registerWithEmail: "Continuar con email",
+        registerWithEmail: "Continuar con el correo",
         saveContinue: "Guardar y seguir",
         redirectLogin: "Redirigiendo a inicio de sesión ",
     },

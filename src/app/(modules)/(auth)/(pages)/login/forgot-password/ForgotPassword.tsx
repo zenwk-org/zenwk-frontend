@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { formValidate } from '@app/shared/utils/formValidate';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { ClientErrorMessage } from '@app/shared/interfaces/auth';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { Messages } from '@app/shared/constants/messages';
 import { CommonsErros } from '@app/shared/constants/commons-erros';
@@ -12,6 +11,7 @@ import {
     fetchValidateRegisterEmail,
     getUrlServer,
     fetchVerifcation,
+    isClientErrorMessage,
 } from '@app/helpers/fetch-api';
 import { UserMessages } from '@user/constants/user-messages';
 
@@ -26,6 +26,7 @@ import Text from '@user/ui/user-feed/Text';
 import InputText from '@user/ui/inputs/InputText';
 import HeaderAction from '@auth/components/HeaderAction';
 import AnimatedPage from '@auth/components/AnimatedPage';
+import AlertInfo from '@app/shared/components/AlertInfo';
 
 /**
  * Sonar. Manejo de error custom
@@ -61,6 +62,8 @@ const ForgotPassword = () => {
     const [sendEmail, setSendEmail] = useState(false);
     const [btnLoading, setBtnLoading] = useState(false);
     const router = useRouter();
+    const [countdown, setCountdown] = useState(3);
+    const [existUser, setExistUser] = useState(false);
 
     useEffect(() => {
         const paramEmail = searchParams.get('email') as string;
@@ -113,12 +116,32 @@ const ForgotPassword = () => {
                     );
                 }
             } else {
+                setExistUser(true);
+                let seconds = 3;
+                setCountdown(seconds);
+
+                const interval = setInterval(() => {
+                    seconds -= 1;
+                    setCountdown(seconds);
+
+                    if (seconds <= 0) {
+                        clearInterval(interval);
+                        // Redirige al inicio de sesión
+                        setExistUser(false);
+                        setLoading(false);
+                        router.push(
+                            `/register?email=${encodeURIComponent(data.email)}`
+                        );
+                    }
+                }, 1000);
+
                 setRegistered(false);
                 setSendEmail(false);
             }
         } catch (error) {
-            const errorApi = error as ClientErrorMessage;
-            setError('email', { message: errorApi.message });
+            if (isClientErrorMessage(error)) {
+                setError('email', { message: error.message });
+            }
         } finally {
             setLoading(false);
             setBtnLoading(false);
@@ -145,6 +168,24 @@ const ForgotPassword = () => {
         <AnimatedPage>
             {/*  */}
             <>
+                {/* Notificación */}
+                {existUser && (
+                    <AlertInfo duration={5}>
+                        <Text
+                            sizeOffset={15}
+                            text={
+                                <>
+                                    {AuthMessages.otp.emailNotExist}
+                                    <p className="">
+                                        {`Te redirigiremos a la pagina de registro en `}
+                                        <label className="font-[500]">{`${countdown} s...`}</label>
+                                    </p>
+                                </>
+                            }
+                            className="my-3 rounded-lg bg-[#EBF9F0] p-1 text-center text-emerald-800"
+                        />
+                    </AlertInfo>
+                )}
                 {sendEmail === false ? (
                     <div className="mx-auto w-full max-w-[250px] place-items-center py-5 sm:max-w-[420px]">
                         <HeaderAction
@@ -173,12 +214,9 @@ const ForgotPassword = () => {
                                         Messages.placeholder.emailExample
                                     }
                                     {...registerEmail}
-                                    onChange={() => {
-                                        if (!registered) {
-                                            setRegistered(true);
-                                        }
-                                    }}
-                                    isError={Boolean(errors.email)}
+                                    isError={Boolean(
+                                        errors.email || errors.root
+                                    )}
                                 >
                                     <FormError
                                         error={errors.email?.message || ''}
@@ -186,6 +224,9 @@ const ForgotPassword = () => {
                                 </InputText>
 
                                 <LoadButton
+                                    isError={Boolean(
+                                        errors.email || errors.root
+                                    )}
                                     textButton={
                                         AuthMessages.buttons.forgotPassword
                                     }

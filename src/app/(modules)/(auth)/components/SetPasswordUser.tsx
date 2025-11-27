@@ -1,10 +1,11 @@
 'use client';
 
 import { useForm, useWatch } from 'react-hook-form';
-import { SetPassword, ClientErrorMessage } from '@app/shared/interfaces/auth';
+import { SetPassword } from '@app/shared/interfaces/auth';
 import { formValidate } from '@app/shared/utils/formValidate';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { useSearchParams } from 'next/navigation';
+import { isClientErrorMessage } from '@app/helpers/fetch-api';
 import React, { useEffect, useState } from 'react';
 
 import FormError from '@app/shared/ui/FormError';
@@ -14,6 +15,8 @@ import LoadButton from '@auth/components/LoadButton';
 import Spinner from '@app/shared/ui/Spinner';
 import InputText from '@user/ui/inputs/InputText';
 import Text from '@user/ui/user-feed/Text';
+
+import HeaderAction from './HeaderAction';
 
 /**
  * Interface que prepsenta los valores permitidos en la desestructuración.
@@ -65,7 +68,9 @@ const SetPasswordUser = React.memo(
             formState: { errors },
         } = useForm<SetPassword>({ mode: 'all' });
 
-        const passwordValue = useWatch({ control, name: 'password' });
+        //  Ambos campos se escuchan en tiempo real
+        const password = useWatch({ control, name: 'password' });
+        const repassword = useWatch({ control, name: 'repassword' });
 
         /**
          * useEffect del componente.
@@ -73,15 +78,17 @@ const SetPasswordUser = React.memo(
         useRedirectRegister(email, uuid, setLoading, isResetPassword);
 
         /**
-         * UseEffect para controlar el campo repassword
+         * UseEffect para controlar el campo repassword.
+         * lógica de validación reactiva final.
          */
         useEffect(() => {
-            if (passwordValue?.length === 1) {
+            clearErrors('root');
+            if (repassword) {
                 trigger('repassword');
-            } else if (!passwordValue) {
-                clearErrors();
+            } else {
+                clearErrors('repassword');
             }
-        }, [passwordValue, trigger, clearErrors]);
+        }, [password, repassword, trigger, clearErrors]);
 
         /**
          * Cargador ...
@@ -98,10 +105,10 @@ const SetPasswordUser = React.memo(
             setBtnLoading(true);
             try {
                 await onSubmitPassword(email, data.password, uuid, tokenCode);
-            } catch (error: unknown) {
-                const errors = error as ClientErrorMessage;
-                setError('repassword', { message: errors.message });
-                setError('password', { message: '' });
+            } catch (error) {
+                if (isClientErrorMessage(error)) {
+                    setError('root', { message: error.message });
+                }
             } finally {
                 setBtnLoading(false);
             }
@@ -110,13 +117,12 @@ const SetPasswordUser = React.memo(
         /** Componente JSX con el formulario para el reingreso de contraseña. */
         return (
             <div className="mx-auto w-full max-w-[250px] place-items-center py-5 sm:max-w-[420px]">
-                <Text
-                    text={title}
-                    className="my-2 text-center text-black"
-                    sizeOffset={80}
+                <HeaderAction
+                    title={title}
+                    message="Verificación completada. Ingresa tu nueva contraseña."
                 />
 
-                <div className="mt-7 grid justify-items-center text-gray-500 sm:max-w-[420px]">
+                <div className="grid justify-items-center text-gray-500 sm:max-w-[420px]">
                     <form onSubmit={onSubmit}>
                         {!isResetPassword && <InputDisabled text={email} />}
 
@@ -137,11 +143,7 @@ const SetPasswordUser = React.memo(
                                 required: requiredPassword,
                                 pattern: patternPassword,
                             })}
-                            onChange={async (e) => {
-                                register('password').onChange(e);
-                                await trigger('repassword');
-                            }}
-                            isError={Boolean(errors.password)}
+                            isError={Boolean(errors.password || errors.root)}
                         >
                             <FormError error={errors.password?.message ?? ''} />
                         </InputText>
@@ -165,12 +167,23 @@ const SetPasswordUser = React.memo(
                                     'Las contraseñas no coinciden.'
                                 ),
                             })}
-                            isError={Boolean(errors.repassword)}
+                            isError={Boolean(errors.repassword || errors.root)}
                         >
                             <FormError
                                 error={errors.repassword?.message ?? ''}
                             />
                         </InputText>
+
+                        {errors.root && (
+                            <FormError
+                                error={
+                                    <Text
+                                        text={errors.root.message}
+                                        className="py-2 text-justify"
+                                    />
+                                }
+                            />
+                        )}
 
                         <LoadButton
                             loading={btnLoading}

@@ -72,6 +72,16 @@ const ProfilePhotoSection = ({
     }, [person]);
 
     /**
+     * Detecta cuando cambia photoProfile, y guarda automáticamente.
+     * Solo lo hará cuando realmente se cargue desde handleFileChange.
+     */
+    useEffect(() => {
+        if (photoProfile) {
+            savePhotoHandleClick();
+        }
+    }, [photoProfile]);
+
+    /**
      * Cargador hasta que la persona sea definida.
      */
     if (!person || !setLineLoadingFather) {
@@ -91,7 +101,9 @@ const ProfilePhotoSection = ({
             setLineLoadingFather(true);
             if (action === 'loadPhoto') {
                 setLoadPhotoLoading(true);
-                setActiveSavePhoto(true);
+                // Se desactiva botón guardar
+                // Si en el fúturo se requiere pasar a true.
+                setActiveSavePhoto(false);
             } else if (action === 'savePhoto') {
                 setSavePhotoLoading(true);
             } else if (action === 'deletePhoto') {
@@ -230,158 +242,141 @@ const ProfilePhotoSection = ({
     };
 
     return (
-        <>
-            {/** Encabezado de la sección */}
-            {/* <ProfileItemHeader lineLoading={lineLoading} /> */}
-
-            {/** Cuerpo de la sección */}
-            <div className="grid items-center justify-items-center px-4 py-6">
-                {/** Ftoto de perfil */}
-                {/* <Text
-                    text="Actualizar foto de perfil"
-                    className="py-2 font-[350] text-[#0056B3]"
-                    sizeOffset={5}
-                /> */}
-                {/** Ftoto de perfil: Gestión de la imagen de perfil */}
-                <div className="flex items-center justify-items-center -space-x-4">
-                    <div className="flex items-center justify-center -space-x-4">
-                        <div
-                            className={`${photoProfile || profilePicture ? 'overflow-hidden' : 'grid items-center justify-items-center'} relative h-25 w-25 rounded-full border-[0.1rem] border-black bg-gray-300`}
-                        >
-                            {/* Texto por defecto */}
-                            {!profilePicture && preview == null ? (
-                                <Text
-                                    text={getInitials(firstName, lastName)}
-                                    sizeOffset={20}
-                                    className="text-black"
-                                />
-                            ) : (
-                                preview == null && (
-                                    <img
-                                        src={`data:image/jpeg;base64,${profilePicture}`}
-                                        alt="Preview"
-                                        className="h-full w-full object-cover"
-                                    />
-                                )
-                            )}
-
-                            {/* Imagen preview */}
-                            {preview && (
+        <div className="grid items-center justify-items-center px-4 py-6">
+            {/** Ftoto de perfil: Gestión de la imagen de perfil */}
+            <div className="flex items-center justify-items-center -space-x-4">
+                <div className="flex items-center justify-center -space-x-4">
+                    <div
+                        className={`${photoProfile || profilePicture ? 'overflow-hidden' : 'grid items-center justify-items-center'} relative h-25 w-25 rounded-full border-[0.1rem] border-black bg-gray-300`}
+                    >
+                        {/* Texto por defecto */}
+                        {!profilePicture && preview == null ? (
+                            <Text
+                                text={getInitials(firstName, lastName)}
+                                sizeOffset={20}
+                                className="text-black"
+                            />
+                        ) : (
+                            preview == null && (
                                 <img
-                                    src={preview}
+                                    src={`data:image/jpeg;base64,${profilePicture}`}
                                     alt="Preview"
                                     className="h-full w-full object-cover"
                                 />
-                            )}
-                        </div>
-                    </div>
-
-                    {/** Botón Cargar foto */}
-                    <button
-                        type="button"
-                        onClick={() => {
-                            handleButtonClick(); // Activa el input invisible.
-                        }}
-                        onChange={() => {
-                            loadingLineClick('loadPhoto');
-                        }}
-                    >
-                        {/** input invisible */}
-                        <input
-                            ref={refLoadPhotoInput}
-                            type="file"
-                            accept="image/*"
-                            hidden
-                            onChange={handleFileChange}
-                        />
-                        <ProfileBotonForm
-                            lineLoading={lineLoading}
-                            buttonLoading={loadPhotoLoading}
-                            icon={
-                                <Camera
-                                    size={22}
-                                    strokeWidth={1.8}
-                                    // className="text-[#0056B3]"
-                                    className="text-indigo-700"
-                                />
-                            }
-                            text={
-                                UserMessages.profileConfiguration.sections
-                                    .updatePhotoProfile.changeButton
-                            }
-                            shape="circle"
-                        />
-                    </button>
-
-                    {/** Botón guardar foto */}
-                    <div className="flex gap-2 px-6">
-                        {activeSavePhoto && (
-                            <button
-                                onClick={() => {
-                                    loadingLineClick('savePhoto');
-                                    savePhotoHandleClick();
-                                }}
-                                type="button"
-                                disabled={savePhotoLoading}
-                            >
-                                <ProfileBotonForm
-                                    lineLoading={lineLoading}
-                                    buttonLoading={savePhotoLoading}
-                                    icon={
-                                        <Save
-                                            size={20}
-                                            strokeWidth={1.8}
-                                            // className="text-[#0056B3]"
-                                            className="text-indigo-700"
-                                        />
-                                    }
-                                    text={
-                                        UserMessages.profileConfiguration
-                                            .sections.updatePhotoProfile
-                                            .saveButton
-                                    }
-                                    shape="circle"
-                                />
-                            </button>
+                            )
                         )}
 
-                        {/** Botón eliminar foto */}
-                        {profilePicture && (
-                            <button
-                                onClick={() => {
-                                    loadingLineClick('deletePhoto');
-                                    deletePhotoHandleClick();
-                                }}
-                                type="button"
-                                disabled={deletePhotoLoading}
-                            >
-                                <ProfileBotonForm
-                                    lineLoading={lineLoading}
-                                    buttonLoading={deletePhotoLoading}
-                                    icon={
-                                        <Trash2
-                                            size={20}
-                                            strokeWidth={1.8}
-                                            // className="text-[#0056B3]"
-                                            className="text-indigo-700"
-                                        />
-                                    }
-                                    text={
-                                        UserMessages.profileConfiguration
-                                            .sections.updatePhotoProfile
-                                            .deleteButton
-                                    }
-                                    shape="circle"
-                                />
-                            </button>
+                        {/* Imagen preview */}
+                        {preview && (
+                            <img
+                                src={preview}
+                                alt="Preview"
+                                className="h-full w-full object-cover"
+                            />
                         )}
                     </div>
                 </div>
+
+                {/** Botón Cargar foto */}
+                <button
+                    type="button"
+                    onClick={() => {
+                        handleButtonClick(); // Activa el input invisible.
+                    }}
+                    onChange={() => {
+                        loadingLineClick('loadPhoto');
+                    }}
+                >
+                    {/** input invisible */}
+                    <input
+                        ref={refLoadPhotoInput}
+                        type="file"
+                        accept="image/*"
+                        hidden
+                        onChange={handleFileChange}
+                    />
+                    <ProfileBotonForm
+                        lineLoading={lineLoading}
+                        buttonLoading={loadPhotoLoading}
+                        icon={
+                            <Camera
+                                size={22}
+                                strokeWidth={1.8}
+                                // className="text-[#0056B3]"
+                                className="text-indigo-700"
+                            />
+                        }
+                        text={
+                            UserMessages.profileConfiguration.sections
+                                .updatePhotoProfile.changeButton
+                        }
+                        shape="circle"
+                    />
+                </button>
+
+                {/** Botón guardar foto */}
+                <div className="flex gap-2 px-6">
+                    {activeSavePhoto && (
+                        <button
+                            onClick={() => {
+                                loadingLineClick('savePhoto');
+                                savePhotoHandleClick();
+                            }}
+                            type="button"
+                            disabled={savePhotoLoading}
+                        >
+                            <ProfileBotonForm
+                                lineLoading={lineLoading}
+                                buttonLoading={savePhotoLoading}
+                                icon={
+                                    <Save
+                                        size={20}
+                                        strokeWidth={1.8}
+                                        // className="text-[#0056B3]"
+                                        className="text-indigo-700"
+                                    />
+                                }
+                                text={
+                                    UserMessages.profileConfiguration.sections
+                                        .updatePhotoProfile.saveButton
+                                }
+                                shape="circle"
+                            />
+                        </button>
+                    )}
+
+                    {/** Botón eliminar foto */}
+                    {profilePicture && (
+                        <button
+                            onClick={() => {
+                                loadingLineClick('deletePhoto');
+                                deletePhotoHandleClick();
+                            }}
+                            type="button"
+                            disabled={deletePhotoLoading}
+                        >
+                            <ProfileBotonForm
+                                lineLoading={lineLoading}
+                                buttonLoading={deletePhotoLoading}
+                                icon={
+                                    <Trash2
+                                        size={20}
+                                        strokeWidth={1.8}
+                                        // className="text-[#0056B3]"
+                                        className="text-indigo-700"
+                                    />
+                                }
+                                text={
+                                    UserMessages.profileConfiguration.sections
+                                        .updatePhotoProfile.deleteButton
+                                }
+                                shape="circle"
+                            />
+                        </button>
+                    )}
+                </div>
             </div>
-            <div className="px-2">
-                {/* <hr className="border-gray-200" /> */}
-            </div>
-        </>
+        </div>
     );
 };
 

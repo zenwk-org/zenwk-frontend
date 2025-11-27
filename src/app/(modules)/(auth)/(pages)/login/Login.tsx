@@ -6,8 +6,9 @@ import { formValidate } from '@app/shared/utils/formValidate';
 import {
     fetchValidateRegisterEmail,
     fetchTokenCrsfApi,
+    isClientErrorMessage,
 } from '@app/helpers/fetch-api';
-import { ClientErrorMessage, LoginForm } from '@app/shared/interfaces/auth';
+import { LoginForm } from '@app/shared/interfaces/auth';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { AuthErrors } from '@auth/constants/auth-errors';
@@ -18,7 +19,6 @@ import { UserMessages } from '@user/constants/user-messages';
 
 import FormError from '@app/shared/ui/FormError';
 import Paragraph from '@app/shared/ui/Paragraph';
-import Link from 'next/link';
 import HomeIcon from '@mui/icons-material/Home';
 import LoadButton from '@auth/components/LoadButton';
 import Text from '@user/ui/user-feed/Text';
@@ -177,25 +177,26 @@ const Login = () => {
                 router.push('/user');
             } catch (error: unknown) {
                 setBtnLoading(false);
-                const errors = error as ClientErrorMessage;
-                switch (errors.code) {
-                    case AuthErrors.funciontal.login.notFoundUsername:
-                        startRedirectCountdown(
-                            data.email,
-                            setCountdown,
-                            setNotExistUser,
-                            setBtnLoading,
-                            router
-                        );
-                        return;
-                    case AuthErrors.funciontal.login.badCredentials:
-                        setError('password', { message: errors.message });
-                        setFocus('password');
-                        return;
-                    default:
-                        return setError('root', {
-                            message: (error as Error).message,
-                        });
+                if (isClientErrorMessage(error)) {
+                    switch (error.code) {
+                        case AuthErrors.funciontal.login.notFoundUsername:
+                            startRedirectCountdown(
+                                data.email,
+                                setCountdown,
+                                setNotExistUser,
+                                setBtnLoading,
+                                router
+                            );
+                            return;
+                        case AuthErrors.funciontal.login.badCredentials:
+                            setError('password', { message: error.message });
+                            setFocus('password');
+                            return;
+                        default:
+                            return setError('root', {
+                                message: error.message,
+                            });
+                    }
                 }
             }
         },
@@ -297,8 +298,23 @@ const Login = () => {
                                                             .forgotPassword
                                                             .linkText
                                                     }
-                                                    <Link
-                                                        href={`/login/forgot-password?email=${emailParam}`}
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            router.push(
+                                                                `/login/forgot-password?email=${emailParam}`
+                                                            )
+                                                        }
+                                                        onMouseDown={() =>
+                                                            setSuppressBlurValidation(
+                                                                true
+                                                            )
+                                                        }
+                                                        onMouseUp={() =>
+                                                            setSuppressBlurValidation(
+                                                                false
+                                                            )
+                                                        }
                                                     >
                                                         <Text
                                                             text={
@@ -308,7 +324,7 @@ const Login = () => {
                                                             }
                                                             className="mb-2 inline cursor-pointer font-[400] text-[#5280DA] hover:underline"
                                                         />
-                                                    </Link>
+                                                    </button>
                                                 </>
                                             }
                                             className="font-[400]"
@@ -343,11 +359,17 @@ const Login = () => {
                                                     }
                                                     <button
                                                         type="button"
-                                                        onClick={() =>
-                                                            router.push(
-                                                                '/register'
-                                                            )
-                                                        }
+                                                        onClick={() => {
+                                                            if (emailParam) {
+                                                                router.push(
+                                                                    `/register?email=${emailParam}`
+                                                                );
+                                                            } else {
+                                                                router.push(
+                                                                    '/register'
+                                                                );
+                                                            }
+                                                        }}
                                                         // antes del blur
                                                         onMouseDown={() =>
                                                             setSuppressBlurValidation(

@@ -6,12 +6,16 @@ import Link from 'next/link';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FormError from '@app/shared/ui/FormError';
 
-import { fetchValidateTokenApi, fetchTokenApi } from '@app/helpers/fetch-api';
-import { ClientErrorMessage } from '@app/shared/interfaces/auth';
+import {
+    fetchValidateTokenApi,
+    fetchTokenApi,
+    ClientError,
+    isClientErrorMessage,
+} from '@app/helpers/fetch-api';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { AuthErrors } from '@auth/constants/auth-errors';
-import { AuthMessages } from '../../../constants/auth-messages';
+import { AuthMessages } from '@auth/constants/auth-messages';
 import { Messages } from '@app/shared/constants/messages';
 import OpenMailbox from '@auth/components/OpenMailbox';
 import { LineLoader } from '@user/components/profile/ProfileItemHeader';
@@ -66,16 +70,18 @@ const Opt = () => {
                 }
             }
         } catch (error: unknown) {
-            const errors = error as ClientErrorMessage;
-
-            if (errors.code === AuthErrors.funciontal.login.emailNotMatch) {
-                setCodeError(errors.code);
-                setErrorBack(errors.message);
+            if (error instanceof ClientError) {
+                console.log(error.code, error.message);
+                if (error.code === AuthErrors.funciontal.login.emailNotMatch) {
+                    setCodeError(error.code);
+                }
+                setErrorBack(error.message);
             } else {
-                setErrorBack(errors.message);
+                setErrorBack(String(error));
             }
         } finally {
             setLoading(false);
+            console.log(codeError, errorBack);
         }
     };
 
@@ -98,8 +104,10 @@ const Opt = () => {
                 setSuccessResend(true);
             }
         } catch (error: unknown) {
-            const errors = error as ClientErrorMessage;
-            setErrorBack(errors.message);
+            if (isClientErrorMessage(error)) {
+                setErrorBack(error.message);
+            }
+            setErrorBack(String(error));
         }
     };
 
@@ -184,9 +192,22 @@ const Opt = () => {
                             />
                         )}
                     />
-                    {errorBack && codeError == null && (
-                        <div className="mt-2 text-center">
+                    {errorBack && !codeError && (
+                        <div className="mt-2 grid justify-items-center text-center">
                             <FormError error={errorBack} />
+
+                            <button
+                                onClick={() => {
+                                    setOtp('');
+                                    setErrorBack('');
+                                }}
+                            >
+                                <Text
+                                    text="Limpiar y reintentar"
+                                    sizeOffset={0}
+                                    className="py-1/3 w-fit cursor-pointer rounded-lg bg-red-100 px-2 font-[450] text-red-700 hover:underline"
+                                />
+                            </button>
                         </div>
                     )}
 

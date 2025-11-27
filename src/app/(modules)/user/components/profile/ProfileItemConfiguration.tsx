@@ -1,6 +1,7 @@
 import { useState, ReactNode } from 'react';
 import { CheckCircle2, AlertTriangle, Info } from 'lucide-react';
 import { ConfigButton } from '../../ui/Buttons/ConfigButton';
+import { motion, AnimatePresence } from 'framer-motion'; // ⬅️ agregado
 
 import Text from '@user/ui/user-feed/Text';
 
@@ -74,14 +75,21 @@ const ProfileItemConfiguration = ({
                 </div>
             </div>
 
-            {/* Contenido: ajustar animación de acordeón (expandir / contraer) */}
-            <div
-                className={`transition-[max-height,opacity] duration-500 ease-in-out ${
-                    isActive ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
-                }`}
-            >
-                <div className="dark:text-gray-300">{children}</div>
-            </div>
+            {/* Contenido animado del acordeón */}
+            <AnimatePresence initial={false}>
+                {isActive && (
+                    <motion.div
+                        key="accordion-content"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.35, ease: 'easeInOut' }}
+                        className="overflow-hidden"
+                    >
+                        <div className="dark:text-gray-300">{children}</div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     );
 };

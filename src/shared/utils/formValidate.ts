@@ -9,23 +9,22 @@ import {
  * incluyendo validación de email, contraseña, longitud mínima y comparación de contraseñas.
  */
 export const formValidate = () => {
-    const requiredEmail = "Ingresa un email.";
+    const requiredEmail = "Ingresa una dirección de correo.";
     const requiredPassword = "Ingresa una contraseña.";
 
     const patternEmail: RegisterOptions["pattern"] = {
         value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
-        message: "Formato de email incorrecto",
+        message: "Formato de correo incorrecto",
     };
 
     const patternPassword: RegisterOptions["pattern"] = {
         value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+={}[\]:;"'<>,.?/~\\|]).{8,}$/,
-        message:
-            "La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.",
+        message: "INVALID_PASSWORD",
     };
 
     const minLength: RegisterOptions["minLength"] = {
-        value: 6,
-        message: "Mínimo 6 carácteres.",
+        value: 8,
+        message: "Mínimo 8 carácteres.",
     };
 
     const validateTrim: RegisterOptions["validate"] = {

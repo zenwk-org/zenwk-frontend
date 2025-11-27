@@ -49,7 +49,10 @@ const CompleteRegisterForm = ({
     loadingLineClick?: () => Promise<void>;
 }) => {
     const { optionsSex } = useSexOptionsContext();
-    const [errorBack, setErrorBack] = useState('');
+    const [errorBack, setErrorBack] = useState<{
+        msg: string;
+        at: number;
+    } | null>(null);
     const [isBtnLoading, setIsBtnLoading] = useState(false);
     const { person, setPerson } = usePersonContext();
     const { userDTO, setUserDTO } = useUserContext();
@@ -128,7 +131,16 @@ const CompleteRegisterForm = ({
                 }
             }
         } catch (error) {
-            handleApiErrors(error, setErrorBack, safeValue);
+            handleApiErrors(
+                error,
+                (backendError: string) => {
+                    setErrorBack({
+                        msg: backendError,
+                        at: Date.now(), // <--- fuerza re-render SIEMPRE
+                    });
+                },
+                safeValue
+            );
         } finally {
             setIsBtnLoading(false);
             setLineLoading?.(false);

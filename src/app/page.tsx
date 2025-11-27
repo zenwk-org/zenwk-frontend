@@ -123,7 +123,7 @@ const Home = () => {
                             <Text
                                 text="Inicia sesión"
                                 sizeOffset={50}
-                                className="cursor-pointer rounded-3xl border-2 border-blue-800 bg-blue-800/70 p-2 text-white hover:bg-blue-800"
+                                className="cursor-pointer rounded-3xl bg-blue-800/70 p-2 text-white hover:bg-blue-800"
                             />
                         </button>
                         <button

@@ -25,12 +25,3 @@ export interface BackendErrorResponse {
     error: string;
     timestamp: Timestamp;
 }
-
-/**
- * Representa un error procesado en el frontend, derivado de la respuesta del backend,
- * con un formato más amigable para ser mostrado al usuario.
- */
-export interface ClientErrorMessage {
-    code: string;
-    message: string;
-}
