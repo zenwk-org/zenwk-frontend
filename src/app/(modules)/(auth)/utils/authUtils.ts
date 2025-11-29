@@ -37,8 +37,11 @@ export const refreshAuthJwt = async (jwt: string): Promise<string> => {
  */
 export const politiciesPassword = [
     { id: "min_length", rule: "Mínimo 8 caracteres" },
-    { id: "uppercase", rule: "Una mayúscula" },
-    { id: "lowercase", rule: "Una minúscula" },
-    { id: "number", rule: "Un número" },
-    { id: "special_char", rule: "Un carácter especial" },
+    { id: "uppercase", rule: "Una mayúscula (A-Z)" },
+    { id: "lowercase", rule: "Una minúscula (a-z)" },
+    { id: "number", rule: "Un número (0-9)" },
+    {
+        id: "special_char",
+        rule: "Un carácter especial (@, #, $, %, &, *, -, _)",
+    },
 ];

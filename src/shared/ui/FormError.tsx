@@ -3,6 +3,7 @@ import { politiciesPassword } from '@auth/utils/authUtils';
 
 interface Props {
     error?: React.ReactNode;
+    isLimitWidth?: boolean;
 }
 
 /**
@@ -10,9 +11,11 @@ interface Props {
  * @param param0
  * @returns
  */
-const FormError = ({ error }: Props) => {
+const FormError = ({ error, isLimitWidth = true }: Props) => {
     return (
-        <div className="mt-2 mb-2 w-full px-2 text-sm text-[#E1564C] sm:w-[400px] dark:text-[#E1564C]">
+        <div
+            className={`mt-2 mb-2 px-2 text-sm ${isLimitWidth ? 'sm:w-[400px]' : 'w-full'} ${error == 'INVALID_PASSWORD' ? 'text-emerald-700' : 'text-justify tracking-[-0.015em] text-[#E1564C] dark:text-[#E1564C]'}`}
+        >
             {error == 'INVALID_PASSWORD' ? (
                 <ul className="list-inside list-disc text-sm">
                     {politiciesPassword.map((rule) => (

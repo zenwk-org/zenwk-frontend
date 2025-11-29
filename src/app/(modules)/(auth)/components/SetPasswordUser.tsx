@@ -4,7 +4,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import { SetPassword } from '@app/shared/interfaces/auth';
 import { formValidate } from '@app/shared/utils/formValidate';
 import { AuthMessages } from '@auth/constants/auth-messages';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { isClientErrorMessage } from '@app/helpers/fetch-api';
 import React, { useEffect, useState } from 'react';
 
@@ -15,6 +15,7 @@ import LoadButton from '@auth/components/LoadButton';
 import Spinner from '@app/shared/ui/Spinner';
 import InputText from '@user/ui/inputs/InputText';
 import Text from '@user/ui/user-feed/Text';
+import AlertInfo from '@app/shared/components/AlertInfo';
 
 import HeaderAction from './HeaderAction';
 
@@ -53,6 +54,9 @@ const SetPasswordUser = React.memo(
         const tokenCode = searchParams.get('code') ?? '';
         const [loading, setLoading] = useState(true);
         const [btnLoading, setBtnLoading] = useState(false);
+        const router = useRouter();
+        const [countdown, setCountdown] = useState(3);
+        const [expireCode, setExpireCode] = useState(false);
 
         const { requiredPassword, patternPassword, validateEquals } =
             formValidate();
@@ -107,7 +111,30 @@ const SetPasswordUser = React.memo(
                 await onSubmitPassword(email, data.password, uuid, tokenCode);
             } catch (error) {
                 if (isClientErrorMessage(error)) {
-                    setError('root', { message: error.message });
+                    if (error.code == 'FUNC_SEC_USER_007') {
+                        setError('password', { message: error.message });
+                    } else {
+                        setError('root', { message: error.message });
+                        // Si el token ha espirado regresa.
+                        if (error.code == 'FUNC_SEC_AUTH_0004') {
+                            setExpireCode(true);
+                            let seconds = 3;
+                            setCountdown(seconds);
+
+                            const interval = setInterval(() => {
+                                seconds -= 1;
+                                setCountdown(seconds);
+                                if (seconds <= 0) {
+                                    clearInterval(interval);
+                                    setExpireCode(false);
+                                    setLoading(false);
+                                    router.push(
+                                        `/forgot-password?email=${encodeURIComponent(email)}`
+                                    );
+                                }
+                            }, 1000);
+                        }
+                    }
                 }
             } finally {
                 setBtnLoading(false);
@@ -121,6 +148,22 @@ const SetPasswordUser = React.memo(
                     title={title}
                     message="Verificación completada. Ingresa tu nueva contraseña."
                 />
+
+                {/* Notificación */}
+                {expireCode && (
+                    <AlertInfo duration={5}>
+                        <Text
+                            sizeOffset={15}
+                            text={
+                                <p className="">
+                                    {`Redirigiendo a la página de recuperación de contraseña en `}
+                                    <label className="font-[500]">{`${countdown} s...`}</label>
+                                </p>
+                            }
+                            className="my-3 w-full rounded-lg bg-[#EBF9F0] p-1 text-center text-emerald-800"
+                        />
+                    </AlertInfo>
+                )}
 
                 <div className="grid justify-items-center text-gray-500 sm:max-w-[420px]">
                     <form onSubmit={onSubmit}>

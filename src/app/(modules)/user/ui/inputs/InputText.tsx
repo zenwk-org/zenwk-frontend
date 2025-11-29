@@ -90,7 +90,7 @@ const InputText = forwardRef<HTMLInputElement, Props>(
                 'border-indigo-400 text-indigo-700 placeholder:text-indigo-400',
             variant === 'editPerson' &&
                 !isError &&
-                'border-[#F3D068] transition-colors focus:text-[#A6B3FD] focus:placeholder:text-[#A6B3FD]',
+                'border-[#F3D068] transition-colors placeholder:text-[#C19510]/80 focus:text-[#A6B3FD] focus:placeholder:text-[#A6B3FD]',
             variant === 'default' &&
                 !isError &&
                 'border-[#d1d5dc] transition-colors focus:border-[#B7C1C9]'

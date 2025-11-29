@@ -11,8 +11,8 @@ import {
     BOLD_ERROR_COLOR,
 } from '@app/styles/constans-color';
 import { useResponsiveStyle } from '@app/shared/hooks/useResponsiveTextAndDimensions';
-import clsx from 'clsx';
 import Text from '../user-feed/Text';
+import clsx from 'clsx';
 
 export const COLOR_EDIT_PERSON = '#F3D068';
 export const COLOR_FOCUS_EDIT_PERSON = '#A6B3FD';
@@ -158,24 +158,28 @@ const customStyles = (
     variant?: 'newUser' | 'editPerson',
     sizeTextInput?: number
 ): StylesConfig<Option, false, GroupedOption> => ({
-    control: (provided, state) => ({
-        ...provided,
-        minWidth: '120px',
-        minHeight: '25px',
-        height,
-        width: 'auto',
-        borderRadius: '0.5em',
-        borderWidth: variant == 'newUser' ? '0.14rem' : '0.13rem',
-        borderColor: getBorderColor(isError, state.isFocused, variant),
-        boxShadow: getBoxShadow(isError, state.isFocused),
-        '&:hover': { borderColor: isError ? ERROR_COLOR : '' },
-        backgroundColor: 'transparent',
-        // Aquí se aplica estilo al texto dentro del select cuando hay focus
-        '& .react-select__single-value': {
-            color: getTextColor(state.isFocused, variant),
-            transition: 'color 0.2s ease-in-out',
-        },
-    }),
+    control: (provided, state) => {
+        const base = {
+            ...provided,
+            minWidth: '120px',
+            minHeight: '25px',
+            height,
+            width: 'auto',
+            borderRadius: '0.5em',
+            borderWidth: variant == 'newUser' ? '0.14rem' : '0.13rem',
+            borderColor: getBorderColor(isError, state.isFocused, variant),
+            boxShadow: getBoxShadow(isError, state.isFocused),
+            '&:hover': { borderColor: isError ? ERROR_COLOR : '' },
+            backgroundColor: 'transparent',
+            // Aquí se aplica estilo al texto dentro del select cuando hay focus
+            '& .react-select__single-value': {
+                color: getTextColor(state.isFocused, variant),
+                transition: 'color 0.2s ease-in-out',
+            },
+            alignItems: 'center',
+        };
+        return base;
+    },
 
     placeholder: (p, state) => ({
         ...p,
@@ -217,7 +221,7 @@ const customStyles = (
         ...p,
         width: '0.12rem',
         alignItems: 'center',
-        height: '60%',
+        height: '50%',
         alignSelf: 'center',
         backgroundColor: getSeparatorColor(isError, state.isFocused, variant),
     }),
@@ -247,9 +251,12 @@ const customStyles = (
         textAlign: 'left',
         padding: '0 6px',
         margin: 0,
+        alignContent: 'center',
     }),
     menu: (p) => ({
         ...p,
+        zIndex: 9999,
+
         overflow: 'hidden',
         fontSize: `calc(${fontSize} + ${sizeTextInput}rem)`,
         margin: variant === 'newUser' ? '3px 0 8px 0' : '3px 0 4px 0',
@@ -273,7 +280,8 @@ const customStyles = (
         paddingTop: 0,
         fontSize: `calc(${fontSize} + ${sizeTextInput}rem)`,
         paddingBottom: 0,
-        maxHeight: '250px',
+        // Para contrarrestar defecto cuando hay desboramiento del body.
+        maxHeight: height === '29px' ? '150px' : '200px',
     }),
     groupHeading: (p) => ({
         ...p,
@@ -441,7 +449,7 @@ const SelectGeneral: React.FC<Props> = ({
             {text && (
                 <Text
                     text={text}
-                    sizeOffset={variant === 'newUser' ? 5 : 2}
+                    sizeOffset={variant === 'newUser' ? 5 : 1}
                     className={classTextColor}
                 />
             )}

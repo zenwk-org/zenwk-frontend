@@ -194,7 +194,7 @@ const Opt = () => {
                     />
                     {errorBack && !codeError && (
                         <div className="mt-2 grid justify-items-center text-center">
-                            <FormError error={errorBack} />
+                            <FormError error={errorBack} isLimitWidth={false} />
 
                             <button
                                 onClick={() => {

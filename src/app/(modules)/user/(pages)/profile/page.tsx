@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 import Spinner from '@app/shared/ui/Spinner';
 import Title from '@user/ui/user-feed/Title';
@@ -49,9 +49,9 @@ const ProfileConfiguration = () => {
             <motion.div
                 layout
                 transition={{
-                    layout: { duration: 0.1, ease: 'easeInOut' },
+                    layout: { duration: 0.05, ease: 'easeInOut' },
                 }}
-                className="mx-auto rounded-xl bg-white py-5 sm:px-6 md:px-10"
+                className="py-7"
             >
                 <Title
                     sizeOffset={25}
@@ -60,7 +60,7 @@ const ProfileConfiguration = () => {
                 />
                 <ProfileItemHeader lineLoading={lineLoading} />
 
-                <div className="w-fit py-5 text-justify">
+                <div className="w-full py-5 text-justify sm:w-[420px]">
                     <ul>
                         {/* Sección: imagen */}
                         <ProfileItemConfiguration
@@ -81,18 +81,16 @@ const ProfileConfiguration = () => {
                                 )
                             }
                         >
-                            <AnimatePresence initial={false}>
-                                {activeSection === 'updatePhotoProfile' &&
-                                    person && (
-                                        <div className="overflow-hidden rounded-2xl bg-yellow-50">
-                                            <ProfilePhotoSection
-                                                setLineLoadingFather={
-                                                    setLineLoading
-                                                }
-                                            />
-                                        </div>
-                                    )}
-                            </AnimatePresence>
+                            {activeSection === 'updatePhotoProfile' &&
+                                person && (
+                                    <div className="overflow-hidden rounded-2xl bg-yellow-50">
+                                        <ProfilePhotoSection
+                                            setLineLoadingFather={
+                                                setLineLoading
+                                            }
+                                        />
+                                    </div>
+                                )}
                         </ProfileItemConfiguration>
 
                         {/* Sección: información personal */}
@@ -114,19 +112,14 @@ const ProfileConfiguration = () => {
                                 )
                             }
                         >
-                            <AnimatePresence initial={false}>
-                                {activeSection === 'updateInfoBasic' &&
-                                    person && (
-                                        <div className="overflow-hidden">
-                                            <PersonalInfoSection
-                                                loadingLineClick={
-                                                    loadingLineClick
-                                                }
-                                                setLineLoading={setLineLoading}
-                                            />
-                                        </div>
-                                    )}
-                            </AnimatePresence>
+                            {activeSection === 'updateInfoBasic' && person && (
+                                <div className="overflow-hidden">
+                                    <PersonalInfoSection
+                                        loadingLineClick={loadingLineClick}
+                                        setLineLoading={setLineLoading}
+                                    />
+                                </div>
+                            )}
                         </ProfileItemConfiguration>
                     </ul>
                 </div>

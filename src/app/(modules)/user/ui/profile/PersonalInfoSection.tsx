@@ -56,9 +56,7 @@ const PersonalInfoSection = ({
     return (
         <div>
             {/** Cuerpo de la sección */}
-            <div
-                className={`rounded-2xl ${!editDataBasic && 'bg-yellow-50'} bg-yellow-50 px-8 py-3`}
-            >
+            <div className="rounded-2xl bg-yellow-50 px-6 py-3">
                 {editDataBasic ? (
                     <div className="flex justify-center">
                         <div className="mb-2">
@@ -72,10 +70,10 @@ const PersonalInfoSection = ({
                         </div>
                     </div>
                 ) : (
-                    <div className="flex gap-2">
+                    <div className="my-3 flex">
                         <div>
                             {/** Nombres */}
-                            <div className="m-2 flex flex-col gap-2 rounded-lg p-1 px-4 text-center text-gray-500 sm:flex-row sm:gap-4">
+                            <div className="my-3 flex flex-col gap-2 rounded-lg p-1 px-2 text-center text-gray-500 sm:flex-row sm:gap-4">
                                 <Text
                                     sizeOffset={10}
                                     text={
@@ -91,7 +89,7 @@ const PersonalInfoSection = ({
                             </div>
 
                             {/** Apellidos */}
-                            <div className="m-2 flex flex-col gap-2 rounded-lg p-1 px-4 text-center text-gray-500 sm:flex-row sm:gap-4">
+                            <div className="my-3 flex flex-col gap-2 rounded-lg p-1 px-2 text-center text-gray-500 sm:flex-row sm:gap-4">
                                 <Text
                                     sizeOffset={10}
                                     text={
@@ -110,7 +108,7 @@ const PersonalInfoSection = ({
                             </div>
 
                             {/** Sexo */}
-                            <div className="m-2 flex flex-col gap-2 rounded-lg p-1 px-4 text-center text-gray-500 sm:flex-row sm:gap-4">
+                            <div className="my-3 flex flex-col gap-2 rounded-lg p-1 px-2 text-center text-gray-500 sm:flex-row sm:gap-4">
                                 <Text
                                     sizeOffset={10}
                                     text={UserMessages.formComplete.labels.sex}
@@ -124,7 +122,7 @@ const PersonalInfoSection = ({
                             </div>
 
                             {/** Edad */}
-                            <div className="m-2 flex flex-col gap-2 rounded-lg p-1 px-4 text-center text-gray-500 sm:flex-row sm:gap-4">
+                            <div className="my-3 flex flex-col gap-2 rounded-lg p-1 px-2 text-center text-gray-500 sm:flex-row sm:gap-4">
                                 <Text
                                     sizeOffset={10}
                                     text={UserMessages.formComplete.labels.age}
@@ -138,7 +136,7 @@ const PersonalInfoSection = ({
                             </div>
 
                             {/** Fecha de nacimiento */}
-                            <div className="m-2 flex flex-col gap-2 rounded-lg p-1 px-4 text-center text-gray-500 sm:flex-row sm:gap-4">
+                            <div className="my-3 flex flex-col gap-2 rounded-lg p-1 px-2 text-center text-gray-500 sm:flex-row sm:gap-4">
                                 <Text
                                     sizeOffset={10}
                                     text={

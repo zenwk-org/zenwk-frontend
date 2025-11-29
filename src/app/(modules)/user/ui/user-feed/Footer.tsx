@@ -11,9 +11,6 @@ import LotusIcon from '@user/components/icons/LotusIcon';
 const Footer = ({ style }: { style?: React.CSSProperties }) => {
     return (
         <footer className="bg-white dark:bg-gray-900">
-            {/** bkp (anterior limite de la pantalla):  max-w-screen-2xl
-             * pl-[165px]: valor del ancho del sidebear. Pendiente implementar context para obtener el ancho actual con y sin sidebear y centrar dinámicamente.
-             */}
             <div className="grid grid-cols-2 gap-10 p-2 py-5" style={style}>
                 {/** Columna 1 */}
                 <div className="flex items-center justify-self-end text-sm text-gray-600">
