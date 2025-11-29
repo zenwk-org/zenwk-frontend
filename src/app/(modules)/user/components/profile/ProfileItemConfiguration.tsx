@@ -85,7 +85,7 @@ const ProfileItemConfiguration = ({
                         exit={{ height: 0, opacity: 0 }}
                         transition={{
                             duration: 0.25,
-                            ease: [0.4, 0.0, 1.0, 1.0], // Lento al inicio, rápido al final
+                            ease: [0.4, 0, 1, 1], // Lento al inicio, rápido al final
                         }}
                         className="overflow-hidden"
                     >
