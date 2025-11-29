@@ -18,7 +18,7 @@ const FormErrorUser = ({ error, sizeOffset }: Props) => {
             sizeOffset={sizeOffset}
             text={
                 <div
-                    className={`mb-[0.3] max-w-[180px] px-[0.13rem] text-left sm:max-w-[400px] ${TEXT_ROSA_COLOR} dark:text-red-500`}
+                    className={`mt-1 mb-[0.3] max-w-[180px] px-[0.13rem] text-left sm:max-w-[400px] ${TEXT_ROSA_COLOR} dark:text-red-500`}
                 >
                     {error}
                 </div>
