@@ -242,7 +242,7 @@ const ProfilePhotoSection = ({
     };
 
     return (
-        <div className="grid items-center justify-items-center px-4 py-6">
+        <div className="grid items-center justify-items-center py-6">
             {/** Ftoto de perfil: Gestión de la imagen de perfil */}
             <div className="flex items-center justify-items-center -space-x-4">
                 <div className="flex items-center justify-center -space-x-4">

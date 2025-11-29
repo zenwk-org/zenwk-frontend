@@ -56,12 +56,14 @@ const InputTextWithError = ({
         placeholder={placeholder}
         {...registerProps}
         isError={Boolean(error)}
-        sizeTextInput={editDataBasic ? -0.1 : 0}
-        sizeText={editDataBasic ? 2 : 5}
+        sizeTextInput={editDataBasic ? -0.18 : 0}
+        sizeText={editDataBasic ? 1 : 5}
         inputClass={classField}
         variant={editDataBasic ? 'editPerson' : 'default'}
     >
-        <div className="max-w-[180px] overflow-hidden py-1">
+        <div
+            className={`${editDataBasic ? 'max-w-[160px]' : 'max-w-[180px]'} overflow-hidden py-1`}
+        >
             <FormErrorUser sizeOffset={-15} error={error ?? ''} />
         </div>
     </InputText>
@@ -192,15 +194,15 @@ const CompleteRegisterFormFields = ({
 
     const classField = clsx(
         editDataBasic
-            ? 'h-full max-w-[180px] rounded-lg border-[0.13rem] px-4 py-[0.3rem] focus:border-[#A6B3FD] focus:outline-none'
+            ? 'h-full max-w-[180px] rounded-lg border-[0.13rem] px-4 py-[0.4rem] focus:border-[#A6B3FD] focus:outline-none sm:py-[0.34rem]'
             : 'h-full w-full rounded-lg border-[0.14rem] px-4 py-[0.4rem] focus:outline-none'
     );
 
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="px-7">
             {/* Nombres */}
             <div
-                className={`grid grid-cols-1 gap-5 sm:grid-cols-2 ${editDataBasic ? 'text-black' : 'text-gray-500'}`}
+                className={`grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-5 ${editDataBasic ? 'text-black' : 'text-gray-500'}`}
             >
                 <InputTextWithError
                     label="Primer nombre"
@@ -236,7 +238,7 @@ const CompleteRegisterFormFields = ({
 
             {/* Apellidos */}
             <div
-                className={`grid grid-cols-1 gap-5 sm:grid-cols-2 ${editDataBasic ? 'text-black' : 'text-gray-500'}`}
+                className={`grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-5 ${editDataBasic ? 'text-black' : 'text-gray-500'}`}
             >
                 <InputTextWithError
                     label={UserMessages.formComplete.labels.lastName}
@@ -272,15 +274,15 @@ const CompleteRegisterFormFields = ({
 
             {/* Sexo y Edad */}
             <div
-                className={`grid grid-cols-1 gap-5 sm:grid-cols-2 ${!editDataBasic && 'mb-6'}`}
+                className={`grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-5 ${!editDataBasic && 'mb-6'}`}
             >
                 <SelectWithError
                     control={control}
                     name="sex"
                     rules={{ required: requiredSex }}
                     variant={editDataBasic ? 'editPerson' : 'newUser'}
-                    sizeTextInput={editDataBasic ? -0.1 : 0}
-                    paramHeigth={editDataBasic ? -4 : 0}
+                    sizeTextInput={editDataBasic ? -0.15 : 0}
+                    paramHeigth={0}
                     text={UserMessages.formComplete.labels.sex}
                     data={optionsSex}
                     placeholder={UserMessages.formComplete.sex.placeholder}
@@ -292,8 +294,8 @@ const CompleteRegisterFormFields = ({
                     name="age"
                     rules={{ required: requiredAge }}
                     variant={editDataBasic ? 'editPerson' : 'newUser'}
-                    sizeTextInput={editDataBasic ? -0.1 : 0}
-                    paramHeigth={editDataBasic ? -4 : 0}
+                    sizeTextInput={editDataBasic ? -0.15 : 0}
+                    paramHeigth={0}
                     text={UserMessages.formComplete.labels.age}
                     data={ageGenerator}
                     placeholder={UserMessages.formComplete.age.placeholder}
@@ -323,7 +325,7 @@ const CompleteRegisterFormFields = ({
 
             {/* Botones */}
             {editDataBasic ? (
-                <div className="mt-5 flex gap-5">
+                <div className="mt-6 flex gap-5">
                     <button
                         type="button"
                         className="flex w-full"

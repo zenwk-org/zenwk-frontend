@@ -83,7 +83,10 @@ const ProfileItemConfiguration = ({
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.35, ease: 'easeInOut' }}
+                        transition={{
+                            duration: 0.25,
+                            ease: [0.4, 0.0, 1.0, 1.0], // Lento al inicio, rápido al final
+                        }}
                         className="overflow-hidden"
                     >
                         <div className="dark:text-gray-300">{children}</div>

@@ -39,7 +39,7 @@ export default function UserLayout({
         <BackgroundThemeContextProvider>
             <SexOptionsContextProvider>
                 <div className="flex min-h-screen w-full flex-col bg-transparent">
-                    <header className="sticky top-0 z-50 bg-blue-100/60 shadow-sm shadow-blue-100/80">
+                    <header className="sticky top-0 z-50 bg-blue-100/60 shadow-sm shadow-blue-100/80 backdrop-blur-xs">
                         <HeaderMenu />
                     </header>
                     <div className="fixed z-40 w-full pt-13">

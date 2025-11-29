@@ -56,10 +56,10 @@ export const useResponsiveDimensions = (minWidth: number = 120) => {
             const w = window.innerWidth;
             let height = "";
 
-            if (w >= 1280) height = "35px";
-            else if (w >= 1024) height = "34px";
-            else if (w >= 768) height = "33px";
-            else if (w >= 640) height = "31px";
+            if (w >= 1280) height = "32px";
+            else if (w >= 1024) height = "31px";
+            else if (w >= 768) height = "30px";
+            else if (w >= 640) height = "30px";
             else height = "29px";
 
             setDimensions({ height, minWidth: `${minWidth}px` });
