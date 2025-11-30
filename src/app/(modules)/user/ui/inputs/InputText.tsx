@@ -99,7 +99,9 @@ const InputText = forwardRef<HTMLInputElement, Props>(
         // Sonar. Función reutilizable para el color del ícono
         const colorClass = clsx(
             isError ? 'text-[#E77B73]' : 'text-gray-500 hover:text-gray-700',
-            variant === 'verified' && 'text-indigo-500 hover:text-gray-600'
+            variant === 'verified' &&
+                !isError &&
+                'text-indigo-500 hover:text-gray-600'
         );
 
         return (

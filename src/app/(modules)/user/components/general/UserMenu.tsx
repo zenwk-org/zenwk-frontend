@@ -57,6 +57,7 @@ const UserMenu = ({
         if (isNotPermitted()) {
             return;
         }
+
         setClickProfile((prev) => !prev);
         await new Promise((resolve) => setTimeout(resolve, 500));
         setClickProfile(false);
@@ -66,6 +67,7 @@ const UserMenu = ({
         if (isNotPermitted()) {
             return;
         }
+
         setClickSettings((prev) => !prev);
         await new Promise((resolve) => setTimeout(resolve, 500));
         setClickSettings(false);
@@ -136,7 +138,10 @@ const UserMenu = ({
                         className=""
                     >
                         <li className={classLi}>
-                            <button onClick={handleClickProfile}>
+                            <button
+                                onClick={handleClickProfile}
+                                className="w-full"
+                            >
                                 <Text
                                     sizeOffset={5}
                                     className="font-[470]"
@@ -171,7 +176,10 @@ const UserMenu = ({
                     {/** Item: ajustes */}
                     <Link href={isNotPermitted() ? '#' : '/user/settings'}>
                         <li className={classLi}>
-                            <button onClick={handleClickSettings}>
+                            <button
+                                onClick={handleClickSettings}
+                                className="w-full"
+                            >
                                 <Text
                                     sizeOffset={3}
                                     className="font-[470]"
@@ -204,7 +212,7 @@ const UserMenu = ({
                 </div>
                 {/** Item: cierre de sesión */}
                 <li className="relative flex cursor-pointer items-center rounded-b-xl px-4 py-[0.7rem] hover:bg-gray-50">
-                    <button onClick={handleLogout}>
+                    <button onClick={handleLogout} className="w-full">
                         <span className="absolute top-0 left-1/2 w-[93%] -translate-x-1/2 border-t border-gray-300 shadow-[0_2px_2px_-2px_rgba(0,0,0,0.3)]" />
 
                         <Text

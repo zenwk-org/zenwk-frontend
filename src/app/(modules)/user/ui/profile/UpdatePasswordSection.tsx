@@ -133,7 +133,6 @@ const UpdatePasswordSection = ({
                             }
                             {...register('passwordCurrent', {
                                 required: requiredPassword,
-                                pattern: patternPassword,
                             })}
                             isError={Boolean(errors.passwordCurrent)}
                         >
@@ -210,6 +209,12 @@ const UpdatePasswordSection = ({
                             nameButtom={
                                 UserMessages.profileConfiguration.sections
                                     .updatePassword.updateButton
+                            }
+                            isError={
+                                Boolean(errors.password) ||
+                                Boolean(errors.reepassword) ||
+                                Boolean(errors.passwordCurrent) ||
+                                Boolean(errors.root)
                             }
                         />
                     </button>
