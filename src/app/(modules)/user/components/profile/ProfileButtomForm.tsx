@@ -15,6 +15,7 @@ interface ProfileButtonFormProps {
     disabled?: boolean;
     nameButtom?: string;
     classColor?: 'yellow' | 'default';
+    isError?: boolean;
 }
 
 /**
@@ -30,21 +31,33 @@ const ProfileButtomForm = ({
     positionToltip = 'top',
     nameButtom,
     classColor = 'default',
+    isError,
 }: ProfileButtonFormProps) => {
     /**
      * Función para calcular clase del botón
      * @returns
      */
+
     const getButtonClass = () => {
         if (nameButtom) {
-            return classColor === 'yellow'
-                ? 'flex w-full items-center justify-center gap-4 bg-indigo-400 p-[0.4rem] px-4 group-hover:text-white hover:bg-indigo-500'
-                : 'flex w-full items-center justify-center gap-4 bg-indigo-300 p-[0.4rem] px-4 hover:bg-indigo-400';
+            return clsx(
+                'flex w-full items-center justify-center gap-4 p-[0.4rem] px-4',
+                {
+                    'bg-indigo-400 hover:bg-indigo-500':
+                        !isError && classColor === 'yellow',
+                    'bg-indigo-300 hover:bg-indigo-400':
+                        !isError && classColor !== 'yellow',
+                    'bg-[#E77B73]': isError && classColor === 'yellow',
+                    'bg-[#E77B73]/70': isError && classColor !== 'yellow',
+                }
+            );
         }
-        if (classColor !== 'yellow') {
-            return 'border-[0.1rem] border-indigo-700 bg-indigo-50 p-[0.7rem] hover:bg-indigo-100';
-        }
-        return '';
+
+        return clsx({
+            'border-[0.1rem] border-indigo-700 bg-indigo-50 p-[0.7rem] hover:bg-indigo-100':
+                classColor !== 'yellow',
+            '': classColor === 'yellow',
+        });
     };
 
     const getShapeClass = () => {
