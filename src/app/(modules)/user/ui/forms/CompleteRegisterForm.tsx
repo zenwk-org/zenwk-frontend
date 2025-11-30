@@ -76,6 +76,7 @@ const CompleteRegisterForm = ({
             },
             profilePicture: personDTO?.profilePicture,
         },
+        mode: 'onChange',
     });
 
     /**

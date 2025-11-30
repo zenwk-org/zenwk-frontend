@@ -42,6 +42,6 @@ export const politiciesPassword = [
     { id: "number", rule: "Un número (0-9)" },
     {
         id: "special_char",
-        rule: "Un carácter especial (@, #, $, %, &, *, -, _)",
+        rule: "Un carácter especial (ej: @ # $ %)",
     },
 ];

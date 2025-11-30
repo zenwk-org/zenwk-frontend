@@ -9,7 +9,6 @@ import FormErrorUser from '@user/ui/forms/FormErrorUser';
 import ProfileButtomForm from '@app/app/(modules)/user/components/profile/ProfileButtomForm';
 import Text from '@user/ui/user-feed/Text';
 import AlertInfo from '@app/shared/components/AlertInfo';
-import FormError from '@app/shared/ui/FormError';
 
 const UpdatePasswordSection = ({
     setLineLoadingFather,
@@ -134,7 +133,6 @@ const UpdatePasswordSection = ({
                             }
                             {...register('passwordCurrent', {
                                 required: requiredPassword,
-                                pattern: patternPassword,
                             })}
                             isError={Boolean(errors.passwordCurrent)}
                         >
@@ -211,6 +209,12 @@ const UpdatePasswordSection = ({
                             nameButtom={
                                 UserMessages.profileConfiguration.sections
                                     .updatePassword.updateButton
+                            }
+                            isError={
+                                Boolean(errors.password) ||
+                                Boolean(errors.reepassword) ||
+                                Boolean(errors.passwordCurrent) ||
+                                Boolean(errors.root)
                             }
                         />
                     </button>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Text from '@user/ui/user-feed/Text';
-import { TEXT_ROSA_COLOR } from '@app/styles/constans-color';
+import { politiciesPassword } from '@auth/utils/authUtils';
 
 interface Props {
     error?: React.ReactNode;
@@ -18,9 +18,17 @@ const FormErrorUser = ({ error, sizeOffset }: Props) => {
             sizeOffset={sizeOffset}
             text={
                 <div
-                    className={`mt-1 mb-[0.3] max-w-[180px] px-[0.13rem] text-left sm:max-w-[400px] ${TEXT_ROSA_COLOR} dark:text-red-500`}
+                    className={`mt-1 mb-[0.3] max-w-[180px] px-[0.13rem] text-left sm:max-w-[400px] ${error == 'INVALID_PASSWORD' ? 'text-emerald-700' : 'text-justify tracking-[-0.015em] text-[#E1564C]'}`}
                 >
-                    {error}
+                    {error == 'INVALID_PASSWORD' ? (
+                        <ul className="list-inside list-disc">
+                            {politiciesPassword.map((rule) => (
+                                <li key={rule.id}>{rule.rule}</li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <span className="font-stretch-normal">{error}</span>
+                    )}
                 </div>
             }
         />

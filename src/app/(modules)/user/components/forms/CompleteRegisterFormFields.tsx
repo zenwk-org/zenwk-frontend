@@ -128,7 +128,7 @@ const CompleteRegisterFormFields = ({
         watch,
         control,
         register,
-        formState: { errors },
+        formState: { errors, isValid },
     } = form;
 
     const [btnDisabled, setBtnDisabled] = useState(true);
@@ -187,10 +187,11 @@ const CompleteRegisterFormFields = ({
         const subscription = watch(() => {
             if (error) {
                 setError('');
+                setErrorCounter(0);
             }
         });
         return () => subscription.unsubscribe();
-    }, [watch, error]);
+    }, [watch, error, errorCounter]);
 
     const classField = clsx(
         editDataBasic
@@ -340,6 +341,7 @@ const CompleteRegisterFormFields = ({
                             icon={null}
                             shape="square"
                             nameButtom="Cancelar"
+                            isError={!isValid || errorCounter > 0}
                         />
                     </button>
                     <button
@@ -356,6 +358,7 @@ const CompleteRegisterFormFields = ({
                             nameButtom={UserMessages.buttons.save}
                             lineLoading={isBtnLoading}
                             buttonLoading={isBtnLoading}
+                            isError={!isValid || errorCounter > 0}
                         />
                     </button>
                 </div>

@@ -230,7 +230,7 @@ const UpdateEmailSection = ({
                         >
                             <FormErrorUser
                                 sizeOffset={-15}
-                                error={errors.email?.message ?? ''}
+                                error={errors.email?.message}
                             />
                         </InputText>
 
@@ -251,7 +251,7 @@ const UpdateEmailSection = ({
                         >
                             <FormErrorUser
                                 sizeOffset={-15}
-                                error={errors.reemail?.message ?? ''}
+                                error={errors.reemail?.message}
                             />
                         </InputText>
 
@@ -269,6 +269,11 @@ const UpdateEmailSection = ({
                                 nameButtom={
                                     UserMessages.profileConfiguration.sections
                                         .updateEmail.updateButton
+                                }
+                                isError={
+                                    Boolean(errors.reemail) ||
+                                    Boolean(errors.email) ||
+                                    Boolean(errors.root)
                                 }
                             />
                         </button>
