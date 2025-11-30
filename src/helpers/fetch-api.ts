@@ -24,11 +24,6 @@ export interface ApiFieldError {
 }
 
 /**
- * Tipo para manejar los errores del Back por validaciones del DTO
- */
-export type BadRequestErrorResponse = ApiFieldError[] | string;
-
-/**
  * Valida si el error es del tipo ApiFieldError
  * @param data
  * @returns
@@ -369,33 +364,6 @@ export const fetchTokenCrsfApi = async (correo: string) => {
 
         // Registro del la cookie httpOnly
         await getFetch(requestUrl, mergedOptions);
-    } catch (error: unknown) {
-        throw new Error(error as string);
-    }
-};
-
-/**
- * Genera un token crsf asociado al email del usuario.
- * Hasta ahora no se usa. Solo  nivel interno del backen httponly
- *
- * @param correo - Email del usuario.
- * @param codeToken - Token CRSF.
- * @returns Respuesta del backend o error.
- */
-export const fetchValidateTokenCrsfApi = async (
-    correo: string,
-    codeToken: string
-) => {
-    const path = "/verification/csrf/token/validate";
-    try {
-        const queryString = getQueryString();
-        const mergedOptions = getMergedOptions("POST", undefined, {
-            email: correo,
-            code: codeToken,
-        });
-
-        const requestUrl = `${getTokenUrl(getUrl(queryString, path))}`;
-        return await getFetch(requestUrl, mergedOptions);
     } catch (error: unknown) {
         throw new Error(error as string);
     }
