@@ -62,7 +62,7 @@ const InputTextWithError = ({
         variant={editDataBasic ? 'editPerson' : 'default'}
     >
         <div
-            className={`${editDataBasic ? 'max-w-[160px]' : 'max-w-[180px]'} overflow-hidden py-1`}
+            className={`${editDataBasic ? 'max-w-[160px]' : 'max-w-[180px]'} overflow-hidden`}
         >
             <FormErrorUser sizeOffset={-15} error={error ?? ''} />
         </div>
