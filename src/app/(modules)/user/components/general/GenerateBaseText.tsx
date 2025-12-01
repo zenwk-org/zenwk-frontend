@@ -14,6 +14,7 @@ interface Props {
     sizeOffset?: number; // incremento en rem (por ejemplo 50 = 0.50 rem)
     baseSizes: SizeMap;
     className?: string;
+    [key: string]: any;
 }
 
 const GenerateBaseText = ({
@@ -21,6 +22,7 @@ const GenerateBaseText = ({
     sizeOffset = 0,
     baseSizes,
     className,
+    ...rest
 }: Props) => {
     /**
      * Función de calculo.
@@ -36,6 +38,7 @@ const GenerateBaseText = ({
                 className // si llega, se agrega; si no, no rompe lo existente
             )}
             style={{ fontSize: calc(baseSizes.base) }}
+            {...rest}
         >
             <span className="sm:hidden">{text}</span>
             <span

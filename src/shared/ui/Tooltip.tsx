@@ -1,6 +1,8 @@
 /**
  * Datos que representa  los parametos usados del Tooltip
  */
+import React from 'react';
+
 type Props = {
     children: React.ReactNode;
     position?: 'top' | 'bottom' | 'left' | 'right';
