@@ -40,6 +40,9 @@ const mockSetLineLoadingFather = jest.fn();
 //  Mock Spinner
 jest.mock('@app/shared/ui/Spinner', () => () => <div data-testid="spinner" />);
 
+jest.spyOn(URL, 'createObjectURL').mockReturnValue('mock-url');
+jest.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
+
 describe('ProfilePhotoSection Component', () => {
     beforeEach(() => jest.clearAllMocks());
 
@@ -121,5 +124,99 @@ describe('ProfilePhotoSection Component', () => {
         fireEvent.click(deleteButton);
 
         expect(screen.getByTestId('initials')).toBeInTheDocument();
+    });
+
+    test('loadingLineClick(loadPhoto) activa y desactiva estados correctamente', async () => {
+        jest.useFakeTimers();
+
+        render(
+            <ProfilePhotoSection
+                setLineLoadingFather={mockSetLineLoadingFather}
+            />
+        );
+
+        const input = screen.getByTestId('photo-file-input');
+        const file = new File(['data'], 'photo.jpg', { type: 'image/jpeg' });
+
+        fireEvent.change(input, { target: { files: [file] } });
+
+        // Antes de resolver el timeout
+        await waitFor(() => {
+            expect(mockSetLineLoadingFather).toHaveBeenCalledWith(true);
+        });
+
+        jest.runAllTimers(); // libera el setTimeout de 400ms
+
+        await waitFor(() => {
+            expect(mockSetLineLoadingFather).toHaveBeenCalledWith(false);
+        });
+
+        jest.useRealTimers();
+    });
+
+    test('loadingLineClick(savePhoto) activa estados de guardado', async () => {
+        jest.useFakeTimers();
+
+        render(
+            <ProfilePhotoSection
+                setLineLoadingFather={mockSetLineLoadingFather}
+            />
+        );
+
+        const input = screen.getByTestId('photo-file-input');
+        const file = new File(['blob'], 'img.jpg', { type: 'image/jpeg' });
+
+        fireEvent.change(input, { target: { files: [file] } });
+
+        jest.runAllTimers();
+
+        await waitFor(() => {
+            expect(mockSetLineLoadingFather).toHaveBeenCalled();
+        });
+
+        jest.useRealTimers();
+    });
+
+    test('loadingLineClick(deletePhoto) activa y desactiva el loader correctamente', async () => {
+        jest.useFakeTimers();
+
+        (
+            require('@user/utils/UsePersonContext')
+                .usePersonContext as jest.Mock
+        ).mockReturnValueOnce({
+            person: {
+                id: 1,
+                firstName: 'John',
+                lastName: 'Doe',
+                profilePicture: 'abc123',
+            },
+            setPerson: jest.fn(),
+        });
+
+        render(
+            <ProfilePhotoSection
+                setLineLoadingFather={mockSetLineLoadingFather}
+            />
+        );
+
+        const deleteButton = screen.getByRole('button', {
+            name: UserMessages.profileConfiguration.sections.updatePhotoProfile
+                .deleteButton,
+        });
+
+        fireEvent.click(deleteButton);
+
+        // Antes del timeout
+        await waitFor(() =>
+            expect(mockSetLineLoadingFather).toHaveBeenCalledWith(true)
+        );
+
+        jest.runAllTimers();
+
+        await waitFor(() =>
+            expect(mockSetLineLoadingFather).toHaveBeenCalledWith(false)
+        );
+
+        jest.useRealTimers();
     });
 });
