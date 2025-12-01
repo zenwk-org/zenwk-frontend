@@ -226,6 +226,13 @@ const ProfilePhotoSection = ({
                 setPreview(null);
                 setSavePhotoLoading(false);
                 setActiveSavePhoto(false);
+
+                // fix ecnontrado por PU
+                setPerson((prev) => {
+                    if (prev == null) return prev;
+                    return { ...prev, profilePicture: undefined };
+                });
+
                 return;
             }
 
