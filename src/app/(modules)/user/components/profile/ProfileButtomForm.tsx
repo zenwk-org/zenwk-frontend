@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 import ProfileRingLoader from '@user/components/profile/ProfileRingLoader';
 import Tooltip from '@app/shared/ui/Tooltip';

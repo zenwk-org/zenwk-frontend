@@ -9,7 +9,7 @@ import { PropagateLoader } from 'react-spinners';
  */
 const Spinner = () => {
     return (
-        <div className="relative h-screen w-screen">
+        <div className="relative h-screen w-screen" data-testid="spinner">
             <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/80">
                 <PropagateLoader
                     color="#135CDC"

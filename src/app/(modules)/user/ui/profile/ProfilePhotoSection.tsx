@@ -255,6 +255,7 @@ const ProfilePhotoSection = ({
                                 text={getInitials(firstName, lastName)}
                                 sizeOffset={20}
                                 className="text-black"
+                                data-testid="initials"
                             />
                         ) : (
                             preview == null && (
@@ -289,6 +290,7 @@ const ProfilePhotoSection = ({
                 >
                     {/** input invisible */}
                     <input
+                        data-testid="photo-file-input"
                         ref={refLoadPhotoInput}
                         type="file"
                         accept="image/*"
