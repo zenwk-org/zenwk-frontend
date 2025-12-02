@@ -7,7 +7,7 @@ import React, {
     useRef,
     useEffect,
 } from 'react';
-import { Camera, Save, Trash2 } from 'lucide-react';
+import { Camera, Trash2 } from 'lucide-react';
 import { getInitials } from '@app/shared/utils/stringUtils';
 import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
 import { compressImage } from '@user/utils/ImageConvertUtils';
@@ -41,9 +41,7 @@ const ProfilePhotoSection = ({
     const refLoadPhotoInput = useRef<HTMLInputElement | null>(null);
     const [lineLoading, setLineLoading] = useState(false);
     const [loadPhotoLoading, setLoadPhotoLoading] = useState(false);
-    const [savePhotoLoading, setSavePhotoLoading] = useState(false);
     const [deletePhotoLoading, setDeletePhotoLoading] = useState(false);
-    const [activeSavePhoto, setActiveSavePhoto] = useState(false);
     const [preview, setPreview] = useState<string | null>(null);
     const [photoProfile, setPhotoProfile] = useState<File>();
     const { person, setPerson } = usePersonContext();
@@ -65,8 +63,6 @@ const ProfilePhotoSection = ({
     useEffect(() => {
         if (person && !person.profilePicture) {
             setPreview(null);
-            setSavePhotoLoading(false);
-            setActiveSavePhoto(false);
             setPhotoProfile(undefined);
         }
     }, [person]);
@@ -101,11 +97,6 @@ const ProfilePhotoSection = ({
             setLineLoadingFather(true);
             if (action === 'loadPhoto') {
                 setLoadPhotoLoading(true);
-                // Se desactiva botón guardar
-                // Si en el fúturo se requiere pasar a true.
-                setActiveSavePhoto(false);
-            } else if (action === 'savePhoto') {
-                setSavePhotoLoading(true);
             } else if (action === 'deletePhoto') {
                 setDeletePhotoLoading(true);
             }
@@ -117,8 +108,6 @@ const ProfilePhotoSection = ({
             setLineLoadingFather(false);
             if (action === 'loadPhoto') {
                 setLoadPhotoLoading(false);
-            } else if (action === 'savePhoto') {
-                setSavePhotoLoading(false);
             } else if (action === 'deletePhoto') {
                 setDeletePhotoLoading(false);
             }
@@ -198,18 +187,14 @@ const ProfilePhotoSection = ({
                 // Actualizar  estado  personDTO
                 const newPhotoProfile = await getBytesFromPreview();
                 await new Promise((resolve) => setTimeout(resolve, 300));
-                setPerson((prev) => {
-                    if (prev == null) {
-                        return prev;
-                    }
-                    const updated = {
-                        ...prev,
-                        profilePicture: newPhotoProfile,
-                    };
-                    setSavePhotoLoading(false);
-                    setActiveSavePhoto(false);
-                    return updated;
-                });
+
+                setPerson(
+                    (prev) =>
+                        prev && {
+                            ...prev,
+                            profilePicture: newPhotoProfile,
+                        }
+                );
             }
         } catch {}
     };
@@ -221,21 +206,7 @@ const ProfilePhotoSection = ({
      */
     const deletePhotoHandleClick = async () => {
         try {
-            // Si existe una carga previa se elimina la foto en memoría.
-            if (activeSavePhoto) {
-                setPreview(null);
-                setSavePhotoLoading(false);
-                setActiveSavePhoto(false);
-
-                // fix ecnontrado por PU
-                setPerson((prev) => {
-                    if (prev == null) return prev;
-                    return { ...prev, profilePicture: undefined };
-                });
-
-                return;
-            }
-
+            setPreview(null);
             // Actualizo el contexto y se aprovecha valor actualizado para consumo de api
             setPerson((prev) => {
                 if (prev == null) {
@@ -325,35 +296,6 @@ const ProfilePhotoSection = ({
 
                 {/** Botón guardar foto */}
                 <div className="flex gap-2 px-6">
-                    {activeSavePhoto && (
-                        <button
-                            onClick={() => {
-                                loadingLineClick('savePhoto');
-                                savePhotoHandleClick();
-                            }}
-                            type="button"
-                            disabled={savePhotoLoading}
-                        >
-                            <ProfileBotonForm
-                                lineLoading={lineLoading}
-                                buttonLoading={savePhotoLoading}
-                                icon={
-                                    <Save
-                                        size={20}
-                                        strokeWidth={1.8}
-                                        // className="text-[#0056B3]"
-                                        className="text-indigo-700"
-                                    />
-                                }
-                                text={
-                                    UserMessages.profileConfiguration.sections
-                                        .updatePhotoProfile.saveButton
-                                }
-                                shape="circle"
-                            />
-                        </button>
-                    )}
-
                     {/** Botón eliminar foto */}
                     {profilePicture && (
                         <button
