@@ -170,6 +170,7 @@ const SetPasswordUser = React.memo(
                         {!isResetPassword && <InputDisabled text={email} />}
 
                         <InputText
+                            data-testid="password"
                             sizeText={5}
                             sizeTextInput={0}
                             fullWidth={true}
@@ -192,6 +193,7 @@ const SetPasswordUser = React.memo(
                         </InputText>
 
                         <InputText
+                            data-testid="repeat password"
                             sizeText={5}
                             sizeTextInput={0}
                             fullWidth={true}
@@ -213,6 +215,7 @@ const SetPasswordUser = React.memo(
                             isError={Boolean(errors.repassword || errors.root)}
                         >
                             <FormError
+                                data-testid="form-error"
                                 error={errors.repassword?.message ?? ''}
                             />
                         </InputText>
