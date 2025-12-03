@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { formValidate } from '@app/shared/utils/formValidate';
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -80,7 +80,11 @@ const ForgotPassword = () => {
      * Cargador ...
      */
     if (loading) {
-        return <Spinner />;
+        return (
+            <div data-testid="loading-spinner">
+                <Spinner />
+            </div>
+        );
     }
 
     /**
