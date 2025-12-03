@@ -40,7 +40,7 @@ const InputText = forwardRef<HTMLInputElement, Props>(
             sizeText = -3,
             inputClass = 'block rounded-lg border-[1px] bg-white px-4 py-[0.33rem] text-xs focus:outline-none',
             sizeTextInput = 0,
-            ...props
+            ...rest
         },
         ref
     ) => {
@@ -121,13 +121,11 @@ const InputText = forwardRef<HTMLInputElement, Props>(
                     <input
                         ref={ref}
                         type={getInputType()}
-                        {...props}
+                        {...rest}
                         className={inputClassLocal}
                         placeholder={placeholder}
                         style={
                             {
-                                // borderColor,
-                                //color: textColor,
                                 minWidth: `${minWidth}px`,
                                 fontSize: `calc(${fontSize} + ${sizeTextInput}rem)`,
                             } as React.CSSProperties
