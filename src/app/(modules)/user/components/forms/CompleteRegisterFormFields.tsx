@@ -1,7 +1,7 @@
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { UserMessages } from '@user/constants/user-messages';
 import { ageGenerator } from '@app/shared/utils/userUtils';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { formValidateUser } from '@user/utils/formValidateUser';
 import SelectGeneral, { Option } from '@user/ui/inputs/SelectGeneral';
 import InputText from '@user/ui/inputs/InputText';
@@ -50,24 +50,32 @@ const InputTextWithError = ({
     error?: string;
     classField: string;
     editDataBasic?: boolean;
-}) => (
-    <InputText
-        text={label}
-        placeholder={placeholder}
-        {...registerProps}
-        isError={Boolean(error)}
-        sizeTextInput={editDataBasic ? -0.18 : 0}
-        sizeText={editDataBasic ? 1 : 5}
-        inputClass={classField}
-        variant={editDataBasic ? 'editPerson' : 'default'}
-    >
-        <div
-            className={`${editDataBasic ? 'max-w-[160px]' : 'max-w-[180px]'} overflow-hidden`}
+}) => {
+    // Previene pasar props custom al doom html (tag input)
+    const { onChange, onBlur, name, ref } = registerProps;
+
+    return (
+        <InputText
+            onChange={onChange}
+            onBlur={onBlur}
+            name={name}
+            ref={ref}
+            text={label}
+            placeholder={placeholder}
+            isError={Boolean(error)}
+            sizeTextInput={editDataBasic ? -0.18 : 0}
+            sizeText={editDataBasic ? 1 : 5}
+            inputClass={classField}
+            variant={editDataBasic ? 'editPerson' : 'default'}
         >
-            <FormErrorUser sizeOffset={-15} error={error ?? ''} />
-        </div>
-    </InputText>
-);
+            <div
+                className={`${editDataBasic ? 'max-w-[160px]' : 'max-w-[180px]'} overflow-hidden`}
+            >
+                <FormErrorUser sizeOffset={-15} error={error ?? ''} />
+            </div>
+        </InputText>
+    );
+};
 
 /**
  * Sonar. Componentes auxiliares
@@ -91,9 +99,13 @@ const SelectWithError = ({
         control={control}
         name={name}
         rules={rules}
-        render={({ field }) => (
+        // Previene pasar props custom al doom html (select)
+        render={({ field: { value, onChange, onBlur, name } }) => (
             <SelectGeneral
-                {...field}
+                value={value}
+                onChange={onChange}
+                onBlur={onBlur}
+                name={name}
                 variant={variant}
                 sizeTextInput={sizeTextInput}
                 paramHeigth={paramHeigth}
