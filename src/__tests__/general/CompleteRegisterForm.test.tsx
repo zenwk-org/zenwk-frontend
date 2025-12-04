@@ -1,12 +1,21 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import CompleteRegisterForm from '@user/ui/forms/CompleteRegisterForm';
+
+// Importaciones de módulos (la clave para usar spyOn)
 import * as personUtils from '@user/utils/personUtils';
 import * as fetchApi from '@app/helpers/fetch-api';
+
+// Módulos de Contexto: Usamos import * as para espiarlos (spyOn)
 import * as useSexContext from '@user/utils/UseSexOptionsContext';
 import * as usePersonContext from '@user/utils/UsePersonContext';
 import * as useUserContext from '@user/utils/UseUserContext';
 
+// -----------------------------------------------------
+// MOCKS ESTATICO (Funciona en CI)
+// -----------------------------------------------------
+
+// El mock para el componente hijo que contiene los campos (esto no da problemas de alias)
 jest.mock('@user/components/forms/CompleteRegisterFormFields', () => ({
     __esModule: true,
     default: jest.fn(({ onSubmit }) => (
@@ -14,11 +23,17 @@ jest.mock('@user/components/forms/CompleteRegisterFormFields', () => ({
     )),
 }));
 
+// Mocks para módulos sin hooks (estos suelen ser seguros)
 jest.mock('@user/utils/personUtils');
 jest.mock('@app/helpers/fetch-api');
-jest.mock('@user/utils/UseSexOptionsContext');
-jest.mock('@user/utils/UsePersonContext');
-jest.mock('@user/utils/UseUserContext');
+
+// -----------------------------------------------------
+// ELIMINAMOS los jest.mock() para los hooks para evitar el error de alias
+// ya que los estamos espiando (spyOn)
+// -----------------------------------------------------
+// Eliminado: jest.mock('@user/utils/UseSexOptionsContext');
+// Eliminado: jest.mock('@user/utils/UsePersonContext');
+// Eliminado: jest.mock('@user/utils/UseUserContext');
 
 describe('CompleteRegisterForm', () => {
     const setIsCreatePerson = jest.fn();
@@ -26,22 +41,31 @@ describe('CompleteRegisterForm', () => {
     const setLineLoading = jest.fn();
     const setBtnUpdate = jest.fn();
 
+    // SPY ON los hooks en el beforeEach para asegurar que estén mockeados antes de cada test
     beforeEach(() => {
         jest.clearAllMocks();
 
-        (useSexContext.useSexOptionsContext as jest.Mock).mockReturnValue({
+        // **USAMOS spyOn EN LUGAR DE mock()** para el contexto de sexo
+        jest.spyOn(
+            useSexContext,
+            'useSexOptionsContext' as any
+        ).mockReturnValue({
             optionsSex: [
                 { id: 1, label: 'Male' },
                 { id: 2, label: 'Female' },
             ],
         });
 
-        (usePersonContext.usePersonContext as jest.Mock).mockReturnValue({
-            person: { id: 1 },
-            setPerson: jest.fn(),
-        });
+        // **USAMOS spyOn EN LUGAR DE mock()** para el contexto de persona
+        jest.spyOn(usePersonContext, 'usePersonContext' as any).mockReturnValue(
+            {
+                person: { id: 1 },
+                setPerson: jest.fn(),
+            }
+        );
 
-        (useUserContext.useUserContext as jest.Mock).mockReturnValue({
+        // **USAMOS spyOn EN LUGAR DE mock()** para el contexto de usuario
+        jest.spyOn(useUserContext, 'useUserContext' as any).mockReturnValue({
             userDTO: { id: 10 },
             setUserDTO: jest.fn(),
         });
@@ -76,15 +100,7 @@ describe('CompleteRegisterForm', () => {
     });
 
     test('handles editDataBasic path', async () => {
-        (useUserContext.useUserContext as jest.Mock).mockReturnValue({
-            userDTO: { id: 10 },
-            setUserDTO: jest.fn(),
-        });
-
-        (usePersonContext.usePersonContext as jest.Mock).mockReturnValue({
-            person: { id: 1 },
-            setPerson: jest.fn(),
-        });
+        // Los mocks de contexto ya están definidos en beforeEach
 
         (personUtils.updateOrCreatePerson as jest.Mock).mockResolvedValue({});
         (personUtils.getPerson as jest.Mock).mockResolvedValue({ id: 1 });
@@ -115,7 +131,10 @@ describe('CompleteRegisterForm', () => {
         fireEvent.click(screen.getByText('Submit'));
 
         await waitFor(() => {
+            // El componente debe renderizar algo, en este caso, el botón de submit,
+            // y no debe llamar a setIsCreatePerson(true)
             expect(screen.getByText('Submit')).toBeInTheDocument();
+            expect(setIsCreatePerson).not.toHaveBeenCalled();
         });
     });
 });
