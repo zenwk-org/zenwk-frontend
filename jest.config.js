@@ -20,10 +20,13 @@ module.exports = {
     },
 
     // ★★ Alias corregidos según tsconfig.json ★★
+    moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+
+    // ★★ Alias de Módulos (Sin anclajes ^ y $ para mayor flexibilidad en CI) ★★
     moduleNameMapper: {
-        "^@app/(.*)$": "<rootDir>/src/$1",
-        "^@auth/(.*)$": "<rootDir>/src/app/(modules)/(auth)/$1",
-        "^@user/(.*)$": "<rootDir>/src/app/(modules)/user/$1",
+        "@app/(.*)": "<rootDir>/src/$1",
+        "@auth/(.*)": "<rootDir>/src/app/(modules)/(auth)/$1",
+        "@user/(.*)": "<rootDir>/src/app/(modules)/user/$1",
     },
 
     // Configuración adicional para Jest DOM
