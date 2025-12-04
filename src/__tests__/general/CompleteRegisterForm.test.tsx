@@ -1,4 +1,4 @@
-// src/__tests__/user/CompleteRegisterForm.test.tsx
+import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import CompleteRegisterForm from '@app/app/(modules)/user/ui/forms/CompleteRegisterForm';
 import * as personUtils from '@user/utils/personUtils';
@@ -6,7 +6,6 @@ import * as fetchApi from '@app/helpers/fetch-api';
 import * as useSexContext from '@app/app/(modules)/user/utils/UseSexOptionsContext';
 import * as usePersonContext from '@app/app/(modules)/user/utils/UsePersonContext';
 import * as useUserContext from '@app/app/(modules)/user/utils/UseUserContext';
-import React from 'react';
 
 jest.mock('@user/components/forms/CompleteRegisterFormFields', () => ({
     __esModule: true,
