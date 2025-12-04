@@ -45,7 +45,7 @@ const Register = () => {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<{ email: string }>();
+    } = useForm<{ email: string }>({ mode: 'all' });
 
     /**
      * Evento de envío del formulario.

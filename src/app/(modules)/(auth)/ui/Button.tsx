@@ -1,3 +1,4 @@
+import React from 'react';
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     text: string;
     isError?: boolean;
