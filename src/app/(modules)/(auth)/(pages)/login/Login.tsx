@@ -52,7 +52,7 @@ const Login = () => {
         setValue,
         setFocus,
         formState: { errors },
-    } = useForm<LoginForm>();
+    } = useForm<LoginForm>({ mode: 'all' });
     const { userDTO } = useUserContext();
     const [countdown, setCountdown] = useState(3);
     const [notExistUser, setNotExistUser] = useState(false);
@@ -166,6 +166,7 @@ const Login = () => {
      */
     const onSubmit = handleSubmit(
         async (data) => {
+            console.log('entro.1..', data);
             setBtnLoading(true);
             try {
                 // Paso 1:  cookie httpOnly para CSRF token
@@ -260,11 +261,6 @@ const Login = () => {
                             onBlur={async (e) => {
                                 usernameRegister.onBlur(e);
                                 handleEmailBlur();
-                            }}
-                            onChange={() => {
-                                if (registeredUser) {
-                                    setRegisteredUser(false);
-                                }
                             }}
                             isError={Boolean(errors.email || errors.root)}
                         >
