@@ -1,3 +1,4 @@
+// Configuración Jest para soportar TypeScript, React y alias de módulos
 module.exports = {
     preset: "ts-jest",
     testEnvironment: "jest-environment-jsdom",
@@ -5,26 +6,26 @@ module.exports = {
     collectCoverage: true,
     coverageDirectory: "coverage",
 
+    // Detecta archivos de pruebas correctamente
     testMatch: ["**/__tests__/**/*.(test|spec).(js|ts|tsx)"],
 
-    moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-
+    // Transformaciones necesarias para TSX/JSX
     transform: {
         "^.+\\.(ts|tsx|js|jsx)$": [
             "babel-jest",
-            { configFile: "./babel-jest.config.js" },
+            {
+                configFile: "./babel-jest.config.js",
+            },
         ],
     },
 
+    // ★★ Alias corregidos según tsconfig.json ★★
     moduleNameMapper: {
         "^@app/(.*)$": "<rootDir>/src/$1",
-
-        // RUTA CORRECTA SIN PARÉNTESIS DUPLICADOS
-        "^@auth/(.*)$": "<rootDir>/src/app/(modules)/auth/$1",
-
-        // Alias user válido en Linux + CI
+        "^@auth/(.*)$": "<rootDir>/src/app/(modules)/(auth)/$1",
         "^@user/(.*)$": "<rootDir>/src/app/(modules)/user/$1",
     },
 
+    // Configuración adicional para Jest DOM
     setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 };
