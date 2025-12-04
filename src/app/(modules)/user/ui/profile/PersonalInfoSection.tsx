@@ -2,7 +2,7 @@
 
 import { useState, Dispatch, SetStateAction } from 'react';
 
-import { useSexOptionsContext } from '@app/app/(modules)/user/utils/UseSexOptionsContext';
+import { useSexOptionsContext } from '@app/shared/utils/UseSexOptionsContext';
 import { getLabelById } from '@app/shared/utils/optionsSexUtils';
 import { NotebookPen } from 'lucide-react';
 import { usePersonContext } from '@user/utils/UsePersonContext';

@@ -7,7 +7,7 @@ import * as personUtils from '@user/utils/personUtils';
 import * as fetchApi from '@app/helpers/fetch-api';
 
 // Módulos de Contexto: Usamos import * as para espiarlos (spyOn)
-import * as useSexContext from '@user/utils/UseSexOptionsContext';
+import * as useSexContext from '@app/shared/utils/UseSexOptionsContext';
 import * as usePersonContext from '@user/utils/UsePersonContext';
 import * as useUserContext from '@user/utils/UseUserContext';
 
