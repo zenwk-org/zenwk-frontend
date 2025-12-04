@@ -1,8 +1,7 @@
 'use client';
-
 import OtpInput from 'react-otp-input';
 import Link from 'next/link';
-
+import React, { useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FormError from '@app/shared/ui/FormError';
 
@@ -13,7 +12,7 @@ import {
     isClientErrorMessage,
 } from '@app/helpers/fetch-api';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+
 import { AuthErrors } from '@auth/constants/auth-errors';
 import { AuthMessages } from '@auth/constants/auth-messages';
 import { Messages } from '@app/shared/constants/messages';
@@ -71,7 +70,6 @@ const Opt = () => {
             }
         } catch (error: unknown) {
             if (error instanceof ClientError) {
-                console.log(error.code, error.message);
                 if (error.code === AuthErrors.funciontal.login.emailNotMatch) {
                     setCodeError(error.code);
                 }
@@ -81,7 +79,6 @@ const Opt = () => {
             }
         } finally {
             setLoading(false);
-            console.log(codeError, errorBack);
         }
     };
 
