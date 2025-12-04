@@ -1,3 +1,4 @@
+import React from 'react';
 import { Messages } from '@app/shared/constants/messages';
 
 import ButtonOpen from '@app/shared/ui/ButtonOpen';
