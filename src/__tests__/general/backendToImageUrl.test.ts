@@ -35,7 +35,7 @@ describe("ImageConvertUtils", () => {
         mockImg = {
             onload: null,
             onerror: null,
-            set src(v) {},
+            set src(v: string) {},
         };
         jest.spyOn(global, "Image").mockImplementation(() => mockImg);
     });
