@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import React, { useState, Dispatch, SetStateAction } from 'react';
-import { PersonDTO } from '@app/app/(modules)/user/types/person-dto';
+import { PersonDTO } from '@user/types/person-dto';
 import { getLabelById } from '@app/shared/utils/optionsSexUtils';
 import {
     getPerson,
@@ -8,10 +8,10 @@ import {
     getPathId,
 } from '@user/utils/personUtils';
 import { safeValue } from '@app/shared/utils/stringUtils';
-import { useSexOptionsContext } from '@app/app/(modules)/user/utils/UseSexOptionsContext';
+import { useSexOptionsContext } from '@user/utils/UseSexOptionsContext';
 import { handleApiErrors } from '@app/shared/utils/formValidate';
-import { usePersonContext } from '@app/app/(modules)/user/utils/UsePersonContext';
-import { useUserContext } from '@app/app/(modules)/user/utils/UseUserContext';
+import { usePersonContext } from '@user/utils/UsePersonContext';
+import { useUserContext } from '@user/utils/UseUserContext';
 import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
 
 import CompleteRegisterFormFields from '@user/components/forms/CompleteRegisterFormFields';
