@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import CompleteRegisterForm from '@app/app/(modules)/user/ui/forms/CompleteRegisterForm';
+import CompleteRegisterForm from '@user/ui/forms/CompleteRegisterForm';
 import * as personUtils from '@user/utils/personUtils';
 import * as fetchApi from '@app/helpers/fetch-api';
-import * as useSexContext from '@app/app/(modules)/user/utils/UseSexOptionsContext';
-import * as usePersonContext from '@app/app/(modules)/user/utils/UsePersonContext';
-import * as useUserContext from '@app/app/(modules)/user/utils/UseUserContext';
+import * as useSexContext from '@user/utils/UseSexOptionsContext';
+import * as usePersonContext from '@user/utils/UsePersonContext';
+import * as useUserContext from '@user/utils/UseUserContext';
 
 jest.mock('@user/components/forms/CompleteRegisterFormFields', () => ({
     __esModule: true,
@@ -16,9 +16,9 @@ jest.mock('@user/components/forms/CompleteRegisterFormFields', () => ({
 
 jest.mock('@user/utils/personUtils');
 jest.mock('@app/helpers/fetch-api');
-jest.mock('@app/app/(modules)/user/utils/UseSexOptionsContext');
-jest.mock('@app/app/(modules)/user/utils/UsePersonContext');
-jest.mock('@app/app/(modules)/user/utils/UseUserContext');
+jest.mock('@user/utils/UseSexOptionsContext');
+jest.mock('@user/utils/UsePersonContext');
+jest.mock('@user/utils/UseUserContext');
 
 describe('CompleteRegisterForm', () => {
     const setIsCreatePerson = jest.fn();
