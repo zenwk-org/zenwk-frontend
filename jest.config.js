@@ -23,7 +23,7 @@ module.exports = {
     moduleNameMapper: {
         "^@app/(.*)$": "<rootDir>/src/$1",
         "^@auth/(.*)$": "<rootDir>/src/app/(modules)/(auth)/$1",
-        "@user/(.*)": "<rootDir>/src/app/(modules)/user/$1",
+        "^@user/(.*)$": "<rootDir>/src/app/(modules)/user/$1",
     },
 
     // Configuración adicional para Jest DOM
