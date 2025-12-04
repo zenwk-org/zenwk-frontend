@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { fetchJwtBaseApi, fetchTokenCrsfApi } from '@app/helpers/fetch-api';
 import SetPasswordUser from '@auth/components/SetPasswordUser';
 import { AuthMessages } from '@auth/constants/auth-messages';
