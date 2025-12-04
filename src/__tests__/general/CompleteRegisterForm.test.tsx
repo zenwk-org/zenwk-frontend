@@ -27,14 +27,6 @@ jest.mock('@user/components/forms/CompleteRegisterFormFields', () => ({
 jest.mock('@user/utils/personUtils');
 jest.mock('@app/helpers/fetch-api');
 
-// -----------------------------------------------------
-// ELIMINAMOS los jest.mock() para los hooks para evitar el error de alias
-// ya que los estamos espiando (spyOn)
-// -----------------------------------------------------
-// Eliminado: jest.mock('@user/utils/UseSexOptionsContext');
-// Eliminado: jest.mock('@user/utils/UsePersonContext');
-// Eliminado: jest.mock('@user/utils/UseUserContext');
-
 describe('CompleteRegisterForm', () => {
     const setIsCreatePerson = jest.fn();
     const setEditDataBasic = jest.fn();
