@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { UserDTO } from '@app/app/(modules)/user/types/user-dto';
+import { UserDTO } from '@user/types/user-dto';
 import { Messages } from '@app/shared/constants/messages';
 import { formValidate } from '@app/shared/utils/formValidate';
 import { useForm, useWatch } from 'react-hook-form';

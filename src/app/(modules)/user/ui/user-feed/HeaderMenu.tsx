@@ -1,7 +1,7 @@
 'use client';
 import { useRef } from 'react';
 import { usePersonContext } from '@user/utils/UsePersonContext';
-import { useUserContext } from '@app/app/(modules)/user/utils/UseUserContext';
+import { useUserContext } from '@user/utils/UseUserContext';
 import { motion } from 'framer-motion';
 
 import Link from 'next/link';

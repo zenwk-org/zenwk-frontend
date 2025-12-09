@@ -10,7 +10,7 @@ import { UserMessages } from '@user/constants/user-messages';
 
 import Text from '@user/ui/user-feed/Text';
 import CompleteRegisterForm from '@user/ui/forms/CompleteRegisterForm';
-import ProfileBotonForm from '@app/app/(modules)/user/components/profile/ProfileButtomForm';
+import ProfileBotonForm from '@user/components/profile/ProfileButtomForm';
 import Spinner from '@app/shared/ui/Spinner';
 
 interface FormValues {

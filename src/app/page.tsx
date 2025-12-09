@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import Footer from '@app/shared/ui/Footer';
 import Header from '@app/shared/ui/Header';
 import ProfileMenu from '@user/components/header/ProfileMenu';
-import UserProfilePhoto from './(modules)/user/components/general/UserProfilePhoto';
+import UserProfilePhoto from '@user/components/general/UserProfilePhoto';
 import Tooltip from '@app/shared/ui/Tooltip';
 import WelcomeSection from '@app/shared/components/WelcomeSection';
 import Text from '@user/ui/user-feed/Text';

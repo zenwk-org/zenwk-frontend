@@ -1,9 +1,9 @@
-"use client";
-import React from "react";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Title from "@app/app/(modules)/(auth)/ui/Title";
+'use client';
+import React from 'react';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Title from '@auth/ui/Title';
 
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 /**
  * Tipos de propiedades que recibe el componente `CenteredHeaderWithBack`.

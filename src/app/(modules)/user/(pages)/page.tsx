@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { UserMessages } from '../constants/user-messages';
-import { UserStateEnum } from '@app/app/(modules)/user/types/user-dto';
+import { UserStateEnum } from '@user/types/user-dto';
 import { usePersonContext } from '@user/utils/UsePersonContext';
 import { useUserContext } from '@user/utils/UseUserContext';
 

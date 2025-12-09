@@ -1,7 +1,7 @@
 'use client';
 import FlyoutMenu from '@user/components/general/FlyoutMenu';
 import UserMenu from '@user/components/general/UserMenu';
-import { UserDTO } from '@app/app/(modules)/user/types/user-dto';
+import { UserDTO } from '@user/types/user-dto';
 import ProfileMenuTrigger from './ProfileMenuTrigger';
 
 interface Props {

@@ -4,7 +4,7 @@ import { CircleUser, Cog, CircleX } from 'lucide-react';
 import { UserMessages } from '@user/constants/user-messages';
 import { RingLoader } from 'react-spinners';
 import { useLogout } from '@app/shared/hooks/useLogout';
-import { UserDTO } from '@app/app/(modules)/user/types/user-dto';
+import { UserDTO } from '@user/types/user-dto';
 import { UserStateEnum } from '@user/types/user-dto';
 import React, { useState } from 'react';
 

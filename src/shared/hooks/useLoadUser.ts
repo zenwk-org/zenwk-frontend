@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { fetchJwtBaseApi } from "@app/helpers/fetch-api";
 import { getPerson } from "@user/utils/personUtils";
 import { usePersonContext } from "@user/utils/UsePersonContext";
-import { useUserContext } from "@app/app/(modules)/user/utils/UseUserContext";
+import { useUserContext } from "@user/utils/UseUserContext";
 
 export const useLoadUser = () => {
     const router = useRouter();

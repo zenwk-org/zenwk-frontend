@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Spinner from '@app/shared/ui/Spinner';
 import Title from '@user/ui/user-feed/Title';
 import ProfileItemConfiguration from '@user/components/profile/ProfileItemConfiguration';
-import PersonalInfoSection from '@app/app/(modules)/user/ui/profile/PersonalInfoSection';
+import PersonalInfoSection from '@user/ui/profile/PersonalInfoSection';
 import ProfilePhotoSection from '@user/ui/profile/ProfilePhotoSection';
 import ProfileItemHeader from '@user/components/profile/ProfileItemHeader';
 import AnimatedPage from '@auth/components/AnimatedPage';
@@ -13,7 +13,7 @@ import AnimatedPage from '@auth/components/AnimatedPage';
 import { UserMessages } from '@user/constants/user-messages';
 import { useUserContext } from '@user/utils/UseUserContext';
 import { usePersonContext } from '@user/utils/UsePersonContext';
-import { useBackgroundThemeContext } from '@app/app/(modules)/user/utils/UseBackgroundTheme';
+import { useBackgroundThemeContext } from '@user/utils/UseBackgroundTheme';
 
 const ProfileConfiguration = () => {
     const [activeSection, setActiveSection] = useState<

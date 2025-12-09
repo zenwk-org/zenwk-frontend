@@ -9,7 +9,7 @@ import { isClientErrorMessage } from '@app/helpers/fetch-api';
 import React, { useEffect, useState } from 'react';
 
 import FormError from '@app/shared/ui/FormError';
-import InputDisabled from '@app/app/(modules)/(auth)/ui/InputDisabled';
+import InputDisabled from '@auth/ui/InputDisabled';
 import useRedirectRegister from '@auth/hooks/useRedirectRegister';
 import LoadButton from '@auth/components/LoadButton';
 import Spinner from '@app/shared/ui/Spinner';

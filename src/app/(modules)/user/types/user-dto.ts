@@ -1,4 +1,4 @@
-import { PersonDTO } from "@app/app/(modules)/user/types/person-dto";
+import { PersonDTO } from "@user/types/person-dto";
 /**
  * Enum que define los posibles estados de un usuario dentro del sistema.
  */

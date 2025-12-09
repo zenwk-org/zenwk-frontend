@@ -52,7 +52,7 @@ const ForgotPassword = () => {
         getValues,
         setValue,
         formState: { errors },
-    } = useForm<{ email: string }>();
+    } = useForm<{ email: string }>({ mode: 'all' });
 
     const searchParams = useSearchParams();
     const [email, setEmail] = useState('');

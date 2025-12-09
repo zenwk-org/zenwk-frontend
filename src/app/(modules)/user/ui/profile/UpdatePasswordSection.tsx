@@ -6,7 +6,7 @@ import { clsx } from 'clsx';
 
 import InputText from '@user/ui/inputs/InputText';
 import FormErrorUser from '@user/ui/forms/FormErrorUser';
-import ProfileButtomForm from '@app/app/(modules)/user/components/profile/ProfileButtomForm';
+import ProfileButtomForm from '@user/components/profile/ProfileButtomForm';
 import Text from '@user/ui/user-feed/Text';
 import AlertInfo from '@app/shared/components/AlertInfo';
 

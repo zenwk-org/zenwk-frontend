@@ -1,5 +1,5 @@
 import { fetchJwtBaseApi } from "@app/helpers/fetch-api";
-import { PersonDTO } from "@app/app/(modules)/user/types/person-dto";
+import { PersonDTO } from "@user/types/person-dto";
 import { safeValue } from "@app/shared/utils/stringUtils";
 import { UserDTO } from "../types/user-dto";
 
