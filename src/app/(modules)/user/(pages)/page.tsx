@@ -1,15 +1,15 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { UserMessages } from '../constants/user-messages';
-import { UserStateEnum } from '@user/types/user-dto';
-import { usePersonContext } from '@user/utils/UsePersonContext';
-import { useUserContext } from '@user/utils/UseUserContext';
+import { UserStateEnum } from '@app/app/(modules)/user/types/user-dto';
+import { usePersonContext } from '@app/app/(modules)/user/utils/UsePersonContext';
+import { useUserContext } from '@app/app/(modules)/user/utils/UseUserContext';
 
-import CompleteRegisterForm from '@user/ui/forms/CompleteRegisterForm';
-import Text from '@user/ui/user-feed/Text';
+import CompleteRegisterForm from '@app/app/(modules)/user/ui/forms/CompleteRegisterForm';
+import Text from '@app/app/(modules)/user/ui/user-feed/Text';
 import AlertInfo from '@app/shared/components/AlertInfo';
-import AnimatedPage from '@auth/components/AnimatedPage';
-import HeaderAction from '@auth/components/HeaderAction';
+import AnimatedPage from '@app/app/(modules)/(auth)/components/AnimatedPage';
+import HeaderAction from '@app/app/(modules)/(auth)/components/HeaderAction';
 import { motion } from 'framer-motion';
 
 /** Componente encargado de consultar el usuario con los datos envidados después del login.

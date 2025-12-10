@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { CalendarDays, Users, BarChart3, Sparkles } from 'lucide-react';
 import clsx from 'clsx';
-import Text from '@user/ui/user-feed/Text';
+import Text from '@app/app/(modules)/user/ui/user-feed/Text';
 
 /**
  * Sección de bienvenida introductoria

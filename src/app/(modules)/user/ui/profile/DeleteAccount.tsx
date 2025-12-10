@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import ProfileButtomForm from '@user/components/profile/ProfileButtomForm';
+import ProfileButtomForm from '@app/app/(modules)/user/components/profile/ProfileButtomForm';
 import ConfirmModalDelete from '@app/shared/components/ConfirmModalDelete';
-import { UserMessages } from '@user/constants/user-messages';
+import { UserMessages } from '@app/app/(modules)/user/constants/user-messages';
 
 const DeleteAccount = () => {
     const [confirm, setConfirm] = useState(false);

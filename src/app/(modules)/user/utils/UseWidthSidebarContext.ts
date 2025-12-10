@@ -1,4 +1,4 @@
-import { WidthSidebarContext } from "@user/context/WidthSidebarContext";
+import { WidthSidebarContext } from '@app/app/(modules)/user/context/WidthSidebarContext';
 import { useSafeConext } from "@app/shared/utils/UseContextUtils";
 
 /**

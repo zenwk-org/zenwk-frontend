@@ -1,4 +1,4 @@
-import { SexOptionsContext } from "@user/context/SexOptionsContext";
+import { SexOptionsContext } from '@app/app/(modules)/user/context/SexOptionsContext';
 import { useSafeConext } from "@app/shared/utils/UseContextUtils";
 /**
  * Exporta el contexto para RegisterFlowContext.

@@ -1,4 +1,4 @@
-import { UserContext } from "@user/context/UserContext";
+import { UserContext } from '@app/app/(modules)/user/context/UserContext';
 import { useSafeConext } from "@app/shared/utils/UseContextUtils";
 
 /**
