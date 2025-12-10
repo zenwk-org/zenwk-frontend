@@ -1,5 +1,5 @@
 import { useSafeConext } from "@app/shared/utils/UseContextUtils";
-import { BackgroundThemeContext } from "@user/context/BackgroundThemeContext";
+import { BackgroundThemeContext } from "../context/BackgroundThemeContext";
 
 /**
  * Se utiliza para obtener el contexto

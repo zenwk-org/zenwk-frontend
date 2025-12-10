@@ -13,7 +13,7 @@ import AnimatedPage from '@auth/components/AnimatedPage';
 import { UserMessages } from '@user/constants/user-messages';
 import { useUserContext } from '@user/utils/UseUserContext';
 import { usePersonContext } from '@user/utils/UsePersonContext';
-import { useBackgroundThemeContext } from '@user/utils/UseBackgroundTheme';
+import { useBackgroundThemeContex
 
 const ProfileConfiguration = () => {
     const [activeSection, setActiveSection] = useState<
