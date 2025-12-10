@@ -1,41 +1,26 @@
-/**
- * Reemplaza imports con alias @auth y @user por rutas relativas reales.
- * Puedes extender el script si deseas más alias.
- */
-
-const path = require("path");
-
-module.exports = function transformer(file, api) {
+export default function transformer(file, api) {
     const j = api.jscodeshift;
     const root = j(file.source);
 
-    const aliasMap = {
-        "@auth/": "@app/app/(modules)/(auth)/",
-        "@user/": "@app/app/(modules)/user/",
-    };
+    root.find(j.ImportDeclaration).forEach((path) => {
+        const value = path.node.source.value;
 
-    root.find(j.ImportDeclaration).forEach((p) => {
-        let value = p.value.source.value;
+        if (typeof value !== "string") return;
 
-        for (const alias of Object.keys(aliasMap)) {
-            if (value.startsWith(alias)) {
-                const newPath = path
-                    .relative(
-                        path.dirname(file.path),
-                        path.join(
-                            process.cwd(),
-                            aliasMap[alias],
-                            value.replace(alias, "")
-                        )
-                    )
-                    .replace(/\\/g, "/");
+        if (value.startsWith("@auth/")) {
+            path.node.source.value = value.replace(
+                "@auth/",
+                "@app/app/(modules)/(auth)/"
+            );
+        }
 
-                p.value.source.value = newPath.startsWith(".")
-                    ? newPath
-                    : "./" + newPath;
-            }
+        if (value.startsWith("@user/")) {
+            path.node.source.value = value.replace(
+                "@user/",
+                "@app/app/(modules)/user/"
+            );
         }
     });
 
-    return root.toSource();
-};
+    return root.toSource({ quote: "single" });
+}
