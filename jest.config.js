@@ -7,7 +7,7 @@ module.exports = {
     coverageDirectory: "coverage",
 
     // Detecta archivos de pruebas correctamente
-    testMatch: ["**/__tests__/**/*.(test|spec).(js|ts|tsx)"],
+    testMatch: ["**/tests/**/*.(test|spec).(js|ts|tsx)"],
 
     // Transformaciones necesarias para TSX/JSX
     transform: {

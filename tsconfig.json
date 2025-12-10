@@ -20,8 +20,8 @@
         ],
         "paths": {
             "@app/*": ["./src/*"],
-            "@auth/*": ["./src/app/(modules)/(auth)/*"],
-            "@user/*": ["./src/app/(modules)/user/*"]
+            "@auth/*": ["src/app/(auth)/*"],
+            "@user/*": ["src/app/(dashboard)/user/*"]
         }
     },
     "include": [
