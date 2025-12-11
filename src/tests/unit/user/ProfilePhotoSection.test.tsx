@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ProfilePhotoSection from '@app/app/(dashboard)/user/ui/profile/ProfilePhotoSection';
-import { UserMessages } from '@app/app/(dashboard)/user/constants/user-messages';
+import ProfilePhotoSection from '@app/components/modules/user/profile/ProfilePhotoSection';
+import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
 
 // MOCKS necesarios
 jest.mock('@user/utils/ImageConvertUtils', () => ({

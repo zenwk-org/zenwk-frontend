@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import SelectGeneral from '@app/app/(dashboard)/user/ui/inputs/SelectGeneral';
+import SelectGeneral from '@app/components/ui/inputs/SelectGeneral';
 
 // Mock hook responsivo
 jest.mock('@app/shared/hooks/useResponsiveTextAndDimensions', () => ({

@@ -1,9 +1,9 @@
 import {
     backendToImageUrl,
     compressImage,
-} from "@app/app/(dashboard)/user/utils/ImageConvertUtils";
+} from "@app/lib/modules/user/utils/imageConvertUtils";
 
-import { UserMessages } from "@app/app/(dashboard)/user/constants/user-messages";
+import { UserMessages } from "@app/lib/modules/user/constants/user-messages";
 
 // ------------------------------
 // Utils

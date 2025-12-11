@@ -1,6 +1,6 @@
 'use client';
 
-import { useUserContext } from '@app/app/(dashboard)/user/utils/UseUserContext';
+import { useUserContext } from '@app/hooks/modules/user/useUserContext';
 import { useRef, useEffect, useState } from 'react';
 import { useLoadUser } from '@app/shared/hooks/useLoadUser';
 import { motion } from 'framer-motion';
@@ -8,13 +8,13 @@ import { useRouter } from 'next/navigation';
 
 import Footer from '@app/shared/ui/Footer';
 import Header from '@app/shared/ui/Header';
-import ProfileMenu from '@app/app/(dashboard)/user/components/header/ProfileMenu';
-import UserProfilePhoto from '@app/app/(dashboard)/user/components/general/UserProfilePhoto';
+import ProfileMenu from '@app/components/modules/user/header/ProfileMenu';
+import UserProfilePhoto from '@app/components/modules/user/general/UserProfilePhoto';
 import Tooltip from '@app/shared/ui/Tooltip';
 import WelcomeSection from '@app/shared/components/WelcomeSection';
 import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import HeaderAction from '@app/app/(auth)/components/HeaderAction';
-import LotusIcon from '@app/app/(dashboard)/user/components/icons/LotusIcon';
+import HeaderAction from '@app/components/modules/auth/commons/HeaderAction';
+import LotusIcon from '@app/components/ui/icons/LotusIcon';
 
 /**
  * Página de inicio (landing principal de ZenWK)

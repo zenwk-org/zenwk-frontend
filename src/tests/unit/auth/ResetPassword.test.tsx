@@ -1,9 +1,9 @@
 import React from 'react'; // ⚠️ Import obligatorio para JSX
 import { render, screen, act } from '@testing-library/react';
-import SetChangePassword from '@app/app/(auth)/(pages)/login/reset-password/ResetPassword';
+import SetChangePassword from '@app/components/modules/auth/forms/ResetPasswordForm';
 import { useRouter } from 'next/navigation';
-import { fetchJwtBaseApi } from '@app/helpers/fetch-api';
-import SetPasswordUser from '@app/app/(auth)/components/SetPasswordUser';
+import { fetchJwtBaseApi } from '@app/lib/shared/utils/fetchApi';
+import SetPasswordUser from '@app/components/modules/auth/commons/SetPasswordUser';
 
 // Mock de Next Navigation
 jest.mock('next/navigation', () => ({

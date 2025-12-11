@@ -1,10 +1,13 @@
 import React from 'react'; // ⚠️ Necesario para JSX
 import { render, screen, act } from '@testing-library/react';
-import SetPasswordRegister from '@app/app/(auth)/(pages)/register/set-password/SetPassword';
+import SetPasswordRegister from '@app/components/modules/auth/forms/SetPasswordForm';
 import { useRouter } from 'next/navigation';
-import SetPasswordUser from '@app/app/(auth)/components/SetPasswordUser';
-import { fetchJwtBaseApi, fetchTokenCrsfApi } from '@app/helpers/fetch-api';
-import { loginApi } from '@app/app/(auth)/utils/authUtils';
+import SetPasswordUser from '@app/components/modules/auth/commons/SetPasswordUser';
+import {
+    fetchJwtBaseApi,
+    fetchTokenCrsfApi,
+} from '@app/lib/shared/utils/fetchApi';
+import { loginApi } from '@app/lib/modules/auth/utils/authUtils';
 
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn(),

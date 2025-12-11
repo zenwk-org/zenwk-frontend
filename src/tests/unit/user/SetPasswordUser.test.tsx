@@ -7,9 +7,9 @@ import {
     act,
 } from '@testing-library/react';
 
-import SetPasswordUser from '@app/app/(auth)/components/SetPasswordUser';
+import SetPasswordUser from '@app/components/modules/auth/commons/SetPasswordUser';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { isClientErrorMessage } from '@app/helpers/fetch-api';
+import { isClientErrorMessage } from '@app/lib/shared/utils/fetchApi';
 
 // -------------------------
 // Mocks base

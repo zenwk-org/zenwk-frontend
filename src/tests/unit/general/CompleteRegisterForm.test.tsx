@@ -1,15 +1,15 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import CompleteRegisterForm from '@app/app/(dashboard)/user/ui/forms/CompleteRegisterForm';
+import CompleteRegisterForm from '@app/components/ui/forms/CompleteRegisterForm';
 
 // Importaciones de módulos (la clave para usar spyOn)
-import * as personUtils from '@app/app/(dashboard)/user/utils/personUtils';
-import * as fetchApi from '@app/helpers/fetch-api';
+import * as personUtils from '@app/lib/modules/user/utils/personUtils';
+import * as fetchApi from '@app/lib/shared/utils/fetchApi';
 
 // Módulos de Contexto: Usamos import * as para espiarlos (spyOn)
 import * as useSexContext from '@app/shared/utils/UseSexOptionsContext';
-import * as usePersonContext from '@app/app/(dashboard)/user/utils/UsePersonContext';
-import * as useUserContext from '@app/app/(dashboard)/user/utils/UseUserContext';
+import * as usePersonContext from '@app/hooks/modules/user/UsePersonContexu';
+import * as useUserContext from '@app/hooks/modules/user/useUserContext';
 
 // -----------------------------------------------------
 // MOCKS ESTATICO (Funciona en CI)

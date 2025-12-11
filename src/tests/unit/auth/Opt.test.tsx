@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import Opt from '@app/app/(auth)/(pages)/register/opt/Opt';
+import Opt from '@app/components/modules/auth/forms/OptForm';
 import {
     fetchValidateTokenApi,
     fetchTokenApi,
     ClientError,
-} from '@app/helpers/fetch-api';
+} from '@app/lib/shared/utils/fetchApi';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 // Mocks de constantes

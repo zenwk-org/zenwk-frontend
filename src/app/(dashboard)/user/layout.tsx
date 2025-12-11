@@ -6,8 +6,8 @@ import Footer from '@app/app/(dashboard)/user/ui/user-feed/Footer';
 import HeaderMenu from '@app/app/(dashboard)/user/ui/user-feed/HeaderMenu';
 import Sidebar from '@app/app/(dashboard)/user/ui/user-feed/Sidebar';
 import Spinner from '@app/shared/ui/Spinner';
-import SexOptionsContextProvider from '@app/app/(dashboard)/user/context/SexOptionsContext';
-import BackgroundThemeContextProvider from './context/BackgroundThemeContext';
+import SexOptionsContextProvider from '@app/lib/providers/user/SexOptionsContext';
+import BackgroundThemeContextProvider from '../../../lib/providers/theme/BackgroundThemeContext';
 
 export default function UserLayout({
     children,

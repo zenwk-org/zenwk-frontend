@@ -2,7 +2,7 @@ import { RegisterOptions } from "react-hook-form";
 import {
     isApiFieldErrorArray,
     isClientErrorMessage,
-} from "@app/helpers/fetch-api";
+} from "@app/lib/shared/utils/fetchApi";
 
 /**
  * Define y retorna un conjunto de validaciones comunes para formularios de autenticación,

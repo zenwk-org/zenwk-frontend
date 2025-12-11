@@ -11,14 +11,14 @@ import {
 } from '@testing-library/react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
-import ForgotPassword from '@app/app/(auth)/(pages)/login/forgot-password/ForgotPassword';
+import ForgotPassword from '@app/components/modules/auth/forms/ForgotPasswordForm';
 
 import {
     fetchVerifcation,
     fetchValidateRegisterEmail,
     isClientErrorMessage,
-} from '@app/helpers/fetch-api';
-import { AuthMessages } from '@app/app/(auth)/constants/auth-messages';
+} from '@app/lib/shared/utils/fetchApi';
+import { AuthMessages } from '@app/lib/modules/auth/constants/auth-messages';
 
 // -------------------------
 // Mocks base

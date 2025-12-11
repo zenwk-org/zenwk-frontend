@@ -2,8 +2,8 @@ import {
     loginApi,
     refreshAuthJwt,
     politiciesPassword,
-} from "@app/app/(auth)/utils/authUtils";
-import { fetchJwtBaseApi } from "@app/helpers/fetch-api";
+} from "@app/lib/modules/auth/utils/authUtils";
+import { fetchJwtBaseApi } from "@app/lib/shared/utils/fetchApi";
 
 jest.mock("@app/helpers/fetch-api");
 const mockedFetch = fetchJwtBaseApi as jest.MockedFunction<

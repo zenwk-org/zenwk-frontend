@@ -6,12 +6,12 @@ import {
     waitFor,
     act,
 } from '@testing-library/react';
-import Register from '@app/app/(auth)/(pages)/register/Register';
+import Register from '@app/components/modules/auth/forms/RegisterForm';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
     fetchTokenApi,
     fetchValidateRegisterEmail,
-} from '@app/helpers/fetch-api';
+} from '@app/lib/shared/utils/fetchApi';
 import { formValidate } from '@app/shared/utils/formValidate';
 
 jest.mock('next/navigation', () => ({

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { UserMessages } from '@app/app/(dashboard)/user/constants/user-messages';
+import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import CompleteRegisterFormFields, {
     FormValues,
-} from '@app/app/(dashboard)/user/components/forms/CompleteRegisterFormFields';
+} from '@app/components/modules/user/forms/CompleteRegisterFormFields';
 import { useForm } from 'react-hook-form';
 
 /* ---------------- MOCKS ---------------- */
