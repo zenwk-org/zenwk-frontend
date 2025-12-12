@@ -1,4 +1,4 @@
-import { fetchJwtBaseApi } from "@app/lib/shared/utils/fetchApi";
+import { fetchJwtBaseApi } from "@/lib/shared/utils/fetchApi";
 
 /**
  * Realiza el login contra la API de autenticación.

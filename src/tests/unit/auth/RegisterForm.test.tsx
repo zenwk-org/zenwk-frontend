@@ -6,13 +6,13 @@ import {
     waitFor,
     act,
 } from '@testing-library/react';
-import Register from '@app/components/modules/auth/forms/RegisterForm';
+import RegisterForm from '@/components/modules/auth/forms/RegisterForm';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
     fetchTokenApi,
     fetchValidateRegisterEmail,
-} from '@app/lib/shared/utils/fetchApi';
-import { formValidate } from '@app/shared/utils/formValidate';
+} from '@/lib/shared/utils/fetchApi';
+import { formValidate } from '@lib/shared/utils/formValidate';
 
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn(),
@@ -56,7 +56,7 @@ describe('Register Component', () => {
 
     it('renderiza correctamente sin email ni fromHome', () => {
         mockedUseSearchParams.mockReturnValue({ get: () => null });
-        render(<Register />);
+        render(<RegisterForm />);
 
         // Buscar cualquier nodo que contenga "Empieza a usar ZenWk"
         const header = screen.getAllByText(/empieza a usar zenwk/i)[0];
@@ -72,7 +72,7 @@ describe('Register Component', () => {
         mockedUseSearchParams.mockReturnValue({
             get: (key: string) => (key === 'fromHome' ? '1' : null),
         });
-        render(<Register />);
+        render(<RegisterForm />);
         const backButton = screen.getByTestId('HomeIcon').closest('button');
         fireEvent.click(backButton!);
         expect(mockedRouterPush).toHaveBeenCalledWith('/');
@@ -82,7 +82,7 @@ describe('Register Component', () => {
         mockedUseSearchParams.mockReturnValue({
             get: (key: string) => (key === 'email' ? 'test@example.com' : null),
         });
-        render(<Register />);
+        render(<RegisterForm />);
         const backButton = screen
             .getByTestId('ArrowBackIcon')
             .closest('button');
@@ -102,7 +102,7 @@ describe('Register Component', () => {
             uuid: 'uuid123',
         });
 
-        render(<Register />);
+        render(<RegisterForm />);
         const input =
             await screen.findByPlaceholderText(/name@your-email.com/i);
         const form = input.closest('form') as HTMLFormElement;
@@ -136,7 +136,7 @@ describe('Register Component', () => {
             uuid: 'uuid123',
         });
 
-        render(<Register />);
+        render(<RegisterForm />);
         const input =
             await screen.findByPlaceholderText(/name@your-email.com/i);
         const form = input.closest('form') as HTMLFormElement;
@@ -166,7 +166,7 @@ describe('Register Component', () => {
         });
         mockedFetchValidateEmail.mockRejectedValue('Error test');
 
-        render(<Register />);
+        render(<RegisterForm />);
         const input =
             await screen.findByPlaceholderText(/name@your-email.com/i);
         const form = input.closest('form') as HTMLFormElement;
@@ -189,7 +189,7 @@ describe('Register Component', () => {
         });
         mockedFetchValidateEmail.mockResolvedValue(true); // Email existe
 
-        render(<Register />);
+        render(<RegisterForm />);
         const input =
             await screen.findByPlaceholderText(/name@your-email.com/i);
         const form = input.closest('form') as HTMLFormElement;
@@ -222,7 +222,7 @@ describe('Register Component', () => {
     // Test para cubrir handleOnBack sin fromHome ni email
     it('handleOnBack redirige a /login si no hay fromHome ni email', () => {
         mockedUseSearchParams.mockReturnValue({ get: () => null });
-        render(<Register />);
+        render(<RegisterForm />);
         const backButton = screen
             .getByTestId('ArrowBackIcon')
             .closest('button');

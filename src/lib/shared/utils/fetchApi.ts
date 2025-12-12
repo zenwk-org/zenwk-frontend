@@ -1,5 +1,5 @@
-import { getTokenUrl, getBaseUrl } from "./api-helper";
-import { BackendErrorResponse } from "@app/shared/interfaces/auth";
+import { getTokenUrl, getBaseUrl } from "@/lib/shared/utils/apiHelper";
+import { BackendErrorResponse } from "@/lib/shared/interfaces/auth";
 import qs from "qs";
 
 /**

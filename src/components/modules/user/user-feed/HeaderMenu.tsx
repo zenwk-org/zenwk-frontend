@@ -1,13 +1,13 @@
 'use client';
 import { useRef } from 'react';
-import { usePersonContext } from '@app/hooks/modules/user/UsePersonContexu';
-import { useUserContext } from '@app/hooks/modules/user/useUserContext';
+import { usePersonContext } from '@/hooks/modules/user/usePersonContext';
+import { useUserContext } from '@/hooks/modules/user/useUserContext';
 import { motion } from 'framer-motion';
 
 import Link from 'next/link';
-import UserProfilePhoto from '@app/components/modules/user/general/UserProfilePhoto';
-import LogoZenwk from '@app/components/modules/user/header/LogoZenwk';
-import ProfileMenu from '@app/components/modules/user/header/ProfileMenu';
+import UserProfilePhoto from '@/components/modules/user/general/UserProfilePhoto';
+import LogoZenwk from '@/components/modules/user/header/LogoZenwk';
+import ProfileMenu from '@/components/modules/user/header/ProfileMenu';
 
 const userMenuItems = [
     { label: 'Dashboard', href: '#' },

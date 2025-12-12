@@ -2,18 +2,18 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-import Spinner from '@app/shared/ui/Spinner';
-import Title from '@app/app/(dashboard)/user/ui/user-feed/Title';
-import ProfileItemConfiguration from '@app/components/modules/user/profile/ProfileItemConfiguration';
-import PersonalInfoSection from '@app/components/modules/user/profile/PersonalInfoSection';
-import ProfilePhotoSection from '@app/components/modules/user/profile/ProfilePhotoSection';
-import ProfileItemHeader from '@app/components/modules/user/profile/ProfileItemHeader';
-import AnimatedPage from '@app/components/modules/auth/commons/AnimatedPage';
+import Spinner from '@/components/shared/ui/Spinner';
+import Title from '@/components/modules/user/user-feed/Title';
+import ProfileItemConfiguration from '@/components/modules/user/profile/ProfileItemConfiguration';
+import PersonalInfoSection from '@/components/modules/user/profile/PersonalInfoSection';
+import ProfilePhotoSection from '@/components/modules/user/profile/ProfilePhotoSection';
+import ProfileItemHeader from '@/components/modules/user/profile/ProfileItemHeader';
+import AnimatedPage from '@/components/modules/auth/common/AnimatedPage';
 
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
-import { useUserContext } from '@app/hooks/modules/user/useUserContext';
-import { usePersonContext } from '@app/hooks/modules/user/UsePersonContexu';
-import { useBackgroundThemeContext } from '../../utils/useBackgroundTheme';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
+import { useUserContext } from '@/hooks/modules/user/useUserContext';
+import { usePersonContext } from '@/hooks/modules/user/usePersonContext';
+import { useBackgroundThemeContext } from '@/hooks/modules/user/useBackgroundTheme';
 
 const ProfileConfiguration = () => {
     const [activeSection, setActiveSection] = useState<

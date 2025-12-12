@@ -2,7 +2,7 @@ import React from 'react';
 import { ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import clsx from 'clsx';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
+import Text from '@/components/shared/common/Text';
 
 // Define la interfaz de props esperadas por el componente ButtonOpen
 interface Props {

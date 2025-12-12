@@ -2,31 +2,30 @@
 
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { formValidate } from '@app/shared/utils/formValidate';
+import { formValidate } from '@/lib/shared/utils/formValidate';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { AuthMessages } from '@app/lib/modules/auth/constants/auth-messages';
-import { Messages } from '@app/shared/constants/messages';
-import { CommonsErros } from '@app/shared/constants/commons-erros';
+import { AuthMessages } from '@/lib/modules/auth/constants/auth-messages';
+import { Messages } from '@/lib/shared/constants/messages';
+import { CommonsErros } from '@/lib/shared/constants/common-errors';
 import {
     fetchValidateRegisterEmail,
     getUrlServer,
     fetchVerifcation,
     isClientErrorMessage,
-} from '@app/lib/shared/utils/fetchApi';
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
+} from '@/lib/shared/utils/fetchApi';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 
-import FormError from '@app/shared/ui/FormError';
+import FormError from '@/components/shared/ui/FormError';
 import Link from 'next/link';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import GeneralPageInfo from '@app/shared/ui/GeneralPageInfo';
-import LoadButton from '@app/components/modules/auth/commons/LoadButton';
-import Spinner from '@app/shared/ui/Spinner';
-
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import InputText from '@app/components/ui/inputs/InputText';
-import HeaderAction from '@app/components/modules/auth/commons/HeaderAction';
-import AnimatedPage from '@app/components/modules/auth/commons/AnimatedPage';
-import AlertInfo from '@app/shared/components/AlertInfo';
+import GeneralPageInfo from '@/components/shared/ui/GeneralPageInfo';
+import LoadButton from '@/components/modules/auth/common/LoadButton';
+import Spinner from '@/components/shared/ui/Spinner';
+import Text from '@/components/shared/common/Text';
+import InputText from '@/components/ui/inputs/InputText';
+import HeaderAction from '@/components/modules/auth/common/HeaderAction';
+import AnimatedPage from '@/components/modules/auth/common/AnimatedPage';
+import AlertInfo from '@/components/shared/common/AlertInfo';
 
 /**
  * Sonar. Manejo de error custom

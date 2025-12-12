@@ -1,5 +1,5 @@
-import { UserDTO } from '../../types/user-dto';
-import { mergeRefs } from '../../../../lib/modules/user/utils/utilsRef';
+import { UserDTO } from '@/lib/modules/user/types/user-dto';
+import { mergeRefs } from '@/lib/modules/user/utils/utilsRef';
 import { useRouter } from 'next/navigation';
 import { ChevronDown } from 'lucide-react';
 

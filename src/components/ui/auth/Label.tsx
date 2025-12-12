@@ -1,4 +1,4 @@
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
+import Text from '@/components/shared/common/Text';
 
 /**
  * Componente Label

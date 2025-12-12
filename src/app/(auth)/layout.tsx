@@ -1,6 +1,6 @@
 'use client';
-import Footer from '@app/shared/ui/Footer';
-import Header from '@app/shared/ui/Header';
+import Footer from '@/components/shared/ui/Footer';
+import Header from '@/components/shared/ui/Header';
 import { useState, useEffect } from 'react';
 
 /**

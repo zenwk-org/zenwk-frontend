@@ -1,5 +1,5 @@
-import Title from '@app/app/(dashboard)/user/ui/user-feed/Title';
-import ChevronDownIcon from '@app/components/ui/icons/ChevronDownIcon';
+import Title from '@/components/modules/user/user-feed/Title';
+import ChevronDownIcon from '@/components/ui/icons/ChevronDownIcon';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const ConfigButton = ({

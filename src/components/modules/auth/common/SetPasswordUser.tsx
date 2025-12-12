@@ -1,21 +1,21 @@
 'use client';
 
 import { useForm, useWatch } from 'react-hook-form';
-import { SetPassword } from '@app/shared/interfaces/auth';
-import { formValidate } from '@app/shared/utils/formValidate';
-import { AuthMessages } from '@app/lib/modules/auth/constants/auth-messages';
+import { SetPassword } from '@/lib/shared/interfaces/auth';
+import { formValidate } from '@/lib/shared/utils/formValidate';
+import { AuthMessages } from '@/lib/modules/auth/constants/auth-messages';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { isClientErrorMessage } from '@app/lib/shared/utils/fetchApi';
+import { isClientErrorMessage } from '@/lib/shared/utils/fetchApi';
 import React, { useEffect, useState } from 'react';
 
-import FormError from '@app/shared/ui/FormError';
-import InputDisabled from '@app/components/ui/auth/InputDisabled';
-import useRedirectRegister from '@app/app/(auth)/hooks/useRedirectRegister';
-import LoadButton from '@app/components/modules/auth/commons/LoadButton';
-import Spinner from '@app/shared/ui/Spinner';
-import InputText from '@app/components/ui/inputs/InputText';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import AlertInfo from '@app/shared/components/AlertInfo';
+import FormError from '@/components/shared/ui/FormError';
+import InputDisabled from '@/components/ui/auth/InputDisabled';
+import useRedirectRegister from '@/hooks/modules/auth/useRedirectRegister';
+import LoadButton from '@/components/modules/auth/common/LoadButton';
+import Spinner from '@/components/shared/ui/Spinner';
+import InputText from '@/components/ui/inputs/InputText';
+import Text from '@/components/shared/common/Text';
+import AlertInfo from '@/components/shared/common/AlertInfo';
 
 import HeaderAction from './HeaderAction';
 

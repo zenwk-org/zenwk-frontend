@@ -1,5 +1,5 @@
-import { WidthSidebarContext } from "@app/lib/providers/width-sidebar-context";
-import { useSafeConext } from "@app/shared/utils/UseContextUtils";
+import { WidthSidebarContext } from "@/lib/providers/theme/WidthSidebarContext";
+import { useSafeConext } from "@/hooks/shared/useContextUtils";
 
 /**
  * Exporta el contexto  del el ancho del sidebar para

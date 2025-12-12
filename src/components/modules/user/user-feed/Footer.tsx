@@ -1,8 +1,8 @@
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 
 import Link from 'next/link';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import LotusIcon from '@app/components/ui/icons/LotusIcon';
+import Text from '@/components/shared/common/Text';
+import LotusIcon from '@/components/ui/icons/LotusIcon';
 
 /**
  * Componente del footer para layout de usuario autenticado.

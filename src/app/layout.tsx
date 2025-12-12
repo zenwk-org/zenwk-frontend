@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
-import '@app/styles/globals.css';
+import '@/styles/globals.css';
 
-import WidthSidebarContextProvider from '@app/lib/providers/width-sidebar-context';
-import PersonContextProvider from '@app/lib/providers/user/PersonContext';
-import UserContextProvider from '@app/lib/providers/auth/UserContext';
+import WidthSidebarContextProvider from '@/lib/providers/theme/WidthSidebarContext';
+import PersonContextProvider from '@/lib/providers/user/PersonContext';
+import UserContextProvider from '@/lib/providers/auth/UserContext';
 
 /**
  * Configuración de la fuente Roboto. (No se aplica por el momento)

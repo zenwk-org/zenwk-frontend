@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import React from 'react';
 import {
     render,
@@ -11,14 +8,14 @@ import {
 } from '@testing-library/react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
-import ForgotPassword from '@app/components/modules/auth/forms/ForgotPasswordForm';
+import ForgotPasswordForm from '@/components/modules/auth/forms/ForgotPasswordForm';
 
 import {
     fetchVerifcation,
     fetchValidateRegisterEmail,
     isClientErrorMessage,
-} from '@app/lib/shared/utils/fetchApi';
-import { AuthMessages } from '@app/lib/modules/auth/constants/auth-messages';
+} from '@/lib/shared/utils/fetchApi';
+import { AuthMessages } from '@/lib/modules/auth/constants/auth-messages';
 
 // -------------------------
 // Mocks base
@@ -35,7 +32,7 @@ jest.mock('@app/shared/utils/formValidate', () => ({
     })),
 }));
 
-jest.mock('@app/helpers/fetch-api', () => ({
+jest.mock('@/lib/shared/utils/fetchApi', () => ({
     fetchValidateRegisterEmail: jest.fn(),
     getUrlServer: jest.fn(() => 'http://test-server'),
     fetchVerifcation: jest.fn(),
@@ -121,7 +118,7 @@ describe('ForgotPassword Component - FIXED VERSION', () => {
     it('should show spinner or the form title (robust to sync timing)', async () => {
         createMocks();
 
-        const { container } = render(<ForgotPassword />);
+        const { container } = render(<ForgotPasswordForm />);
 
         // El spinner puede aparecer brevemente. Aceptamos cualquiera de los dos estados
         const spinner = container.querySelector(
@@ -141,7 +138,7 @@ describe('ForgotPassword Component - FIXED VERSION', () => {
         const email = 'param@test.com';
         createMocks(email);
 
-        render(<ForgotPassword />);
+        render(<ForgotPasswordForm />);
 
         // Esperamos a que el componente refleje el valor
         const input = await screen.findByPlaceholderText('name@your-email.com');
@@ -154,7 +151,7 @@ describe('ForgotPassword Component - FIXED VERSION', () => {
         const email = 'abc@test.com';
         createMocks(email);
 
-        render(<ForgotPassword />);
+        render(<ForgotPasswordForm />);
 
         // click en header title dispara handleOnBack
         const headerTitle = await screen.findByText(
@@ -171,7 +168,7 @@ describe('ForgotPassword Component - FIXED VERSION', () => {
 
     it('should handle successful submission and show success info screen', async () => {
         createMocks();
-        render(<ForgotPassword />);
+        render(<ForgotPasswordForm />);
 
         const email = 'existing@user.com';
         const input = await screen.findByPlaceholderText('name@your-email.com');
@@ -197,7 +194,7 @@ describe('ForgotPassword Component - FIXED VERSION', () => {
         createMocks();
         (fetchValidateRegisterEmail as jest.Mock).mockResolvedValue(false);
 
-        render(<ForgotPassword />);
+        render(<ForgotPasswordForm />);
 
         const input = await screen.findByPlaceholderText('name@your-email.com');
 
@@ -232,7 +229,7 @@ describe('ForgotPassword Component - FIXED VERSION', () => {
     // --- Validaciones ---
     it('should show required error when email empty', async () => {
         createMocks();
-        render(<ForgotPassword />);
+        render(<ForgotPasswordForm />);
 
         const input = await screen.findByPlaceholderText('name@your-email.com');
 
@@ -250,7 +247,7 @@ describe('ForgotPassword Component - FIXED VERSION', () => {
 
     it('should show pattern error on invalid email', async () => {
         createMocks();
-        render(<ForgotPassword />);
+        render(<ForgotPasswordForm />);
 
         const input = await screen.findByPlaceholderText('name@your-email.com');
 
@@ -277,7 +274,7 @@ describe('ForgotPassword Component - FIXED VERSION', () => {
             >;
         mockedIsClientErrorMessage.mockReturnValue(true);
 
-        render(<ForgotPassword />);
+        render(<ForgotPasswordForm />);
 
         const input = await screen.findByPlaceholderText('name@your-email.com');
 

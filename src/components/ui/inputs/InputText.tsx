@@ -1,14 +1,14 @@
 import clsx from 'clsx';
 
 import React, { forwardRef } from 'react';
-import { TEXT_ROSA_COLOR } from '@app/styles/constans-color';
+import { TEXT_ROSA_COLOR } from '@/styles/constans-color';
 import { Eye, EyeOff } from 'lucide-react';
-import { AuthMessages } from '@app/lib/modules/auth/constants/auth-messages';
-import { usePasswordToggle } from '@app/shared/hooks/usePasswordToggle';
-import { useResponsiveStyle } from '@app/shared/hooks/useResponsiveTextAndDimensions';
+import { AuthMessages } from '@/lib/modules/auth/constants/auth-messages';
+import { usePasswordToggle } from '@/hooks/shared/usePasswordToggle';
+import { useResponsiveStyle } from '@/hooks/shared/useResponsiveTextAndDimensions';
 
-import Text from '../user-feed/Text';
-import Tooltip from '@app/shared/ui/Tooltip';
+import Text from '@/components/shared/common/Text';
+import Tooltip from '@/components/shared/ui/Tooltip';
 export const COLOR_EDIT_PERSON = '#F3D068';
 export const COLOR_FOCUS_EDIT_PERSON = '#A6B3FD';
 

@@ -1,13 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { useLoadUser } from '@app/shared/hooks/useLoadUser';
-
-import Footer from '@app/app/(dashboard)/user/ui/user-feed/Footer';
-import HeaderMenu from '@app/app/(dashboard)/user/ui/user-feed/HeaderMenu';
-import Sidebar from '@app/app/(dashboard)/user/ui/user-feed/Sidebar';
-import Spinner from '@app/shared/ui/Spinner';
-import SexOptionsContextProvider from '@app/lib/providers/user/SexOptionsContext';
-import BackgroundThemeContextProvider from '../../../lib/providers/theme/BackgroundThemeContext';
+import { useLoadUser } from '@/hooks/shared/useLoadUser';
+import Footer from '@/components/modules/user/user-feed/Footer';
+import HeaderMenu from '@/components/modules/user/user-feed/HeaderMenu';
+import Sidebar from '@/components/modules/user/user-feed/Sidebar';
+import Spinner from '@/components/shared/ui/Spinner';
+import GenderOptionsContextProvider from '@/lib/providers/user/GenderOptionsContext';
+import BackgroundThemeContextProvider from '@/lib/providers/theme/BackgroundThemeContext';
 
 export default function UserLayout({
     children,
@@ -37,7 +36,7 @@ export default function UserLayout({
 
     return (
         <BackgroundThemeContextProvider>
-            <SexOptionsContextProvider>
+            <GenderOptionsContextProvider>
                 <div className="flex min-h-screen w-full flex-col bg-transparent">
                     <header className="sticky top-0 z-50 bg-blue-100/60 shadow-sm shadow-blue-100/80 backdrop-blur-xs">
                         <HeaderMenu />
@@ -59,7 +58,7 @@ export default function UserLayout({
 
                     <Footer />
                 </div>
-            </SexOptionsContextProvider>
+            </GenderOptionsContextProvider>
         </BackgroundThemeContextProvider>
     );
 }

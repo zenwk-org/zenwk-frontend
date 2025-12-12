@@ -7,18 +7,18 @@ import {
     useEffect,
     useMemo,
 } from 'react';
-import { Option } from '@app/components/ui/inputs/SelectGeneral';
-import { loadSexLabels } from '@app/shared/utils/optionsSexUtils';
-import { LOCAL_STORAGE_SEX_OPTIONS } from '@app/shared/constants/common-constants';
+import { Option } from '@/components/ui/inputs/SelectGeneral';
+import { loadSexLabels } from '@/lib/shared/utils/genderOptionsUtils';
+import { LOCAL_STORAGE_SEX_OPTIONS } from '@/lib/shared/constants/common-constants';
 
-interface SexOptionsContextType {
+interface GenderOptionsContextType {
     optionsSex: Option[];
     setOptionsSex: Dispatch<SetStateAction<Option[]>>;
 }
 
 // Registro del contexto
-export const SexOptionsContext = createContext<
-    SexOptionsContextType | undefined
+export const GenderOptionsContext = createContext<
+    GenderOptionsContextType | undefined
 >(undefined);
 
 /**
@@ -55,9 +55,9 @@ const GenderOptionsContextProvider = ({
     }, []);
 
     return (
-        <SexOptionsContext.Provider value={value}>
+        <GenderOptionsContext.Provider value={value}>
             {children}
-        </SexOptionsContext.Provider>
+        </GenderOptionsContext.Provider>
     );
 };
 

@@ -3,27 +3,27 @@ import OtpInput from 'react-otp-input';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import FormError from '@app/shared/ui/FormError';
+import FormError from '@/components/shared/ui/FormError';
 
 import {
     fetchValidateTokenApi,
     fetchTokenApi,
     ClientError,
     isClientErrorMessage,
-} from '@app/lib/shared/utils/fetchApi';
+} from '@/lib/shared/utils/fetchApi';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { AuthErrors } from '@app/lib/modules/auth/constants/auth-errors';
-import { AuthMessages } from '@app/lib/modules/auth/constants/auth-messages';
-import { Messages } from '@app/shared/constants/messages';
-import OpenMailbox from '@app/components/modules/auth/commons/OpenMailbox';
-import { LineLoader } from '@app/components/modules/user/profile/ProfileItemHeader';
+import { AuthErrors } from '@/lib/modules/auth/constants/auth-errors';
+import { AuthMessages } from '@/lib/modules/auth/constants/auth-messages';
+import { Messages } from '@/lib/shared/constants/messages';
+import OpenMailbox from '@/components/modules/auth/common/OpenMailbox';
+import { LineLoader } from '@/components/modules/user/profile/ProfileItemHeader';
 
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import HeaderAction from '@app/components/modules/auth/commons/HeaderAction';
-import AnimatedPage from '@app/components/modules/auth/commons/AnimatedPage';
-import AlertInfo from '@app/shared/components/AlertInfo';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
+import Text from '@/components/shared/common/Text';
+import HeaderAction from '@/components/modules/auth/common/HeaderAction';
+import AnimatedPage from '@/components/modules/auth/common/AnimatedPage';
+import AlertInfo from '@/components/shared/common/AlertInfo';
 
 /**
  * Estilos CSS inline para el código OPT.

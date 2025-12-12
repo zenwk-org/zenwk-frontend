@@ -1,5 +1,4 @@
-import { UserMessages } from "@app/lib/modules/user/constants/user-messages";
-
+import { UserMessages } from "@/lib/modules/user/constants/user-messages";
 /**
  *  Convierte un arrayBuffer/base64 recibido del backend en un objeto URL usable por <img>
  * @param data

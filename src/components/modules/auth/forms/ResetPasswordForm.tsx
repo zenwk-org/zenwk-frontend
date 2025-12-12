@@ -1,11 +1,11 @@
 'use client';
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { fetchJwtBaseApi } from '@app/lib/shared/utils/fetchApi';
-import { AuthMessages } from '@app/lib/modules/auth/constants/auth-messages';
+import { fetchJwtBaseApi } from '@/lib/shared/utils/fetchApi';
+import { AuthMessages } from '@/lib/modules/auth/constants/auth-messages';
 
-import SetPasswordUser from '@app/components/modules/auth/commons/SetPasswordUser';
-import AnimatedPage from '@app/components/modules/auth/commons/AnimatedPage';
+import SetPasswordUser from '@/components/modules/auth/common/SetPasswordUser';
+import AnimatedPage from '@/components/modules/auth/common/AnimatedPage';
 
 /**
  * Componente para el formulario de reingreso de contraseña en el registro del usuario.

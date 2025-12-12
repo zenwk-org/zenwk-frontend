@@ -9,9 +9,9 @@ import {
     ERROR_COLOR,
     BASE_TEXT_COLOR,
     BOLD_ERROR_COLOR,
-} from '@app/styles/constans-color';
-import { useResponsiveStyle } from '@app/shared/hooks/useResponsiveTextAndDimensions';
-import Text from '../user-feed/Text';
+} from '@/styles/constans-color';
+import { useResponsiveStyle } from '@/hooks/shared/useResponsiveTextAndDimensions';
+import Text from '@/components/shared/common/Text';
 import clsx from 'clsx';
 
 export const COLOR_EDIT_PERSON = '#F3D068';

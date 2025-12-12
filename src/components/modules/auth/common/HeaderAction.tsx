@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import Tooltip from '@app/shared/ui/Tooltip';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
+import Tooltip from '@/components/shared/ui/Tooltip';
+import Text from '@/components/shared/common/Text';
 import clsx from 'clsx';
 
 interface HeaderActionProps {

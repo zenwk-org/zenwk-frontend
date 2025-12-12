@@ -1,5 +1,5 @@
 import React from 'react';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
+import Text from '@/components/shared/common/Text';
 import { BarLoader } from 'react-spinners';
 
 /**

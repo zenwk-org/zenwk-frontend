@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Title from '@app/components/ui/auth/Title';
+import Title from '@/components/ui/auth/Title';
 
 import { useRouter } from 'next/navigation';
 

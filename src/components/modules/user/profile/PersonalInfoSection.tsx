@@ -2,16 +2,16 @@
 
 import { useState, Dispatch, SetStateAction } from 'react';
 
-import { useSexOptionsContext } from '@app/shared/utils/UseSexOptionsContext';
-import { getLabelById } from '@app/shared/utils/optionsSexUtils';
+import { useGenderOptionsContext } from '@/hooks/modules/user/useGenderOptionsContext';
+import { getLabelById } from '@/lib/shared/utils/genderOptionsUtils';
 import { NotebookPen } from 'lucide-react';
-import { usePersonContext } from '@app/hooks/modules/user/UsePersonContexu';
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
+import { usePersonContext } from '@/hooks/modules/user/usePersonContext';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import CompleteRegisterForm from '@app/components/ui/forms/CompleteRegisterForm';
-import ProfileBotonForm from '@app/components/modules/user/profile/ProfileButtonForm';
-import Spinner from '@app/shared/ui/Spinner';
+import Text from '@/components/shared/common/Text';
+import CompleteRegisterForm from '@/components/ui/forms/CompleteRegisterForm';
+import ProfileButtonForm from '@components/modules/user/profile/ProfileButtonForm';
+import Spinner from '@/components/shared/ui/Spinner';
 
 interface FormValues {
     firstName: string;
@@ -32,7 +32,7 @@ const PersonalInfoSection = ({
     loadingLineClick?: () => Promise<void>;
     setLineLoading?: Dispatch<SetStateAction<boolean>>;
 }) => {
-    const { optionsSex } = useSexOptionsContext();
+    const { optionsSex } = useGenderOptionsContext();
     const [editDataBasic, setEditDataBasic] = useState(false);
     const { person } = usePersonContext();
 
@@ -164,7 +164,7 @@ const PersonalInfoSection = ({
                                 loadingLineClick?.();
                             }}
                         >
-                            <ProfileBotonForm
+                            <ProfileButtonForm
                                 icon={
                                     <NotebookPen
                                         size={22}

@@ -1,10 +1,10 @@
 import { forwardRef } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { AuthMessages } from '@app/lib/modules/auth/constants/auth-messages';
-import { usePasswordToggle } from '@app/shared/hooks/usePasswordToggle';
+import { AuthMessages } from '@/lib/modules/auth/constants/auth-messages';
+import { usePasswordToggle } from '@/hooks/shared//usePasswordToggle';
 
-import Tooltip from '@app/shared/ui/Tooltip';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
+import Tooltip from '@/components/shared/ui/Tooltip';
+import Text from '@/components/shared/common/Text';
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     label: string;

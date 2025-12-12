@@ -1,15 +1,14 @@
 'use client';
 
 import { CircleUser, Cog, CircleX } from 'lucide-react';
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 import { RingLoader } from 'react-spinners';
-import { useLogout } from '@app/shared/hooks/useLogout';
-import { UserDTO } from '@app/app/(dashboard)/user/types/user-dto';
-import { UserStateEnum } from '@app/app/(dashboard)/user/types/user-dto';
+import { useLogout } from '@/hooks/shared/useLogout';
+import { UserDTO, UserStateEnum } from '@/lib/modules/user/types/user-dto';
 import React, { useState } from 'react';
 
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import UserProfilePhoto from '@app/components/modules/user/general/UserProfilePhoto';
+import Text from '@/components/shared/common/Text';
+import UserProfilePhoto from '@/components/modules/user/general/UserProfilePhoto';
 import Link from 'next/link';
 
 import clsx from 'clsx';

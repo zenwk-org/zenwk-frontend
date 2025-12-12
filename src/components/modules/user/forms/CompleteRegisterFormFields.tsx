@@ -1,15 +1,15 @@
 import { Controller, UseFormReturn } from 'react-hook-form';
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
-import { ageGenerator } from '@app/shared/utils/userUtils';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
+import { ageGenerator } from '@/lib/shared/utils/userUtils';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { formValidateUser } from '@app/lib/modules/user/utils/formValidateUser';
-import SelectGeneral, { Option } from '@app/components/ui/inputs/SelectGeneral';
-import InputText from '@app/components/ui/inputs/InputText';
-import FormErrorUser from '@app/components/ui/forms/FormErrorUser';
-import ProfileButtomForm from '@app/components/modules/user/profile/ProfileButtonForm';
-import LoadButton from '@app/components/modules/auth/commons/LoadButton';
+import { formValidateUser } from '@/lib/modules/user/utils/formValidateUser';
+import SelectGeneral, { Option } from '@/components/ui/inputs/SelectGeneral';
+import InputText from '@/components/ui/inputs/InputText';
+import FormErrorUser from '@/components/ui/forms/FormErrorUser';
+import ProfileButtomForm from '@/components/modules/user/profile/ProfileButtonForm';
+import LoadButton from '@/components/modules/auth/common/LoadButton';
 import clsx from 'clsx';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
+import Text from '@/components/shared/common/Text';
 
 export interface FormValues {
     firstName: string;

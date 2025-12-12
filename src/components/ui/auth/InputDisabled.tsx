@@ -1,5 +1,5 @@
 import { MailCheck } from 'lucide-react';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
+import Text from '@/components/shared/common/Text';
 
 interface Props {
     /** Texto que se mostrará en el campo deshabilitado */

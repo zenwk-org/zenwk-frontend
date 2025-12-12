@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { fetchJwtBaseApi } from "@app/lib/shared/utils/fetchApi";
-import { useUserContext } from "@app/app/(dashboard)/user/utils/UseUserContext";
-import { usePersonContext } from "@app/app/(dashboard)/user/utils/UsePersonContext";
+import { fetchJwtBaseApi } from "@/lib/shared/utils/fetchApi";
+import { useUserContext } from "@/hooks/modules/user/useUserContext";
+import { usePersonContext } from "@/hooks/modules/user/usePersonContext";
 
 /**
  * Hook que encapsula la lógica de cierre de sesión del usuario.

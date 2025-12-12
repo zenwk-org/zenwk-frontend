@@ -2,30 +2,30 @@
 
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { formValidate } from '@app/shared/utils/formValidate';
+import { formValidate } from '@/lib/shared/utils/formValidate';
 import {
     fetchValidateRegisterEmail,
     fetchTokenCrsfApi,
     isClientErrorMessage,
-} from '@app/lib/shared/utils/fetchApi';
-import { LoginForm } from '@app/shared/interfaces/auth';
+} from '@/lib/shared/utils/fetchApi';
+import { LoginData } from '@/lib/shared/interfaces/auth';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { AuthMessages } from '@app/lib/modules/auth/constants/auth-messages';
-import { AuthErrors } from '@app/lib/modules/auth/constants/auth-errors';
-import { Messages } from '@app/shared/constants/messages';
-import { loginApi } from '@app/lib/modules/auth/utils/authUtils';
-import { useUserContext } from '@app/hooks/modules/user/useUserContext';
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
+import { AuthMessages } from '@/lib/modules/auth/constants/auth-messages';
+import { AuthErrors } from '@/lib/modules/auth/constants/auth-errors';
+import { Messages } from '@/lib/shared/constants/messages';
+import { loginApi } from '@/lib/modules/auth/utils/authUtils';
+import { useUserContext } from '@/hooks/modules/user/useUserContext';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 
-import FormError from '@app/shared/ui/FormError';
-import Paragraph from '@app/shared/ui/Paragraph';
+import FormError from '@/components/shared/ui/FormError';
+import Paragraph from '@/components/shared/ui/Paragraph';
 import HomeIcon from '@mui/icons-material/Home';
-import LoadButton from '@app/components/modules/auth/commons/LoadButton';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import InputText from '@app/components/ui/inputs/InputText';
-import HeaderAction from '@app/components/modules/auth/commons/HeaderAction';
-import AnimatedPage from '@app/components/modules/auth/commons/AnimatedPage';
-import AlertInfo from '@app/shared/components/AlertInfo';
+import LoadButton from '@/components/modules/auth/common/LoadButton';
+import Text from '@/components/shared/common/Text';
+import InputText from '@/components/ui/inputs/InputText';
+import HeaderAction from '@/components/modules/auth/common/HeaderAction';
+import AnimatedPage from '@/components/modules/auth/common/AnimatedPage';
+import AlertInfo from '@/components/shared/common/AlertInfo';
 
 /**
  * Página login: esta vista presenta un formulario de autenticación para que el usuario ingrese
@@ -52,7 +52,7 @@ const LoginForm = () => {
         setValue,
         setFocus,
         formState: { errors },
-    } = useForm<LoginForm>({ mode: 'all' });
+    } = useForm<LoginData>({ mode: 'all' });
     const { userDTO } = useUserContext();
     const [countdown, setCountdown] = useState(3);
     const [notExistUser, setNotExistUser] = useState(false);

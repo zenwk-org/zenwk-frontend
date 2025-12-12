@@ -1,19 +1,19 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { UserDTO } from '@app/app/(dashboard)/user/types/user-dto';
-import { Messages } from '@app/shared/constants/messages';
-import { formValidate } from '@app/shared/utils/formValidate';
+import { UserDTO } from '@/lib/modules/user/types/user-dto';
+import { Messages } from '@/lib/shared/constants/messages';
+import { formValidate } from '@/lib/shared/utils/formValidate';
 import { useForm, useWatch } from 'react-hook-form';
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 
 import { clsx } from 'clsx';
 
-import ProfileButtomForm from '@app/components/modules/user/profile/ProfileButtonForm';
-import InputText from '@app/components/ui/inputs/InputText';
-import FormErrorUser from '@app/components/ui/forms/FormErrorUser';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import OpenMailbox from '@app/components/modules/auth/commons/OpenMailbox';
-import NotificationModal from '@app/shared/components/NotificationModal';
-import AlertInfo from '@app/shared/components/AlertInfo';
+import ProfileButtomForm from '@/components/modules/user/profile/ProfileButtonForm';
+import InputText from '@/components/ui/inputs/InputText';
+import FormErrorUser from '@/components/ui/forms/FormErrorUser';
+import Text from '@/components/shared/common/Text';
+import OpenMailbox from '@/components/modules/auth/common/OpenMailbox';
+import NotificationModal from '@/components/shared/common/NotificationModal';
+import AlertInfo from '@/components/shared/common/AlertInfo';
 
 /**
  *

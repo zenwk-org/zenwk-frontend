@@ -1,4 +1,4 @@
-import { TEXT_VIOLET_REDDISH_HOVER } from "@app/styles/constans-color";
+import { TEXT_VIOLET_REDDISH_HOVER } from '@/styles/constans-color';
 
 const ChevronRightIcon = ({
     className = `${TEXT_VIOLET_REDDISH_HOVER} text-[#135CDC] cursor-pointer`,

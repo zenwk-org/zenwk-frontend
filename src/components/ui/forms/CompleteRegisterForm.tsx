@@ -1,20 +1,20 @@
 import { useForm } from 'react-hook-form';
 import React, { useState, Dispatch, SetStateAction } from 'react';
-import { PersonDTO } from '@app/app/(dashboard)/user/types/person-dto';
-import { getLabelById } from '@app/shared/utils/optionsSexUtils';
+import { PersonDTO } from '@/lib/modules/user/types/person-dto';
+import { getLabelById } from '@/lib/shared/utils/genderOptionsUtils';
 import {
     getPerson,
     updateOrCreatePerson,
     getPathId,
-} from '@app/lib/modules/user/utils/personUtils';
-import { safeValue } from '@app/shared/utils/stringUtils';
-import { useSexOptionsContext } from '@app/shared/utils/UseSexOptionsContext';
-import { handleApiErrors } from '@app/shared/utils/formValidate';
-import { usePersonContext } from '@app/hooks/modules/user/UsePersonContexu';
-import { useUserContext } from '@app/hooks/modules/user/useUserContext';
-import { fetchJwtBaseApi } from '@app/lib/shared/utils/fetchApi';
+} from '@/lib/modules/user/utils/personUtils';
+import { safeValue } from '@/lib/shared/utils/stringUtils';
+import { useGenderOptionsContext } from '@/hooks/modules/user/useGenderOptionsContext';
+import { handleApiErrors } from '@/lib/shared/utils/formValidate';
+import { usePersonContext } from '@/hooks/modules/user/usePersonContext';
+import { useUserContext } from '@/hooks/modules/user/useUserContext';
+import { fetchJwtBaseApi } from '@/lib/shared/utils/fetchApi';
 
-import CompleteRegisterFormFields from '@app/components/modules/user/forms/CompleteRegisterFormFields';
+import CompleteRegisterFormFields from '@/components/modules/user/forms/CompleteRegisterFormFields';
 
 type FormValues = {
     firstName: string;
@@ -48,7 +48,7 @@ const CompleteRegisterForm = ({
     setBtnUpdate?: Dispatch<SetStateAction<boolean>>;
     loadingLineClick?: () => Promise<void>;
 }) => {
-    const { optionsSex } = useSexOptionsContext();
+    const { optionsSex } = useGenderOptionsContext();
     const [errorBack, setErrorBack] = useState<{
         msg: string;
         at: number;

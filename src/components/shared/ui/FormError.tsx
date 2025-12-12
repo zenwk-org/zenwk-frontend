@@ -1,5 +1,5 @@
 import React from 'react';
-import { politiciesPassword } from '@app/app/(auth)/utils/authUtils';
+import { politiciesPassword } from '@/lib/modules/auth/utils/authUtils';
 
 interface Props {
     error?: React.ReactNode;

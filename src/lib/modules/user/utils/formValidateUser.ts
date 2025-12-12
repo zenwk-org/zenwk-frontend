@@ -1,5 +1,5 @@
 import { RegisterOptions } from "react-hook-form";
-import { UserMessages } from "@app/lib/modules/user/constants/user-messages";
+import { UserMessages } from "@/lib/modules/user/constants/user-messages";
 
 /**
  * Define y retorna un conjunto de validaciones comunes para

@@ -1,6 +1,6 @@
 import React from 'react';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import { politiciesPassword } from '@app/lib/modules/auth/utils/authUtils';
+import Text from '@/components/shared/common/Text';
+import { politiciesPassword } from '@/lib/modules/auth/utils/authUtils';
 
 interface Props {
     error?: React.ReactNode;

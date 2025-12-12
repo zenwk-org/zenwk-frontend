@@ -1,9 +1,9 @@
-import { SexOptionsContext } from "@app/app/(dashboard)/user/context/SexOptionsContext";
-import { useSafeConext } from "@app/shared/utils/UseContextUtils";
+import { GenderOptionsContext } from "@/lib/providers/user/GenderOptionsContext";
+import { useSafeConext } from "@/hooks/shared/useContextUtils";
 /**
  * Exporta el contexto para RegisterFlowContext.
  * @returns RegisterFlowContext
  */
 export const useGenderOptionsContext = () => {
-    return useSafeConext(SexOptionsContext, "SexOptionsContext");
+    return useSafeConext(GenderOptionsContext, "GenderOptionsContext");
 };

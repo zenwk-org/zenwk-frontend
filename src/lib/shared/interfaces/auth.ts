@@ -11,7 +11,7 @@ export interface SetPassword {
 /**
  * Representa los campos requeridos para iniciar sesión en el sistema.
  */
-export interface LoginForm {
+export interface LoginData {
     email: string;
     password: string;
 }

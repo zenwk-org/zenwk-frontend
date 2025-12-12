@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from '@app/app/(auth)/ui/Button';
-import ButtonLoading from '@app/components/ui/auth/ButtonLoading';
+import AuthButton from '@/components/ui/auth/AuthButton';
+import ButtonLoading from '@/components/ui/auth/ButtonLoading';
 
 /**
  * Interface que representa los datos para LoadButttonLoading
@@ -20,7 +20,7 @@ const LoadButton = React.memo(
         return loading ? (
             <ButtonLoading text={textLoading || textButton} />
         ) : (
-            <Button
+            <AuthButton
                 disabled={isError}
                 isError={isError}
                 type="submit"

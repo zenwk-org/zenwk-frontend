@@ -1,20 +1,20 @@
 'use client';
 
-import { useUserContext } from '@app/hooks/modules/user/useUserContext';
+import { useUserContext } from '@/hooks/modules/user/useUserContext';
 import { useRef, useEffect, useState } from 'react';
-import { useLoadUser } from '@app/shared/hooks/useLoadUser';
+import { useLoadUser } from '@/hooks/shared/useLoadUser';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
-import Footer from '@app/shared/ui/Footer';
-import Header from '@app/shared/ui/Header';
-import ProfileMenu from '@app/components/modules/user/header/ProfileMenu';
-import UserProfilePhoto from '@app/components/modules/user/general/UserProfilePhoto';
-import Tooltip from '@app/shared/ui/Tooltip';
-import WelcomeSection from '@app/shared/components/WelcomeSection';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import HeaderAction from '@app/components/modules/auth/commons/HeaderAction';
-import LotusIcon from '@app/components/ui/icons/LotusIcon';
+import Footer from '@/components/shared/ui/Footer';
+import Header from '@/components/shared/ui/Header';
+import ProfileMenu from '@/components/modules/user/header/ProfileMenu';
+import UserProfilePhoto from '@/components/modules/user/general/UserProfilePhoto';
+import Tooltip from '@/components/shared/ui/Tooltip';
+import WelcomeSection from '@/components/shared/common/WelcomeSection';
+import Text from '@/components/shared/common/Text';
+import HeaderAction from '@/components/modules/auth/common/HeaderAction';
+import LotusIcon from '@/components/ui/icons/LotusIcon';
 
 /**
  * Página de inicio (landing principal de ZenWK)

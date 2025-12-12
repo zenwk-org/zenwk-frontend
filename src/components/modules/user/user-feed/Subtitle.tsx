@@ -1,6 +1,6 @@
 import React from 'react';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import { TEXT_ROSA_COLOR } from '@app/styles/constans-color';
+import Text from '@/components/shared/common/Text';
+import { TEXT_ROSA_COLOR } from '@/styles/constans-color';
 
 const Subtitle = ({
     text,

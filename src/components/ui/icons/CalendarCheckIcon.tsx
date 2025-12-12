@@ -1,4 +1,4 @@
-import { TEXT_VIOLET_REDDISH_HOVER } from "@app/styles/constans-color";
+import { TEXT_VIOLET_REDDISH_HOVER } from '@/styles/constans-color';
 
 const CalendarCheckIcon = ({
     className = ` ${TEXT_VIOLET_REDDISH_HOVER} text-[#135CDC] cursor-pointer`,
@@ -20,7 +20,7 @@ const CalendarCheckIcon = ({
         strokeLinecap="round"
         strokeLinejoin="round"
         className={className}
-        style={{ filter: "drop-shadow(0px 1px 1px rgba(0,0,0,0))" }}
+        style={{ filter: 'drop-shadow(0px 1px 1px rgba(0,0,0,0))' }}
     >
         <path d="M8 2v4" />
         <path d="M16 2v4" />

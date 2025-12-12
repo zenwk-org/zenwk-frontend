@@ -2,9 +2,9 @@ import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 import { UserX, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { createPortal } from 'react-dom';
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
+import Text from '@/components/shared/common/Text';
 import CloseButtom from './CloseButton';
 
 /**

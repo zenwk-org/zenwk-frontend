@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, Dispatch, SetStateAction } from "react";
 
-import { fetchValidateTokenApi } from "@app/lib/shared/utils/fetchApi";
+import { fetchValidateTokenApi } from "@/lib/shared/utils/fetchApi";
 
 /**
  * Verifica la validez del token, UUID y correo electrónico proporcionados.

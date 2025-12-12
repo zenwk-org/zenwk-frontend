@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import CloseButtom from './CloseButton';
+import Text from '@/components/shared/common/Text';
+import CloseButtom from '@/components/shared/common/CloseButton';
 
 /**
  * Componente modal de confirmación para eliminación.

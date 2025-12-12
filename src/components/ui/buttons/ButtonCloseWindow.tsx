@@ -1,7 +1,7 @@
-import { TEXT_BLUE_COLOR } from '@app/styles/constans-color';
+import { TEXT_BLUE_COLOR } from '@/styles/constans-color';
 import { X } from 'lucide-react';
 
-import Tooltip from '@app/shared/ui/Tooltip';
+import Tooltip from '@/components/shared/ui/Tooltip';
 
 const ButtonCloseWindow = ({
     text,

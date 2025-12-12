@@ -4,13 +4,13 @@ import React from 'react';
 import {
     fetchJwtBaseApi,
     fetchTokenCrsfApi,
-} from '@app/lib/shared/utils/fetchApi';
-import SetPasswordUser from '@app/components/modules/auth/commons/SetPasswordUser';
-import { AuthMessages } from '@app/lib/modules/auth/constants/auth-messages';
+} from '@/lib/shared/utils/fetchApi';
+import SetPasswordUser from '@/components/modules/auth/common/SetPasswordUser';
+import { AuthMessages } from '@/lib/modules/auth/constants/auth-messages';
 import { useRouter } from 'next/navigation';
-import { loginApi } from '@app/lib/modules/auth/utils/authUtils';
+import { loginApi } from '@/lib/modules/auth/utils/authUtils';
 
-import AnimatedPage from '@app/components/modules/auth/commons/AnimatedPage';
+import AnimatedPage from '@/components/modules/auth/common/AnimatedPage';
 
 /**
  * Componente para el formulario de reingreso de contraseña en el registro del usuario,

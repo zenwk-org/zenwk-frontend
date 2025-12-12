@@ -1,11 +1,7 @@
-import {
-    BG_CYAN,
-    BG_CYAN_HOVER,
-    BG_CYAN_BOLD,
-} from '@app/styles/constans-color';
+import { BG_CYAN, BG_CYAN_HOVER, BG_CYAN_BOLD } from '@/styles/constans-color';
 
 import React from 'react';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
+import Text from '@/components/shared/common/Text';
 import clsx from 'clsx';
 
 /**

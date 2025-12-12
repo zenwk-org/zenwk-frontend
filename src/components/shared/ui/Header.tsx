@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import LogoZenwk from '@app/app/(dashboard)/user/components/header/LogoZenwk';
+import LogoZenwk from '@/components/modules/user/header/LogoZenwk';
 
 /**
  * Props del componente Header

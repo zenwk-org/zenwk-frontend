@@ -1,7 +1,7 @@
 import React from 'react';
-import { Messages } from '@app/shared/constants/messages';
+import { Messages } from '@/lib/shared/constants/messages';
 
-import ButtonOpen from '@app/shared/ui/ButtonOpen';
+import ButtonOpen from '@/components/shared/ui/ButtonOpen';
 
 /**
  * Componente OpenMailbox: Botones para abrir bandejas de correos.

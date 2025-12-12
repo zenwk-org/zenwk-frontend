@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
 
-import ProfileRingLoader from '@app/components/modules/user/profile/ProfileRingLoader';
-import Tooltip from '@app/shared/ui/Tooltip';
+import ProfileRingLoader from '@/components/modules/user/profile/ProfileRingLoader';
+import Tooltip from '@/components/shared/ui/Tooltip';
 import clsx from 'clsx';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
+import Text from '@/components/shared/common/Text';
 
 interface ProfileButtonFormProps {
     lineLoading?: boolean;
@@ -21,7 +21,7 @@ interface ProfileButtonFormProps {
 /**
  * Tipo de boton usado en el page profile/edit
  */
-const ProfileButtomForm = ({
+const ProfileButtonForm = ({
     disabled = false,
     lineLoading = false,
     buttonLoading = false,
@@ -142,4 +142,4 @@ const ProfileButtomForm = ({
     );
 };
 
-export default ProfileButtomForm;
+export default ProfileButtonForm;

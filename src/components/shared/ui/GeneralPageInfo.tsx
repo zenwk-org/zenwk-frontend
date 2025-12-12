@@ -1,7 +1,7 @@
-import OpenMailbox from '@app/app/(auth)/components/OpenMailbox';
-import Tooltip from '@app/shared/ui/Tooltip';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import { UserMessages } from '@app/app/(dashboard)/user/constants/user-messages';
+import OpenMailbox from '@/components/modules/auth/common/OpenMailbox';
+import Tooltip from '@/components/shared/ui/Tooltip';
+import Text from '@/components/shared/common/Text';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 
 interface Props {
     title?: string;

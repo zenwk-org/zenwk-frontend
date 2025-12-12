@@ -1,5 +1,5 @@
-import { UserContext } from "@app/lib/providers/auth/UserContext";
-import { useSafeConext } from "@app/shared/utils/UseContextUtils";
+import { UserContext } from "@/lib/providers/auth/UserContext";
+import { useSafeConext } from "@/hooks/shared/useContextUtils";
 
 /**
  * @returns RegisterFlowContext

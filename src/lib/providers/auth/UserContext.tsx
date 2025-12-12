@@ -1,5 +1,5 @@
 'use client';
-import { UserDTO } from '@app/app/(dashboard)/user/types/user-dto';
+import { UserDTO } from '@/lib/modules/user/types/user-dto';
 
 import {
     ReactNode,

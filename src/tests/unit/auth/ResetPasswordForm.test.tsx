@@ -1,20 +1,20 @@
-import React from 'react'; // ⚠️ Import obligatorio para JSX
+import React from 'react';
 import { render, screen, act } from '@testing-library/react';
-import SetChangePassword from '@app/components/modules/auth/forms/ResetPasswordForm';
+import SetChangePassword from '@/components/modules/auth/forms/ResetPasswordForm';
 import { useRouter } from 'next/navigation';
-import { fetchJwtBaseApi } from '@app/lib/shared/utils/fetchApi';
-import SetPasswordUser from '@app/components/modules/auth/commons/SetPasswordUser';
+import { fetchJwtBaseApi } from '@/lib/shared/utils/fetchApi';
+import SetPasswordForm from '@/components/modules/auth/forms/SetPasswordForm';
 
 // Mock de Next Navigation
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn(),
 }));
 
-// Mock de fetch-api
-jest.mock('@app/helpers/fetch-api');
+// Mock de fetchApi
+jest.mock('@/lib/shared/utils/fetchApi');
 
 // Mock del componente SetPasswordUser
-jest.mock('@auth/components/SetPasswordUser', () =>
+jest.mock('@/components/modules/auth/forms/SetPasswordForm', () =>
     jest.fn(({ onSubmitPassword }) => (
         <div
             onClick={() =>
@@ -52,7 +52,7 @@ describe('SetChangePassword Component', () => {
         render(<SetChangePassword />);
         expect(screen.getByText('SetPasswordUser')).toBeInTheDocument();
 
-        const setPasswordUserMock = SetPasswordUser as unknown as jest.Mock;
+        const setPasswordUserMock = SetPasswordForm as unknown as jest.Mock;
         expect(setPasswordUserMock).toHaveBeenCalled();
     });
 
@@ -61,7 +61,7 @@ describe('SetChangePassword Component', () => {
 
         render(<SetChangePassword />);
 
-        const setPasswordUserMock = SetPasswordUser as unknown as jest.Mock;
+        const setPasswordUserMock = SetPasswordForm as unknown as jest.Mock;
         const onSubmitPassword =
             setPasswordUserMock.mock.calls[0][0].onSubmitPassword;
 
@@ -94,7 +94,7 @@ describe('SetChangePassword Component', () => {
 
         render(<SetChangePassword />);
 
-        const setPasswordUserMock = SetPasswordUser as unknown as jest.Mock;
+        const setPasswordUserMock = SetPasswordForm as unknown as jest.Mock;
         const onSubmitPassword =
             setPasswordUserMock.mock.calls[0][0].onSubmitPassword;
 

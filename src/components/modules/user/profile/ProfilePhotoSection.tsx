@@ -8,16 +8,16 @@ import React, {
     useEffect,
 } from 'react';
 import { Camera, Trash2 } from 'lucide-react';
-import { getInitials } from '@app/shared/utils/stringUtils';
-import { fetchJwtBaseApi } from '@app/lib/shared/utils/fetchApi';
-import { compressImage } from '@app/lib/modules/user/utils/imageConvertUtils';
-import { updateOrCreatePerson } from '@app/lib/modules/user/utils/personUtils';
-import { usePersonContext } from '@app/hooks/modules/user/UsePersonContexu';
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
+import { getInitials } from '@/lib/shared/utils/stringUtils';
+import { fetchJwtBaseApi } from '@/lib/shared/utils/fetchApi';
+import { compressImage } from '@/lib/modules/user/utils/imageConvertUtils';
+import { updateOrCreatePerson } from '@/lib/modules/user/utils/personUtils';
+import { usePersonContext } from '@/hooks/modules/user/usePersonContext';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import ProfileBotonForm from '@app/components/modules/user/profile/ProfileButtonForm';
-import Spinner from '@app/shared/ui/Spinner';
+import Text from '@/components/shared/common/Text';
+import ProfileButtonForm from '@/components/modules/user/profile/ProfileButtonForm';
+import Spinner from '@/components/shared/ui/Spinner';
 
 interface FormValues {
     firstName: string;
@@ -275,7 +275,7 @@ const ProfilePhotoSection = ({
                         hidden
                         onChange={handleFileChange}
                     />
-                    <ProfileBotonForm
+                    <ProfileButtonForm
                         lineLoading={lineLoading}
                         buttonLoading={loadPhotoLoading}
                         icon={
@@ -306,7 +306,7 @@ const ProfilePhotoSection = ({
                             type="button"
                             disabled={deletePhotoLoading}
                         >
-                            <ProfileBotonForm
+                            <ProfileButtonForm
                                 lineLoading={lineLoading}
                                 buttonLoading={deletePhotoLoading}
                                 icon={

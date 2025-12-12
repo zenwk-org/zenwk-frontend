@@ -1,5 +1,5 @@
 import React from 'react';
-import GenerateBaseText from '@app/components/modules/user/general/GenerateBaseText';
+import GenerateBaseText from '@/components/shared/common/GenerateBaseText';
 
 const Text = ({
     text,

@@ -1,17 +1,17 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
-import { useUserContext } from '@app/hooks/modules/user/useUserContext';
-import { useBackgroundThemeContext } from '../../utils/useBackgroundTheme';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
+import { useUserContext } from '@/hooks/modules/user/useUserContext';
+import { useBackgroundThemeContext } from '@/hooks/modules/user/useBackgroundTheme';
 
-import Spinner from '@app/shared/ui/Spinner';
-import Title from '@app/app/(dashboard)/user/ui/user-feed/Title';
-import ProfileItemConfiguration from '@app/components/modules/user/profile/ProfileItemConfiguration';
-import UpdateEmailSection from '@app/components/modules/user/profile/UpdateEmailSection';
-import UpdatePasswordSection from '@app/components/modules/user/profile/UpdatePasswordSection';
-import DeleteAccount from '@app/components/modules/user/profile/DeleteAccount';
-import AnimatedPage from '@app/components/modules/auth/commons/AnimatedPage';
-import ProfileItemHeader from '@app/components/modules/user/profile/ProfileItemHeader';
+import Spinner from '@/components/shared/ui/Spinner';
+import Title from '@/components/modules/user/user-feed/Title';
+import ProfileItemConfiguration from '@/components/modules/user/profile/ProfileItemConfiguration';
+import UpdateEmailSection from '@/components/modules/user/profile/UpdateEmailSection';
+import UpdatePasswordSection from '@/components/modules/user/profile/UpdatePasswordSection';
+import DeleteAccount from '@/components/modules/user/profile/DeleteAccount';
+import AnimatedPage from '@/components/modules/auth/common/AnimatedPage';
+import ProfileItemHeader from '@/components/modules/user/profile/ProfileItemHeader';
 
 /**
  * Componente principal para la configuración del perfil

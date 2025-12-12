@@ -1,7 +1,7 @@
-import { fetchJwtBaseApi } from "@app/lib/shared/utils/fetchApi";
-import { PersonDTO } from "@app/app/(dashboard)/user/types/person-dto";
-import { safeValue } from "@app/shared/utils/stringUtils";
-import { UserDTO } from "../types/user-dto";
+import { fetchJwtBaseApi } from "@/lib/shared/utils/fetchApi";
+import { PersonDTO } from "@/lib/modules/user/types/person-dto";
+import { safeValue } from "@/lib/shared/utils/stringUtils";
+import { UserDTO } from "@/lib/modules/user/types/user-dto";
 
 /**
  * Extrae el ID del header "Location" de una respuesta HTTP.

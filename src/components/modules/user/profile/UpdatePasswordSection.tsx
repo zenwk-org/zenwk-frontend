@@ -1,14 +1,14 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { formValidate } from '@app/shared/utils/formValidate';
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
+import { formValidate } from '@/lib/shared/utils/formValidate';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 import { clsx } from 'clsx';
 
-import InputText from '@app/components/ui/inputs/InputText';
-import FormErrorUser from '@app/components/ui/forms/FormErrorUser';
-import ProfileButtomForm from '@app/components/modules/user/profile/ProfileButtonForm';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import AlertInfo from '@app/shared/components/AlertInfo';
+import InputText from '@/components/ui/inputs/InputText';
+import FormErrorUser from '@/components/ui/forms/FormErrorUser';
+import ProfileButtomForm from '@/components/modules/user/profile/ProfileButtonForm';
+import Text from '@/components/shared/common/Text';
+import AlertInfo from '@/components/shared/common/AlertInfo';
 
 const UpdatePasswordSection = ({
     setLineLoadingFather,

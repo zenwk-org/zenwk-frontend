@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { fetchJwtBaseApi } from "@app/lib/shared/utils/fetchApi";
-import { getPerson } from "@app/app/(dashboard)/user/utils/personUtils";
-import { usePersonContext } from "@app/app/(dashboard)/user/utils/UsePersonContext";
-import { useUserContext } from "@app/app/(dashboard)/user/utils/UseUserContext";
+import { fetchJwtBaseApi } from "@/lib/shared/utils/fetchApi";
+import { getPerson } from "@/lib/modules/user/utils/personUtils";
+import { usePersonContext } from "@/hooks/modules/user/usePersonContext";
+import { useUserContext } from "@/hooks/modules/user/useUserContext";
 
 export const useLoadUser = () => {
     const router = useRouter();

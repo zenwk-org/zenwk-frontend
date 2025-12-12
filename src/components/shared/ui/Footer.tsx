@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import { UserMessages } from '@app/app/(dashboard)/user/constants/user-messages';
+import Text from '@/components/shared/common/Text';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 import Link from 'next/link';
 
 interface Props {

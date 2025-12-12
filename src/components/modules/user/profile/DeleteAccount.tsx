@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import ProfileButtomForm from '@app/components/modules/user/profile/ProfileButtonForm';
-import ConfirmModalDelete from '@app/shared/components/ConfirmModalDelete';
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
+import ProfileButtonForm from '@components/modules/user/profile/ProfileButtonForm';
+import ConfirmModalDelete from '@/components/shared/common/ConfirmModalDelete';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 
 const DeleteAccount = () => {
     const [confirm, setConfirm] = useState(false);
@@ -29,7 +29,7 @@ const DeleteAccount = () => {
     return (
         <div className="flex place-items-center justify-center rounded-2xl bg-blue-50/90 p-6">
             <button onClick={() => setLaunchModal((prev) => !prev)}>
-                <ProfileButtomForm
+                <ProfileButtonForm
                     classColor="yellow"
                     icon={null}
                     shape="square"

@@ -1,9 +1,9 @@
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 
-import LotusIcon from '@app/components/ui/icons/LotusIcon';
-import Tooltip from '@app/shared/ui/Tooltip';
+import LotusIcon from '@/components/ui/icons/LotusIcon';
+import Tooltip from '@/components/shared/ui/Tooltip';
 import Link from 'next/link';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
+import Text from '@/components/shared/common/Text';
 
 /**
  * Logo de de la aplicación (zenwk).

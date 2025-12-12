@@ -1,5 +1,5 @@
-import { fetchJwtBaseApi } from "@app/lib/shared/utils/fetchApi";
-import { Option } from "@app/app/(dashboard)/user/ui/inputs/SelectGeneral";
+import { fetchJwtBaseApi } from "@/lib/shared/utils/fetchApi";
+import { Option } from "@/components/ui/inputs/SelectGeneral";
 
 /**
  *  Valores por defecto con la lista de los sexos pamarametrizados.

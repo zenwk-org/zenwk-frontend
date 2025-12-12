@@ -1,15 +1,15 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { UserMessages } from '../constants/user-messages';
-import { UserStateEnum } from '@app/app/(dashboard)/user/types/user-dto';
-import { usePersonContext } from '@app/hooks/modules/user/UsePersonContexu';
-import { useUserContext } from '@app/hooks/modules/user/useUserContext';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
+import { UserStateEnum } from '@/lib/modules/user/types/user-dto';
+import { usePersonContext } from '@/hooks/modules/user/usePersonContext';
+import { useUserContext } from '@/hooks/modules/user/useUserContext';
 
-import CompleteRegisterForm from '@app/components/ui/forms/CompleteRegisterForm';
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import AlertInfo from '@app/shared/components/AlertInfo';
-import AnimatedPage from '@app/components/modules/auth/commons/AnimatedPage';
-import HeaderAction from '@app/components/modules/auth/commons/HeaderAction';
+import CompleteRegisterForm from '@/components/ui/forms/CompleteRegisterForm';
+import Text from '@/components/shared/common/Text';
+import AlertInfo from '@/components/shared/common/AlertInfo';
+import AnimatedPage from '@/components/modules/auth/common/AnimatedPage';
+import HeaderAction from '@/components/modules/auth/common/HeaderAction';
 import { motion } from 'framer-motion';
 
 /** Componente encargado de consultar el usuario con los datos envidados después del login.

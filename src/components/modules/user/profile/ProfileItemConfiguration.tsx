@@ -1,9 +1,9 @@
 import { useState, ReactNode } from 'react';
 import { CheckCircle2, AlertTriangle, Info } from 'lucide-react';
-import { ConfigButton } from '../../../../app/(dashboard)/user/ui/Buttons/ConfigButton';
-import { motion, AnimatePresence } from 'framer-motion'; // ⬅️ agregado
+import { ConfigButton } from '@/components/ui/buttons/ConfigButton';
+import { motion, AnimatePresence } from 'framer-motion';
 
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
+import Text from '@/components/shared/common/Text';
 
 type StatusType = 'success' | 'warning' | 'info' | null;
 

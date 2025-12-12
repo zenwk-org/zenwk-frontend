@@ -1,23 +1,23 @@
 'use client';
 
 import { useEffect, useRef, useState, useMemo } from 'react';
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
-import { useSidebarContext } from '@app/hooks/modules/user/UseWidthSidebarContext';
-import { UserStateEnum } from '@app/app/(dashboard)/user/types/user-dto';
-import { useBackgroundThemeContext } from '../../utils/useBackgroundTheme';
-import { useUserContext } from '@app/hooks/modules/user/useUserContext';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
+import { useSidebarContext } from '@/hooks/modules/user/useWidthSidebar';
+import { UserStateEnum } from '@/lib/modules/user/types/user-dto';
+import { useBackgroundThemeContext } from '@/hooks/modules/user/useBackgroundTheme';
+import { useUserContext } from '@/hooks/modules/user/useUserContext';
 
-import Text from '@app/app/(dashboard)/user/ui/user-feed/Text';
-import SidebarIcon from '@app/components/ui/icons/SidebarIcon';
-import CloseSidebarIcon from '@app/components/ui/icons/CloseSidebarIcon';
-import Tooltip from '@app/shared/ui/Tooltip';
-import CalendarCheckIcon from '@app/components/ui/icons/CalendarCheckIcon';
-import AlarmClockIcon from '@app/components/ui/icons/AlarmClockIcon';
-import FolderRootIcon from '@app/components/ui/icons/FolderRoot';
-import CurveIcon from '@app/components/ui/icons/CurveIcon';
+import Text from '@/components/shared/common/Text';
+import SidebarIcon from '@/components/ui/icons/SidebarIcon';
+import CloseSidebarIcon from '@/components/ui/icons/CloseSidebarIcon';
+import Tooltip from '@/components/shared/ui/Tooltip';
+import CalendarCheckIcon from '@/components/ui/icons/CalendarCheckIcon';
+import AlarmClockIcon from '@/components/ui/icons/AlarmClockIcon';
+import FolderRootIcon from '@/components/ui/icons/FolderRoot';
+import CurveIcon from '@/components/ui/icons/CurveIcon';
 import Link from 'next/link';
-import ChevronRightIcon from '@app/components/ui/icons/ChevronRightIcon';
-import BrainIcon from '@app/components/ui/icons/BrainIcon'; // nuevo icono IA (debes tenerlo o crearlo)
+import ChevronRightIcon from '@/components/ui/icons/ChevronRightIcon';
+import BrainIcon from '@/components/ui/icons/BrainIcon';
 import clsx from 'clsx';
 
 const Sidebar = () => {

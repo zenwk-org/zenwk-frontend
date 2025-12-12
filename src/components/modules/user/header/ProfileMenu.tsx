@@ -1,8 +1,8 @@
 'use client';
-import FlyoutMenu from '@app/components/modules/user/general/FlyoutMenu';
-import UserMenu from '@app/components/modules/user/general/UserMenu';
-import { UserDTO } from '@app/app/(dashboard)/user/types/user-dto';
-import ProfileMenuTrigger from './ProfileMenuTrigger';
+import FlyoutMenu from '@/components/modules/user/general/FlyoutMenu';
+import UserMenu from '@/components/modules/user/general/UserMenu';
+import { UserDTO } from '@/lib/modules/user/types/user-dto';
+import ProfileMenuTrigger from '@/components/modules/user/header/ProfileMenuTrigger';
 
 interface Props {
     isPhotoProfile: () => React.ReactNode;
