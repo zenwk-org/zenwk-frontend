@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ProfilePhotoSection from '@app/components/modules/user/profile/ProfilePhotoSection';
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
+import ProfilePhotoSection from '@/components/modules/user/profile/ProfilePhotoSection';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 
 // MOCKS necesarios
-jest.mock('@user/utils/ImageConvertUtils', () => ({
+jest.mock('@/lib/modules/user/utils/imageConvertUtils', () => ({
     compressImage: jest
         .fn()
         .mockResolvedValue(
@@ -12,17 +12,17 @@ jest.mock('@user/utils/ImageConvertUtils', () => ({
         ),
 }));
 
-jest.mock('@app/helpers/fetch-api', () => ({
+jest.mock('@/lib/shared/utils/fetchApi', () => ({
     fetchJwtBaseApi: jest.fn().mockResolvedValue({ ok: true }),
 }));
 
-jest.mock('@user/utils/personUtils', () => ({
+jest.mock('@/lib/modules/user/utils/personUtils', () => ({
     updateOrCreatePerson: jest.fn(),
 }));
 
 const mockUsePersonContext = jest.fn();
 
-jest.mock('@user/utils/UsePersonContext', () => ({
+jest.mock('@/hooks/modules/user/usePersonContext', () => ({
     usePersonContext: jest.fn().mockReturnValue({
         person: {
             id: 1,
@@ -42,8 +42,10 @@ jest.mock('@user/utils/UsePersonContext', () => ({
 // Util simple
 const mockSetLineLoadingFather = jest.fn();
 
-//  Mock Spinner
-jest.mock('@app/shared/ui/Spinner', () => () => <div data-testid="spinner" />);
+// Mock Spinner
+jest.mock('@/components/shared/ui/Spinner', () => () => (
+    <div data-testid="spinner" />
+));
 
 jest.spyOn(URL, 'createObjectURL').mockReturnValue('mock-url');
 jest.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
@@ -53,7 +55,7 @@ describe('ProfilePhotoSection Component', () => {
 
     test('Renderiza Spinner si no hay person', () => {
         (
-            require('@user/utils/UsePersonContext')
+            require('@/hooks/modules/user/usePersonContext')
                 .usePersonContext as jest.Mock
         ).mockReturnValueOnce({});
         render(
@@ -98,7 +100,8 @@ describe('ProfilePhotoSection Component', () => {
 
         await waitFor(() => {
             expect(
-                require('@user/utils/ImageConvertUtils').compressImage
+                require('@/lib/modules/user/utils/imageConvertUtils')
+                    .compressImage
             ).toHaveBeenCalled();
         });
     });
@@ -145,12 +148,11 @@ describe('ProfilePhotoSection Component', () => {
 
         fireEvent.change(input, { target: { files: [file] } });
 
-        // Antes de resolver el timeout
         await waitFor(() => {
             expect(mockSetLineLoadingFather).toHaveBeenCalledWith(true);
         });
 
-        jest.runAllTimers(); // libera el setTimeout de 400ms
+        jest.runAllTimers();
 
         await waitFor(() => {
             expect(mockSetLineLoadingFather).toHaveBeenCalledWith(false);
@@ -163,7 +165,7 @@ describe('ProfilePhotoSection Component', () => {
         jest.useFakeTimers();
 
         (
-            require('@user/utils/UsePersonContext')
+            require('@/hooks/modules/user/usePersonContext')
                 .usePersonContext as jest.Mock
         ).mockReturnValueOnce({
             person: {
@@ -206,7 +208,7 @@ describe('ProfilePhotoSection Component', () => {
         jest.useFakeTimers();
 
         (
-            require('@user/utils/UsePersonContext')
+            require('@/hooks/modules/user/usePersonContext')
                 .usePersonContext as jest.Mock
         ).mockReturnValueOnce({
             person: {
@@ -238,7 +240,6 @@ describe('ProfilePhotoSection Component', () => {
 
         fireEvent.click(deleteButton);
 
-        // Antes del timeout
         await waitFor(() =>
             expect(mockSetLineLoadingFather).toHaveBeenCalledWith(true)
         );
@@ -253,17 +254,17 @@ describe('ProfilePhotoSection Component', () => {
     });
 
     test('deletePhotoHandleClick cubre rama prev == null', async () => {
-        const mockSetPerson = jest.fn((cb) => cb(null)); // ← dispara el path prev == null
+        const mockSetPerson = jest.fn((cb) => cb(null));
 
         (
-            require('@user/utils/UsePersonContext')
+            require('@/hooks/modules/user/usePersonContext')
                 .usePersonContext as jest.Mock
         ).mockReturnValue({
             person: {
                 id: 1,
                 firstName: 'John',
                 lastName: 'Doe',
-                profilePicture: 'ABC', // para que se muestre el botón
+                profilePicture: 'ABC',
             },
             setPerson: mockSetPerson,
         });
@@ -277,32 +278,27 @@ describe('ProfilePhotoSection Component', () => {
 
         fireEvent.click(deleteButton);
 
-        // Verifica que se ejecutó la ruta prev == null
         expect(mockSetPerson).toHaveBeenCalled();
 
-        // El callback debe HABER DEVUELTO null (porque return prev)
         const callbackResult = mockSetPerson.mock.calls[0][0](null);
         expect(callbackResult).toBeNull();
     });
 
     test('savePhotoHandleClick cubre la rama prev && {...}', async () => {
-        // 1. Mock FileReader para que getBytesFromPreview funcione
         class MockFileReader {
             onloadend: any = null;
             result = 'data:image/jpeg;base64,MOCK_BASE_64';
 
             readAsDataURL() {
-                this.onloadend(); // dispara el callback
+                this.onloadend();
             }
         }
         (global as any).FileReader = MockFileReader;
 
-        // 2. Mock fetchJwtBaseApi
-        jest.mock('@app/helpers/fetch-api', () => ({
+        jest.mock('@/lib/shared/utils/fetchApi', () => ({
             fetchJwtBaseApi: jest.fn().mockResolvedValue({}),
         }));
 
-        // 3. Mock context con persona válida
         const mockSetPerson = jest.fn((cb) =>
             cb({
                 id: 1,
@@ -313,7 +309,7 @@ describe('ProfilePhotoSection Component', () => {
         );
 
         (
-            require('@user/utils/UsePersonContext')
+            require('@/hooks/modules/user/usePersonContext')
                 .usePersonContext as jest.Mock
         ).mockReturnValue({
             person: {
@@ -325,20 +321,16 @@ describe('ProfilePhotoSection Component', () => {
             setPerson: mockSetPerson,
         });
 
-        // 4. Render
         render(<ProfilePhotoSection setLineLoadingFather={jest.fn()} />);
 
-        // 5. Disparar handleFileChange (esto llama savePhotoHandleClick)
         const input = screen.getByTestId('photo-file-input');
         const file = new File(['data'], 'photo.jpg', { type: 'image/jpeg' });
         fireEvent.change(input, { target: { files: [file] } });
 
-        // 6. Esperar a que savePhotoHandleClick termine
         await waitFor(() => {
             expect(mockSetPerson).toHaveBeenCalled();
         });
 
-        // 7. Evaluar el callback manualmente → CUBRE prev && {...}
         const callback = mockSetPerson.mock.calls[0][0];
         const result = callback({
             id: 1,

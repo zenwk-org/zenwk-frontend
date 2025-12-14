@@ -25,9 +25,9 @@ jest.mock('next/navigation', () => ({
     useSearchParams: jest.fn(),
 }));
 
-jest.mock('@app/shared/utils/formValidate', () => ({
+jest.mock('@/lib/shared/utils/formValidate', () => ({
     formValidate: jest.fn(() => ({
-        patternEmail: /^.+@.+\..+$/,
+        patternEmail: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         requiredEmail: 'Email is required',
     })),
 }));
@@ -39,12 +39,14 @@ jest.mock('@/lib/shared/utils/fetchApi', () => ({
     isClientErrorMessage: jest.fn(),
 }));
 
-jest.mock('@app/shared/ui/Spinner', () => () => <div>loading-spinner</div>);
-jest.mock('@app/shared/ui/FormError', () => ({ error }: any) => (
+jest.mock('@/components/shared/ui/Spinner', () => () => (
+    <div>loading-spinner</div>
+));
+jest.mock('@/components/shared/ui/FormError', () => ({ error }: any) => (
     <div data-testid="form-error">{error}</div>
 ));
 jest.mock(
-    '@auth/components/LoadButton',
+    '@/components/modules/auth/common/LoadButton',
     () =>
         ({ textButton, loading }: any) => (
             <button type="submit" disabled={loading} data-testid="load-button">
@@ -52,15 +54,15 @@ jest.mock(
             </button>
         )
 );
-jest.mock('@app/shared/components/AlertInfo', () => ({ children }: any) => (
+jest.mock('@/components/shared/common/AlertInfo', () => ({ children }: any) => (
     <div data-testid="alert-info">{children}</div>
 ));
-jest.mock('@user/ui/user-feed/Text', () => (props: any) => (
+jest.mock('@/components/shared/common/Text', () => (props: any) => (
     <div data-testid="user-text">{props.text}</div>
 ));
 
 jest.mock(
-    '@auth/components/HeaderAction',
+    '@/components/modules/auth/common/HeaderAction',
     () =>
         ({ title, message, onAction }: any) => (
             <div data-testid="header-action">
@@ -69,15 +71,21 @@ jest.mock(
             </div>
         )
 );
-jest.mock('@auth/components/AnimatedPage', () => ({ children }: any) => (
-    <div data-testid="animated-page">{children}</div>
-));
-jest.mock('@app/shared/ui/GeneralPageInfo', () => ({ title, onBack }: any) => (
-    <div data-testid="general-page-info">
-        <h2>{title}</h2>
-        <button onClick={onBack}>Back</button>
-    </div>
-));
+jest.mock(
+    '@/components/modules/auth/common/AnimatedPage',
+    () =>
+        ({ children }: any) => <div data-testid="animated-page">{children}</div>
+);
+jest.mock(
+    '@/components/shared/ui/GeneralPageInfo',
+    () =>
+        ({ title, onBack }: any) => (
+            <div data-testid="general-page-info">
+                <h2>{title}</h2>
+                <button onClick={onBack}>Back</button>
+            </div>
+        )
+);
 jest.mock('next/link', () => ({ children, href }: any) => (
     <a data-testid="next-link" href={href}>
         {children}
@@ -165,7 +173,6 @@ describe('ForgotPassword Component - FIXED VERSION', () => {
     });
 
     // --- Envío exitoso ---
-
     it('should handle successful submission and show success info screen', async () => {
         createMocks();
         render(<ForgotPasswordForm />);

@@ -7,9 +7,9 @@ import {
     act,
 } from '@testing-library/react';
 
-import SetPasswordUser from '@app/components/modules/auth/commons/SetPasswordUser';
+import SetPasswordUser from '@/components/modules/auth/common/SetPasswordUser';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { isClientErrorMessage } from '@app/lib/shared/utils/fetchApi';
+import { isClientErrorMessage } from '@/lib/shared/utils/fetchApi';
 
 // -------------------------
 // Mocks base
@@ -19,16 +19,11 @@ jest.mock('next/navigation', () => ({
     useSearchParams: jest.fn(),
 }));
 
-// Declare a variable to capture the setLoading function passed by the component
 let capturedSetLoading: jest.Mock;
 
-// Mock the hook to capture the internal state setter
-jest.mock('@auth/hooks/useRedirectRegister', () => {
-    // The component passes its `useState` setter (setLoading) as the 3rd argument.
+jest.mock('@/hooks/modules/auth/useRedirectRegister', () => {
     return jest.fn((email, uuid, setLoading, isResetPassword) => {
-        // Capture the setLoading function for use in the tests
         capturedSetLoading = setLoading;
-        // Return a mock object (though the component primarily uses the passed setter)
         return {
             loading: false,
             setLoading: setLoading,
@@ -36,78 +31,74 @@ jest.mock('@auth/hooks/useRedirectRegister', () => {
     });
 });
 
-jest.mock('@app/helpers/fetch-api', () => ({
+jest.mock('@/lib/shared/utils/fetchApi', () => ({
     isClientErrorMessage: jest.fn(),
 }));
 
-jest.mock('@app/shared/ui/Spinner', () => () => <div>loading-spinner</div>);
+jest.mock('@/components/shared/ui/Spinner', () => () => (
+    <div>loading-spinner</div>
+));
 
-jest.mock('@app/shared/ui/FormError', () => ({ error }: any) => (
+jest.mock('@/components/shared/ui/FormError', () => ({ error }: any) => (
     <div data-testid="form-error">
         {typeof error === 'string' ? error : 'complex'}
     </div>
 ));
 
-jest.mock('@user/ui/inputs/InputText', () => {
-    // Usamos require('react') para acceder a React de forma segura dentro del factory
+jest.mock('@/components/ui/inputs/InputText', () => {
     const actualReact = require('react');
-    // Definimos una función que acepta todas las props
     return actualReact.forwardRef(
         (
             {
-                // Desestructuramos y filtramos TODAS las props personalizadas
                 isError,
-                children, // Se queda dentro para que no se pase al input nativo
-                text, // Se queda dentro
+                children,
+                text,
                 minWidth,
                 variant,
                 fullWidth,
                 sizeText,
                 inputClass,
                 sizeTextInput,
-                // Capturamos el resto (debe ser ref y props nativas de HTML)
                 ...rest
             }: any,
             ref: React.ForwardedRef<HTMLInputElement>
-        ) => (
-            // Pasamos SÓLO 'rest' (que contiene las props nativas) y la prop 'text' para el testid
-            // El ref es importante para que react-hook-form funcione en el test
-            <input data-testid={text} ref={ref} {...rest} />
-        )
+        ) => <input data-testid={text} ref={ref} {...rest} />
     );
 });
 
-jest.mock(
-    '@app/app/(modules)/(auth)/ui/InputDisabled',
-    () =>
-        ({ text }: any) => <div data-testid="input-disabled">{text}</div>
-);
-
-jest.mock('@auth/components/LoadButton', () => ({ textButton }: any) => (
-    <button type="submit">{textButton}</button>
+jest.mock('@/components/ui/auth/InputDisabled', () => ({ text }: any) => (
+    <div data-testid="input-disabled">{text}</div>
 ));
 
-jest.mock('@app/shared/components/AlertInfo', () => ({ children }: any) => (
+jest.mock(
+    '@/components/modules/auth/common/LoadButton',
+    () =>
+        ({ textButton }: any) => <button type="submit">{textButton}</button>
+);
+
+jest.mock('@/components/shared/common/AlertInfo', () => ({ children }: any) => (
     <div data-testid="alert-info">{children}</div>
 ));
 
-jest.mock('@user/ui/user-feed/Text', () => (props: any) => (
+jest.mock('@/components/shared/common/Text', () => (props: any) => (
     <div>{props.text}</div>
 ));
 
-jest.mock('@auth/components/HeaderAction', () => ({ title, message }: any) => (
-    <>
-        <h1>{title}</h1>
-        <div>{message}</div>
-    </>
-));
+jest.mock(
+    '@/components/modules/auth/common/HeaderAction',
+    () =>
+        ({ title, message }: any) => (
+            <>
+                <h1>{title}</h1>
+                <div>{message}</div>
+            </>
+        )
+);
 
 // Timers
 jest.useFakeTimers();
 
-// Utility function to simulate the hook resolving the loading state
 const simulateLoadComplete = () => {
-    // State updates must be wrapped in `act` to ensure the component re-renders
     act(() => {
         if (capturedSetLoading) {
             capturedSetLoading(false);
@@ -138,14 +129,12 @@ describe('SetPasswordUser Component', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        // Reset the captured setLoading function for each test
         capturedSetLoading = jest.fn();
     });
 
     it('should render spinner while loading', () => {
         createMocks();
 
-        // The component's internal state starts at `true`, so this should correctly show the spinner on first render.
         render(
             <SetPasswordUser
                 title="Cambiar Password"
@@ -171,7 +160,6 @@ describe('SetPasswordUser Component', () => {
             />
         );
 
-        // Simulate the hook setting the internal state to false
         simulateLoadComplete();
 
         expect(screen.getByText('Cambiar Password')).toBeInTheDocument();
@@ -192,7 +180,7 @@ describe('SetPasswordUser Component', () => {
             />
         );
 
-        simulateLoadComplete(); // Ensure the form is rendered
+        simulateLoadComplete();
 
         fireEvent.change(screen.getByTestId('password'), {
             target: { value: 'A1a!aaaa' },
@@ -236,7 +224,7 @@ describe('SetPasswordUser Component', () => {
             />
         );
 
-        simulateLoadComplete(); // Ensure the form is rendered
+        simulateLoadComplete();
 
         fireEvent.change(screen.getByTestId('password'), {
             target: { value: 'A1a!aaaa' },
@@ -276,7 +264,7 @@ describe('SetPasswordUser Component', () => {
             />
         );
 
-        simulateLoadComplete(); // Ensure the form is rendered
+        simulateLoadComplete();
 
         fireEvent.change(screen.getByTestId('password'), {
             target: { value: 'A1a!aaaa' },
@@ -287,12 +275,10 @@ describe('SetPasswordUser Component', () => {
 
         fireEvent.click(screen.getByText('Guardar'));
 
-        // Wait for the AlertInfo component to appear after the error is caught
         await waitFor(() =>
             expect(screen.getByTestId('alert-info')).toBeInTheDocument()
         );
 
-        // Advance timers to trigger the redirect logic
         act(() => {
             jest.advanceTimersByTime(3000);
         });

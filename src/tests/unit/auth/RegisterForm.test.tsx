@@ -12,14 +12,14 @@ import {
     fetchTokenApi,
     fetchValidateRegisterEmail,
 } from '@/lib/shared/utils/fetchApi';
-import { formValidate } from '@lib/shared/utils/formValidate';
+import { formValidate } from '@/lib/shared/utils/formValidate';
 
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn(),
     useSearchParams: jest.fn(),
 }));
-jest.mock('@app/helpers/fetch-api');
-jest.mock('@app/shared/utils/formValidate');
+jest.mock('@/lib/shared/utils/fetchApi');
+jest.mock('@/lib/shared/utils/formValidate');
 
 const mockedRouterPush = jest.fn();
 (useRouter as jest.Mock).mockReturnValue({ push: mockedRouterPush });
@@ -46,11 +46,11 @@ describe('Register Component', () => {
                 value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                 message: 'Invalid email',
             },
-            requiredPassword: '', // dummy
-            patternPassword: { value: /./, message: '' }, // dummy
-            minLength: { value: 0, message: '' }, // dummy
-            validateTrim: {}, // dummy
-            validateEquals: () => ({}) as any, // dummy
+            requiredPassword: '',
+            patternPassword: { value: /./, message: '' },
+            minLength: { value: 0, message: '' },
+            validateTrim: {},
+            validateEquals: () => ({}) as any,
         } as any);
     });
 
@@ -58,11 +58,9 @@ describe('Register Component', () => {
         mockedUseSearchParams.mockReturnValue({ get: () => null });
         render(<RegisterForm />);
 
-        // Buscar cualquier nodo que contenga "Empieza a usar ZenWk"
         const header = screen.getAllByText(/empieza a usar zenwk/i)[0];
         expect(header).toBeInTheDocument();
 
-        // Buscar el input de email
         expect(
             screen.getByPlaceholderText(/name@your-email.com/i)
         ).toBeInTheDocument();
@@ -180,14 +178,13 @@ describe('Register Component', () => {
         expect(await screen.findByText('Error test')).toBeInTheDocument();
     });
 
-    // Test para cubrir el countdown en onSubmit cuando el email ya existe
     it('onSubmit: email existente activa countdown y redirige al login', async () => {
-        jest.useFakeTimers(); // Simular timers
+        jest.useFakeTimers();
 
         mockedUseSearchParams.mockReturnValue({
             get: () => 'existing@example.com',
         });
-        mockedFetchValidateEmail.mockResolvedValue(true); // Email existe
+        mockedFetchValidateEmail.mockResolvedValue(true);
 
         render(<RegisterForm />);
         const input =
@@ -200,14 +197,12 @@ describe('Register Component', () => {
             fireEvent.submit(form);
         });
 
-        // Debe mostrar el usuario existente y countdown inicial
         expect(await screen.getAllByText(/3/)[0]).toBeInTheDocument();
 
-        // Avanzar el tiempo del countdown
         act(() => {
-            jest.advanceTimersByTime(1000); // 2
-            jest.advanceTimersByTime(1000); // 1
-            jest.advanceTimersByTime(1000); // 0
+            jest.advanceTimersByTime(1000);
+            jest.advanceTimersByTime(1000);
+            jest.advanceTimersByTime(1000);
         });
 
         await waitFor(() => {
@@ -219,7 +214,6 @@ describe('Register Component', () => {
         jest.useRealTimers();
     });
 
-    // Test para cubrir handleOnBack sin fromHome ni email
     it('handleOnBack redirige a /login si no hay fromHome ni email', () => {
         mockedUseSearchParams.mockReturnValue({ get: () => null });
         render(<RegisterForm />);

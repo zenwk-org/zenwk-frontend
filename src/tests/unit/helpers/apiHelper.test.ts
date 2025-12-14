@@ -7,7 +7,7 @@ import {
     fetchVerifcation,
     fetchValidateRegisterEmail,
     fetchTokenCrsfApi,
-} from "@app/lib/shared/utils/fetchApi";
+} from "@/lib/shared/utils/fetchApi";
 
 // Tipos inferidos necesarios para las pruebas
 type ApiFieldErrorArray = any[];

@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { UserMessages } from '@app/lib/modules/user/constants/user-messages';
+import { UserMessages } from '@/lib/modules/user/constants/user-messages';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import CompleteRegisterFormFields, {
     FormValues,
-} from '@app/components/modules/user/forms/CompleteRegisterFormFields';
+} from '@/components/modules/user/forms/CompleteRegisterFormFields';
 import { useForm } from 'react-hook-form';
 
 /* ---------------- MOCKS ---------------- */
-jest.mock('@user/ui/inputs/InputText', () => {
+jest.mock('@/components/ui/inputs/InputText', () => {
     // Usamos require('react') para acceder a React de forma segura dentro del factory
     const actualReact = require('react');
     // Definimos una función que acepta todas las props
@@ -37,7 +37,7 @@ jest.mock('@user/ui/inputs/InputText', () => {
     );
 });
 
-jest.mock('@user/ui/inputs/SelectGeneral', () => {
+jest.mock('@/components/ui/inputs/SelectGeneral', () => {
     const actualReact = require('react');
     return actualReact.forwardRef(
         (
@@ -79,22 +79,25 @@ jest.mock('@user/ui/inputs/SelectGeneral', () => {
 });
 
 // El mock de FormErrorUser está bien, renderiza props.error
-jest.mock('@user/ui/forms/FormErrorUser', () => (props: any) => (
+jest.mock('@/components/ui/forms/FormErrorUser', () => (props: any) => (
     <div data-testid="form-error">{props.error}</div>
 ));
 
 // El mock de LoadButton está bien
-jest.mock('@auth/components/LoadButton', () => (props: any) => (
+jest.mock('@/components/modules/auth/common/LoadButton', () => (props: any) => (
     <div data-testid="loadbutton">{props.textButton}</div>
 ));
 
 // El mock de ProfileButtomForm está bien
-jest.mock('@user/components/profile/ProfileButtomForm', () => (props: any) => (
-    <div data-testid="profile-button">{props.nameButtom}</div>
-));
+jest.mock(
+    '@/components/modules/user/profile/ProfileButtonForm',
+    () => (props: any) => (
+        <div data-testid="profile-button">{props.nameButtom}</div>
+    )
+);
 
 // FIX: Cambiamos los valores a string para consistencia con useForm defaultValues
-jest.mock('@app/shared/utils/userUtils', () => ({
+jest.mock('@/lib/shared/utils/userUtils', () => ({
     ageGenerator: [
         { label: '20', value: '20' },
         { label: '21', value: '21' },

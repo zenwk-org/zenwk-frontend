@@ -1,20 +1,20 @@
 import React from 'react';
 import { render, screen, act } from '@testing-library/react';
-import SetChangePassword from '@/components/modules/auth/forms/ResetPasswordForm';
+import ResetPasswordForm from '@/components/modules/auth/forms/ResetPasswordForm';
 import { useRouter } from 'next/navigation';
 import { fetchJwtBaseApi } from '@/lib/shared/utils/fetchApi';
-import SetPasswordForm from '@/components/modules/auth/forms/SetPasswordForm';
+import SetPasswordUser from '@/components/modules/auth/common/SetPasswordUser';
 
 // Mock de Next Navigation
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn(),
 }));
 
-// Mock de fetchApi
+// Mock de fetch-api
 jest.mock('@/lib/shared/utils/fetchApi');
 
 // Mock del componente SetPasswordUser
-jest.mock('@/components/modules/auth/forms/SetPasswordForm', () =>
+jest.mock('@/components/modules/auth/common/SetPasswordUser', () =>
     jest.fn(({ onSubmitPassword }) => (
         <div
             onClick={() =>
@@ -32,7 +32,7 @@ jest.mock('@/components/modules/auth/forms/SetPasswordForm', () =>
 );
 
 // Mock del componente AnimatedPage
-jest.mock('@auth/components/AnimatedPage', () =>
+jest.mock('@/components/modules/auth/common/AnimatedPage', () =>
     jest.fn(({ children }) => <div>{children}</div>)
 );
 
@@ -49,19 +49,19 @@ describe('SetChangePassword Component', () => {
     });
 
     it('renderiza correctamente', () => {
-        render(<SetChangePassword />);
+        render(<ResetPasswordForm />);
         expect(screen.getByText('SetPasswordUser')).toBeInTheDocument();
 
-        const setPasswordUserMock = SetPasswordForm as unknown as jest.Mock;
+        const setPasswordUserMock = SetPasswordUser as unknown as jest.Mock;
         expect(setPasswordUserMock).toHaveBeenCalled();
     });
 
     it('llama fetchJwtBaseApi y redirige a /login cuando la contraseña se cambia correctamente', async () => {
         mockedFetchJwtBaseApi.mockResolvedValue({ success: true });
 
-        render(<SetChangePassword />);
+        render(<ResetPasswordForm />);
 
-        const setPasswordUserMock = SetPasswordForm as unknown as jest.Mock;
+        const setPasswordUserMock = SetPasswordUser as unknown as jest.Mock;
         const onSubmitPassword =
             setPasswordUserMock.mock.calls[0][0].onSubmitPassword;
 
@@ -92,9 +92,9 @@ describe('SetChangePassword Component', () => {
     it('no redirige si fetchJwtBaseApi devuelve null', async () => {
         mockedFetchJwtBaseApi.mockResolvedValue(null);
 
-        render(<SetChangePassword />);
+        render(<ResetPasswordForm />);
 
-        const setPasswordUserMock = SetPasswordForm as unknown as jest.Mock;
+        const setPasswordUserMock = SetPasswordUser as unknown as jest.Mock;
         const onSubmitPassword =
             setPasswordUserMock.mock.calls[0][0].onSubmitPassword;
 

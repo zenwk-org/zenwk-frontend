@@ -36,13 +36,17 @@ const UserMessages = {
     messageToolTip: { back: 'Volver' },
 };
 
-jest.mock('@auth/constants/auth-errors', () => ({ AuthErrors }));
-jest.mock('@auth/constants/auth-messages', () => ({ AuthMessages }));
-jest.mock('@app/shared/constants/messages', () => ({ Messages }));
-jest.mock('@user/constants/user-messages', () => ({ UserMessages }));
+jest.mock('@lib/modules/auth/constants/auth-errors', () => ({ AuthErrors }));
+jest.mock('@lib/modules/auth/constants/auth-messages', () => ({
+    AuthMessages,
+}));
+jest.mock('@lib/shared/constants/messages', () => ({ Messages }));
+jest.mock('@lib/modules/user/constants/user-messages', () => ({
+    UserMessages,
+}));
 
 // Mocks de fetch-api
-jest.mock('@app/helpers/fetch-api', () => ({
+jest.mock('@lib/shared/utils/fetchApi', () => ({
     fetchValidateTokenApi: jest.fn(),
     fetchTokenApi: jest.fn(),
     ClientError: class {
@@ -53,9 +57,7 @@ jest.mock('@app/helpers/fetch-api', () => ({
             this.message = message;
         }
     },
-    isClientErrorMessage: jest.fn(
-        (e: any) => e instanceof Error // o instancia adecuada
-    ),
+    isClientErrorMessage: jest.fn((e: any) => e instanceof Error),
 }));
 
 // Mocks de Next/navigation
@@ -95,24 +97,19 @@ describe('Opt Component', () => {
     test('Renderiza correctamente elementos base', () => {
         render(<Opt />);
 
-        // Título responsivo — puede repetirse en varios spans
         const titleSpans = screen.getAllByText('Aquí está tu código');
         expect(titleSpans.length).toBeGreaterThan(0);
         expect(titleSpans[0]).toBeInTheDocument();
 
-        // Subtítulo — matcher flexible porque podría estar dividido
         const subtitles = screen.getAllByText((text) =>
             text.includes('Revisa tu correo')
         );
         expect(subtitles.length).toBeGreaterThan(0);
 
-        // Email: puede repetirse varias veces en DOM → usamos getAllByText
         const emailLabels = screen.getAllByText('test@mail.com');
         expect(emailLabels.length).toBeGreaterThan(0);
-        // Opcional: verificar uno específico, por ejemplo el primero
         expect(emailLabels[0]).toBeInTheDocument();
 
-        // Inputs OTP
         expect(screen.getAllByRole('textbox')).toHaveLength(6);
     });
 
@@ -151,19 +148,15 @@ describe('Opt Component', () => {
             fireEvent.change(inp, { target: { value: `${i}` } })
         );
 
-        // Verificar que aparece el mensaje de error
         const errorEl = await screen.findByText((content) =>
             content.includes('El correo no coincide')
         );
         expect(errorEl).toBeInTheDocument();
 
-        // Ahora, para el botón “Limpiar y reintentar”, usar getAllByText
         const cleanBtns = screen.getAllByText('Limpiar y reintentar');
         expect(cleanBtns.length).toBeGreaterThan(0);
-        // Tomamos el primero y click
         fireEvent.click(cleanBtns[0]);
 
-        // Verificar que los inputs quedaron vacíos
         inputs.forEach((inp) =>
             expect((inp as HTMLInputElement).value).toBe('')
         );
@@ -230,12 +223,10 @@ describe('Opt Component', () => {
             screen.getAllByText(Messages.commons.literalTexts.here)[0]
         );
 
-        // Usamos findAllByText / getAllByText y chequeamos que al menos uno existe
         const successMessages = await screen.findAllByText((content) =>
             content.includes(AuthMessages.otp.codeResentSuccess)
         );
         expect(successMessages.length).toBeGreaterThan(0);
-        // Por si quieres verificar el primero:
         expect(successMessages[0]).toBeInTheDocument();
     });
 

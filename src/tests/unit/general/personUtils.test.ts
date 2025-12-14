@@ -5,10 +5,10 @@ import {
     getPayload,
     buildPersonPayload,
     buildPersonPath,
-} from "@app/lib/modules/user/utils/personUtils";
-import { fetchJwtBaseApi } from "@app/lib/shared/utils/fetchApi";
+} from "@/lib/modules/user/utils/personUtils";
+import { fetchJwtBaseApi } from "@/lib/shared/utils/fetchApi";
 
-jest.mock("@app/helpers/fetch-api");
+jest.mock("@/lib/shared/utils/fetchApi");
 const mockedFetch = fetchJwtBaseApi as jest.MockedFunction<
     typeof fetchJwtBaseApi
 >;

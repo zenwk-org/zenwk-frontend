@@ -1,21 +1,21 @@
-import React from 'react'; // ⚠️ Necesario para JSX
+import React from 'react';
 import { render, screen, act } from '@testing-library/react';
-import SetPasswordRegister from '@app/components/modules/auth/forms/SetPasswordForm';
+import SetPasswordForm from '@/components/modules/auth/forms/SetPasswordForm';
 import { useRouter } from 'next/navigation';
-import SetPasswordUser from '@app/components/modules/auth/commons/SetPasswordUser';
+import SetPasswordUser from '@/components/modules/auth/common/SetPasswordUser';
 import {
     fetchJwtBaseApi,
     fetchTokenCrsfApi,
-} from '@app/lib/shared/utils/fetchApi';
-import { loginApi } from '@app/lib/modules/auth/utils/authUtils';
+} from '@/lib/shared/utils/fetchApi';
+import { loginApi } from '@/lib/modules/auth/utils/authUtils';
 
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn(),
 }));
 
-jest.mock('@app/helpers/fetch-api');
-jest.mock('@auth/utils/authUtils');
-jest.mock('@auth/components/SetPasswordUser', () =>
+jest.mock('@/lib/shared/utils/fetchApi');
+jest.mock('@/lib/modules/auth/utils/authUtils');
+jest.mock('@/components/modules/auth/common/SetPasswordUser', () =>
     jest.fn(({ onSubmitPassword }) => (
         <div
             onClick={() => onSubmitPassword('test@example.com', 'Password123!')}
@@ -24,7 +24,7 @@ jest.mock('@auth/components/SetPasswordUser', () =>
         </div>
     ))
 );
-jest.mock('@auth/components/AnimatedPage', () =>
+jest.mock('@/components/modules/auth/common/AnimatedPage', () =>
     jest.fn(({ children }) => <div>{children}</div>)
 );
 
@@ -45,7 +45,7 @@ describe('SetPasswordRegister Component', () => {
     });
 
     it('renderiza correctamente', () => {
-        render(<SetPasswordRegister />);
+        render(<SetPasswordForm />);
         expect(screen.getByText('SetPasswordUser')).toBeInTheDocument();
 
         const setPasswordUserMock = SetPasswordUser as unknown as jest.Mock;
@@ -57,7 +57,7 @@ describe('SetPasswordRegister Component', () => {
         mockedFetchTokenCrsfApi.mockResolvedValue(undefined);
         mockedLoginApi.mockResolvedValue({ token: 'jwtToken', userId: 1 });
 
-        render(<SetPasswordRegister />);
+        render(<SetPasswordForm />);
 
         const setPasswordUserMock = SetPasswordUser as unknown as jest.Mock;
         const onSubmitPassword =
@@ -92,7 +92,7 @@ describe('SetPasswordRegister Component', () => {
     it('no redirige si fetchJwtBaseApi devuelve null', async () => {
         mockedFetchJwtBaseApi.mockResolvedValue(null);
 
-        render(<SetPasswordRegister />);
+        render(<SetPasswordForm />);
         const setPasswordUserMock = SetPasswordUser as unknown as jest.Mock;
         const onSubmitPassword =
             setPasswordUserMock.mock.calls[0][0].onSubmitPassword;
@@ -112,7 +112,7 @@ describe('SetPasswordRegister Component', () => {
         mockedFetchTokenCrsfApi.mockResolvedValue(undefined);
         mockedLoginApi.mockRejectedValue(new Error('login fallido'));
 
-        render(<SetPasswordRegister />);
+        render(<SetPasswordForm />);
         const setPasswordUserMock = SetPasswordUser as unknown as jest.Mock;
         const onSubmitPassword =
             setPasswordUserMock.mock.calls[0][0].onSubmitPassword;
@@ -120,9 +120,7 @@ describe('SetPasswordRegister Component', () => {
         await act(async () => {
             try {
                 await onSubmitPassword('test@example.com', 'Password123!');
-            } catch {
-                // ignoramos el error en el test
-            }
+            } catch {}
         });
 
         expect(mockedFetchJwtBaseApi).toHaveBeenCalled();
@@ -134,7 +132,7 @@ describe('SetPasswordRegister Component', () => {
     it('maneja errores de manera silenciosa', async () => {
         mockedFetchJwtBaseApi.mockRejectedValue(new Error('API error'));
 
-        render(<SetPasswordRegister />);
+        render(<SetPasswordForm />);
         const setPasswordUserMock = SetPasswordUser as unknown as jest.Mock;
         const onSubmitPassword =
             setPasswordUserMock.mock.calls[0][0].onSubmitPassword;

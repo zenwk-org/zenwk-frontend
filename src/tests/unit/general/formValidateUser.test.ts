@@ -1,5 +1,5 @@
-import { formValidateUser } from "@app/lib/modules/user/utils/formValidateUser";
-import { UserMessages } from "@app/lib/modules/user/constants/user-messages";
+import { formValidateUser } from "@/lib/modules/user/utils/formValidateUser";
+import { UserMessages } from "@/lib/modules/user/constants/user-messages";
 
 describe("formValidateUser", () => {
     const { validateAge, validateTrim } = formValidateUser();

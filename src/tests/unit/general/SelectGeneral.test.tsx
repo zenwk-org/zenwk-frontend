@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import SelectGeneral from '@app/components/ui/inputs/SelectGeneral';
+import SelectGeneral from '@/components/ui/inputs/SelectGeneral';
 
 // Mock hook responsivo
-jest.mock('@app/shared/hooks/useResponsiveTextAndDimensions', () => ({
+jest.mock('@/hooks/shared/useResponsiveTextAndDimensions', () => ({
     useResponsiveStyle: () => ({
         fontSize: '14px',
         height: '28px',
@@ -11,7 +11,7 @@ jest.mock('@app/shared/hooks/useResponsiveTextAndDimensions', () => ({
 }));
 
 // Mock <Text> conservando className
-jest.mock('@user/ui/user-feed/Text', () => (props: any) => (
+jest.mock('@/components/shared/common/Text', () => (props: any) => (
     <div data-testid="text-mock" className={props.className}>
         {props.text}
     </div>
@@ -36,7 +36,6 @@ describe('SelectGeneral – pruebas completas', () => {
 
         expect(screen.getByText('Seleccione algo')).toBeInTheDocument();
 
-        // Debemos abrir el menú
         const selectControl = container.querySelector(
             '.react-select__control'
         )!;
@@ -170,11 +169,9 @@ describe('SelectGeneral – pruebas completas', () => {
     test('customStyles aplica estilos dinámicos (focus)', () => {
         const { container } = render(<SelectGeneral {...defaultProps} />);
 
-        // Input generado por react-select
         const input = container.querySelector('input[id$="-input"]');
         expect(input).not.toBeNull();
 
-        // Control (contenedor)
         const control = container.querySelector('.react-select__control');
         expect(control).not.toBeNull();
 

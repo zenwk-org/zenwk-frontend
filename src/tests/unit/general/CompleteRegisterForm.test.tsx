@@ -1,22 +1,22 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import CompleteRegisterForm from '@app/components/ui/forms/CompleteRegisterForm';
+import CompleteRegisterForm from '@/components/ui/forms/CompleteRegisterForm';
 
 // Importaciones de módulos (la clave para usar spyOn)
-import * as personUtils from '@app/lib/modules/user/utils/personUtils';
-import * as fetchApi from '@app/lib/shared/utils/fetchApi';
+import * as personUtils from '@/lib/modules/user/utils/personUtils';
+import * as fetchApi from '@/lib/shared/utils/fetchApi';
 
 // Módulos de Contexto: Usamos import * as para espiarlos (spyOn)
-import * as useSexContext from '@app/shared/utils/UseSexOptionsContext';
-import * as usePersonContext from '@app/hooks/modules/user/UsePersonContexu';
-import * as useUserContext from '@app/hooks/modules/user/useUserContext';
+import * as useSexContext from '@/hooks/modules/user/useGenderOptionsContext';
+import * as usePersonContext from '@/hooks/modules/user/usePersonContext';
+import * as useUserContext from '@/hooks/modules/user/useUserContext';
 
 // -----------------------------------------------------
 // MOCKS ESTATICO (Funciona en CI)
 // -----------------------------------------------------
 
 // El mock para el componente hijo que contiene los campos (esto no da problemas de alias)
-jest.mock('@user/components/forms/CompleteRegisterFormFields', () => ({
+jest.mock('@/components/modules/user/forms/CompleteRegisterFormFields', () => ({
     __esModule: true,
     default: jest.fn(({ onSubmit }) => (
         <button onClick={onSubmit}>Submit</button>
@@ -24,8 +24,8 @@ jest.mock('@user/components/forms/CompleteRegisterFormFields', () => ({
 }));
 
 // Mocks para módulos sin hooks (estos suelen ser seguros)
-jest.mock('@user/utils/personUtils');
-jest.mock('@app/helpers/fetch-api');
+jest.mock('@/lib/modules/user/utils/personUtils');
+jest.mock('@/lib/shared/utils/fetchApi');
 
 describe('CompleteRegisterForm', () => {
     const setIsCreatePerson = jest.fn();
@@ -40,7 +40,7 @@ describe('CompleteRegisterForm', () => {
         // **USAMOS spyOn EN LUGAR DE mock()** para el contexto de sexo
         jest.spyOn(
             useSexContext,
-            'useSexOptionsContext' as any
+            'useGenderOptionsContext' as any
         ).mockReturnValue({
             optionsSex: [
                 { id: 1, label: 'Male' },
