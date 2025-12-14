@@ -19,9 +19,20 @@
             }
         ],
         "paths": {
-            "@app/*": ["./src/*"],
-            "@auth/*": ["./src/app/(modules)/(auth)/*"],
-            "@user/*": ["./src/app/(modules)/user/*"]
+            "@/*": ["./src/*"],
+            "@components/*": ["./src/components/*"],
+            "@lib/*": ["./src/lib/*"],
+            "@hooks/*": ["./src/hooks/*"],
+            "@styles/*": ["./src/styles/*"],
+            "@config/*": ["./src/config/*"],
+            "@tests/*": ["./src/tests/*"],
+            // Módulos específicos
+            "@modules/auth/*": ["./src/components/modules/auth/*"],
+            "@modules/user/*": ["./src/components/modules/user/*"],
+            "@modules/*": ["./src/components/modules/*"],
+            // UI y shared
+            "@ui/*": ["./src/components/ui/*"],
+            "@shared/*": ["./src/components/shared/*"]
         }
     },
     "include": [
