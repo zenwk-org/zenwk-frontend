@@ -1,5 +1,5 @@
 /**
- * Constantes de errores para el módulo (auth)
+ * Constantes de errores para el módulo
  */
 export const AuthErrors = {
     funciontal: {

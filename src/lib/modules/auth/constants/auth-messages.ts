@@ -1,5 +1,5 @@
 /**
- * Mensajes para las page para el módulo (auth)
+ * Mensajes para las page para el módulo
  */
 
 export const AuthMessages = {
