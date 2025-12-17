@@ -7,7 +7,7 @@
  */
 export const getTokenUrl = (path = "") => {
     return `${
-        process.env.API_AUTH_TOKEN_DEV_PUBLIC_URL || "https://localhost:6601"
+        process.env.NEXT_PUBLIC_API_BASE_URL || "https://localhost:6601"
     }${path}`;
 };
 
@@ -20,6 +20,6 @@ export const getTokenUrl = (path = "") => {
  */
 export const getBaseUrl = (path = "") => {
     return `${
-        process.env.API_BASE_DEV_PUBLIC_URL || "https://localhost:6601"
+        process.env.NEXT_PUBLIC_API_BASE_URL || "https://localhost:6601"
     }${path}`;
 };
