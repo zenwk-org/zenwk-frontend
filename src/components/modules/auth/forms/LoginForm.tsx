@@ -166,7 +166,6 @@ const LoginForm = () => {
      */
     const onSubmit = handleSubmit(
         async (data) => {
-            console.log('entro.1..', data);
             setBtnLoading(true);
             try {
                 // Paso 1:  cookie httpOnly para CSRF token
