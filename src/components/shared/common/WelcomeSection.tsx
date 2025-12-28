@@ -18,7 +18,7 @@ const WelcomeSection = () => {
                 icon: <CalendarDays className={themeIndex} size={30} />,
                 title: 'Planifica sin esfuerzo',
                 description:
-                    '(Ambiente desarrollo perras!) Organiza tus actividades diarias y mantén control total de tus metas en un solo lugar.',
+                    'Organiza tus actividades diarias y mantén control total de tus metas en un solo lugar.',
                 color: 'bg-sky-50',
             },
             {
