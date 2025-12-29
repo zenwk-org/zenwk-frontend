@@ -16,7 +16,7 @@ const WelcomeSection = () => {
             {
                 id: crypto.randomUUID(),
                 icon: <CalendarDays className={themeIndex} size={30} />,
-                title: 'Planifica sin esfuerzo',
+                title: 'Planifica sin esfuerzo [pruebas!!]',
                 description:
                     'Organiza tus actividades diarias y mantén control total de tus metas en un solo lugar.',
                 color: 'bg-sky-50',
