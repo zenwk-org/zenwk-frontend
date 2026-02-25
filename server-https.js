@@ -16,11 +16,11 @@ const handle = app.getRequestHandler();
 // Rutas absolutas al certificado del backend
 const keyPath = path.resolve(
     __dirname,
-    "../infra-zenwk/keystore/dev/zenwk_dev.key"
+    "../infra-zenwk/keystore/dev/zenwk.key"
 );
 const certPath = path.resolve(
     __dirname,
-    "../infra-zenwk/keystore/dev/zenwk_dev.crt"
+    "../infra-zenwk/keystore/dev/zenwk.crt"
 );
 
 const httpsOptions = {
