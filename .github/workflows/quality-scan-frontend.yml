@@ -1,15 +1,14 @@
-name: SonarCloud
+name: Quality - Scan - Frontend
 
 on:
     workflow_dispatch:
-    push:
-        branches: [main, develop]
     pull_request:
+        branches: [main, develop]
         types: [opened, synchronize, reopened]
 
 jobs:
     sonar:
-        uses: zenwk-org/zenwk-workflows/.github/workflows/sonar-web-nextjs.yml@main
+        uses: zenwk-org/zenwk-workflows/.github/workflows/zenwk-quality-scan-nextjs-template.yml@main
         with:
             projectKey: zenwk-org_zenwk-frontend
             organization: zenwk-org
