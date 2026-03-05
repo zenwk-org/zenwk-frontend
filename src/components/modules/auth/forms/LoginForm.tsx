@@ -82,7 +82,7 @@ const LoginForm = () => {
             setEmailParam(emailFromParam);
             setValue('email', emailFromParam);
         }
-    }, [userDTO, searchParams]);
+    }, [userDTO]);
 
     /**
      * Configuración de validación para el campo de email.
@@ -176,7 +176,6 @@ const LoginForm = () => {
                 // await new Promise((resolve) => setTimeout(resolve, 500));
                 router.push('/user');
             } catch (error: unknown) {
-                console.log('msg #1', error);
                 setBtnLoading(false);
                 if (isClientErrorMessage(error)) {
                     switch (error.code) {
@@ -203,7 +202,6 @@ const LoginForm = () => {
             }
         },
         (clientErrors) => {
-            console.log('msg #3', clientErrors);
             if (clientErrors.email) {
                 setFocus('email');
             } else if (clientErrors.password) {
@@ -278,9 +276,8 @@ const LoginForm = () => {
                             fullWidth={true}
                             placeholder={Messages.placeholder.password}
                             {...passwordRegister}
-                            onChange={async (e) => {
+                            onChange={(e) => {
                                 passwordRegister.onChange(e);
-                                await trigger('password');
                             }}
                             isError={Boolean(errors.password || errors.root)}
                         >
