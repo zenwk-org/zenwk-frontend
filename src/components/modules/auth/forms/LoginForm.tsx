@@ -176,6 +176,7 @@ const LoginForm = () => {
                 // await new Promise((resolve) => setTimeout(resolve, 500));
                 router.push('/user');
             } catch (error: unknown) {
+                console.log('msg #1', error);
                 setBtnLoading(false);
                 if (isClientErrorMessage(error)) {
                     switch (error.code) {
@@ -191,6 +192,7 @@ const LoginForm = () => {
                         case AuthErrors.funciontal.login.badCredentials:
                             setError('password', { message: error.message });
                             setFocus('password');
+                            console.log('msg #2', error.message);
                             return;
                         default:
                             return setError('root', {
@@ -201,6 +203,7 @@ const LoginForm = () => {
             }
         },
         (clientErrors) => {
+            console.log('msg #3', clientErrors);
             if (clientErrors.email) {
                 setFocus('email');
             } else if (clientErrors.password) {
