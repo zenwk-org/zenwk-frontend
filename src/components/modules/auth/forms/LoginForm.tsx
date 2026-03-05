@@ -42,6 +42,7 @@ const LoginForm = () => {
     const [registeredUser, setRegisteredUser] = useState(false);
     const [btnLoading, setBtnLoading] = useState(false);
     const [suppressBlurValidation, setSuppressBlurValidation] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
 
     const {
         getValues,
@@ -166,6 +167,11 @@ const LoginForm = () => {
      */
     const onSubmit = handleSubmit(
         async (data) => {
+            // Prevent double submit in Safari (race condition on form submit)
+            // https://github.com/zenwk-org/zenwk-security-management/issues/41
+            if (submitting) return;
+            setSubmitting(true);
+
             setBtnLoading(true);
             try {
                 // Paso 1:  cookie httpOnly para CSRF token
@@ -191,7 +197,6 @@ const LoginForm = () => {
                         case AuthErrors.funciontal.login.badCredentials:
                             setError('password', { message: error.message });
                             setFocus('password');
-                            console.log('msg #2', error.message);
                             return;
                         default:
                             return setError('root', {
