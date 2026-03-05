@@ -82,7 +82,7 @@ const LoginForm = () => {
             setEmailParam(emailFromParam);
             setValue('email', emailFromParam);
         }
-    }, [userDTO]);
+    }, [userDTO, searchParams]);
 
     /**
      * Configuración de validación para el campo de email.
