@@ -42,8 +42,7 @@ const LoginForm = () => {
     const [registeredUser, setRegisteredUser] = useState(false);
     const [btnLoading, setBtnLoading] = useState(false);
     const [suppressBlurValidation, setSuppressBlurValidation] = useState(false);
-    const [submitting, setSubmitting] = useState(false);
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const {
         getValues,
         trigger,
@@ -63,6 +62,8 @@ const LoginForm = () => {
      * Ejecutado en el primer render y al cambiar los searchParams.
      */
     useEffect(() => {
+        if (isSubmitting) return;
+
         if (userDTO) {
             router.push('/user');
             return;
@@ -167,11 +168,7 @@ const LoginForm = () => {
      */
     const onSubmit = handleSubmit(
         async (data) => {
-            // Prevent double submit in Safari (race condition on form submit)
-            // https://github.com/zenwk-org/zenwk-security-management/issues/41
-            if (submitting) return;
-            setSubmitting(true);
-
+            setIsSubmitting(true);
             setBtnLoading(true);
             try {
                 // Paso 1:  cookie httpOnly para CSRF token
