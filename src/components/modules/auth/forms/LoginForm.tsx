@@ -190,7 +190,7 @@ const LoginForm = () => {
                             return;
                         case AuthErrors.funciontal.login.badCredentials:
                             setError('password', { message: error.message });
-                            setFocus('password');
+                            // setFocus('password');
                             return;
                         default:
                             return setError('root', {
@@ -275,8 +275,9 @@ const LoginForm = () => {
                             fullWidth={true}
                             placeholder={Messages.placeholder.password}
                             {...passwordRegister}
-                            onChange={(e) => {
+                            onChange={async (e) => {
                                 passwordRegister.onChange(e);
+                                await trigger('password');
                             }}
                             isError={Boolean(errors.password || errors.root)}
                         >
