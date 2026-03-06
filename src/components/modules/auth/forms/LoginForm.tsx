@@ -52,7 +52,7 @@ const LoginForm = () => {
         setValue,
         setFocus,
         formState: { errors },
-    } = useForm<LoginData>({ mode: 'all' });
+    } = useForm<LoginData>({ mode: 'onChange' });
     const { userDTO } = useUserContext();
     const [countdown, setCountdown] = useState(3);
     const [notExistUser, setNotExistUser] = useState(false);
@@ -164,50 +164,41 @@ const LoginForm = () => {
      Envía las credenciales al backend para iniciar sesión.
      Redirige a registro si el usuario no existe o muestra errores según el código.
      */
-    const onSubmit = handleSubmit(
-        async (data) => {
-            setBtnLoading(true);
-            try {
-                // Paso 1:  cookie httpOnly para CSRF token
-                await fetchTokenCrsfApi(data.email);
-                // Paso 2:  cookie httpOnly para jwt token
-                await loginApi(data.email, data.password);
-                // Pausa para mejorar la interacción con el usuario
-                // await new Promise((resolve) => setTimeout(resolve, 500));
-                router.push('/user');
-            } catch (error: unknown) {
-                setBtnLoading(false);
-                if (isClientErrorMessage(error)) {
-                    switch (error.code) {
-                        case AuthErrors.funciontal.login.notFoundUsername:
-                            startRedirectCountdown(
-                                data.email,
-                                setCountdown,
-                                setNotExistUser,
-                                setBtnLoading,
-                                router
-                            );
-                            return;
-                        case AuthErrors.funciontal.login.badCredentials:
-                            setError('password', { message: error.message });
-                            // setFocus('password');
-                            return;
-                        default:
-                            return setError('root', {
-                                message: error.message,
-                            });
-                    }
+    const onSubmit = handleSubmit(async (data) => {
+        setBtnLoading(true);
+        try {
+            // Paso 1:  cookie httpOnly para CSRF token
+            await fetchTokenCrsfApi(data.email);
+            // Paso 2:  cookie httpOnly para jwt token
+            await loginApi(data.email, data.password);
+            // Pausa para mejorar la interacción con el usuario
+            // await new Promise((resolve) => setTimeout(resolve, 500));
+            router.push('/user');
+        } catch (error: unknown) {
+            setBtnLoading(false);
+            if (isClientErrorMessage(error)) {
+                switch (error.code) {
+                    case AuthErrors.funciontal.login.notFoundUsername:
+                        startRedirectCountdown(
+                            data.email,
+                            setCountdown,
+                            setNotExistUser,
+                            setBtnLoading,
+                            router
+                        );
+                        return;
+                    case AuthErrors.funciontal.login.badCredentials:
+                        setError('password', { message: error.message });
+                        // setFocus('password');
+                        return;
+                    default:
+                        return setError('root', {
+                            message: error.message,
+                        });
                 }
             }
-        },
-        (clientErrors) => {
-            if (clientErrors.email) {
-                setFocus('email');
-            } else if (clientErrors.password) {
-                setFocus('password');
-            }
         }
-    );
+    });
 
     /**
      * Componente React con el formulario de login.
@@ -275,10 +266,6 @@ const LoginForm = () => {
                             fullWidth={true}
                             placeholder={Messages.placeholder.password}
                             {...passwordRegister}
-                            onChange={async (e) => {
-                                passwordRegister.onChange(e);
-                                await trigger('password');
-                            }}
                             isError={Boolean(errors.password || errors.root)}
                         >
                             <FormError error={errors.password?.message ?? ''} />
