@@ -42,7 +42,7 @@ const LoginForm = () => {
     const [registeredUser, setRegisteredUser] = useState(false);
     const [btnLoading, setBtnLoading] = useState(false);
     const [suppressBlurValidation, setSuppressBlurValidation] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const {
         getValues,
         trigger,
@@ -62,8 +62,6 @@ const LoginForm = () => {
      * Ejecutado en el primer render y al cambiar los searchParams.
      */
     useEffect(() => {
-        if (isSubmitting) return;
-
         if (userDTO) {
             router.push('/user');
             return;
@@ -168,7 +166,6 @@ const LoginForm = () => {
      */
     const onSubmit = handleSubmit(
         async (data) => {
-            setIsSubmitting(true);
             setBtnLoading(true);
             try {
                 // Paso 1:  cookie httpOnly para CSRF token
